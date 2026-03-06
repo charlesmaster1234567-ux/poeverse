@@ -526,19 +526,13 @@ body {
   gap: 60px;
 }
 
-.about-image {
-  flex-shrink: 0;
-}
+
 
 .about-image-placeholder {
   width: 200px;
   height: 200px;
-  background: linear-gradient(135deg, var(--accent), #ff8c94);
+  background: var(--border);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 40px rgba(230, 57, 70, 0.3);
 }
 
 .about-text p {
