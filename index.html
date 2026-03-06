@@ -1,18 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<head>
+  <!-- Google Site Verification -->
   <meta name="google-site-verification" content="upOjcs4WQM-oqWpfmsEA4jZ4lGcLLWRjynnCRqLUY_A" />
+  
+  <!-- Character Set & Viewport -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+  <!-- Primary Title -->
+  <title>PoeVerse - Discover and Share Beautiful Poetry | Black Broken Heart</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="msapplication-TileColor" content="#1a1a2e">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  
   <!-- Primary Meta Tags -->
-  <title>PoeVerse - Discover and Share Beautiful Poetry</title>
   <meta name="title" content="PoeVerse - Discover and Share Beautiful Poetry">
-  <meta name="description" content="Explore a collection of beautiful poems, share your verses, and connect with poetry lovers. Read original poetry and classic verses on PoeVerse.">
-  <meta name="keywords" content="poetry, poems, verses, poets, literature, creative writing, PoeVerse">
-  <meta name="author" content="PoeVerse">
-  <meta name="robots" content="index, follow">
+  <meta name="description" content="Explore a collection of beautiful poems, share your verses, and connect with poetry lovers. Read original poetry, sonnets, heartbreak verses, and Chichewa poems on PoeVerse.">
+  <meta name="keywords" content="poetry, poems, verses, poets, literature, creative writing, PoeVerse, heartbreak poetry, sonnets, love poems, Chichewa poems, African poetry, Malawi poetry, Black Broken Heart">
+  <meta name="author" content="Black Broken Heart">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  <meta name="rating" content="general">
   
   <!-- Canonical URL -->
   <link rel="canonical" href="https://poeverse.netlify.app/">
@@ -23,6 +43,11 @@
   <meta property="og:title" content="PoeVerse - Discover and Share Beautiful Poetry">
   <meta property="og:description" content="Explore a collection of beautiful poems, share your verses, and connect with poetry lovers.">
   <meta property="og:image" content="https://poeverse.netlify.app/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="PoeVerse - Poetry Universe">
+  <meta property="og:site_name" content="PoeVerse">
+  <meta property="og:locale" content="en_US">
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -30,78 +55,361 @@
   <meta name="twitter:title" content="PoeVerse - Discover and Share Beautiful Poetry">
   <meta name="twitter:description" content="Explore a collection of beautiful poems, share your verses, and connect with poetry lovers.">
   <meta name="twitter:image" content="https://poeverse.netlify.app/preview.png">
-
-  <title>Poetry Universe | Black Broken Heart</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="twitter:image:alt" content="PoeVerse - Poetry Universe">
+  <meta name="twitter:creator" content="@poeverse">
+  <meta name="twitter:site" content="@poeverse">
+  
+  <!-- Preconnect for Performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <meta name="google-site-verification" content="upOjcs4WQM-oqWpfmsEA4jZ4lGcLLWRjynnCRqLUY_A" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  
+  <!-- Preload Critical Resources -->
+  <link rel="preload" href="styles.css" as="style">
+  <link rel="preload" href="script.js" as="script">
+  
+  <!-- DNS Prefetch -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Structured Data - Website -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "PoeVerse",
+    "alternateName": ["Poetry Universe", "Black Broken Heart Poetry"],
+    "url": "https://poeverse.netlify.app/",
+    "description": "Explore a collection of beautiful poems, share your verses, and connect with poetry lovers.",
+    "inLanguage": "en-US",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://poeverse.netlify.app/?search={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  
+  <!-- Structured Data - Person/Author -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Black Broken Heart",
+    "url": "https://poeverse.netlify.app/",
+    "image": "https://poeverse.netlify.app/me.jpg",
+    "sameAs": [
+      "https://wa.me/+265987959242"
+    ],
+    "jobTitle": "Poet",
+    "description": "Creator of Poetry Universe and author of the Black Broken Heart poetry collection",
+    "nationality": {
+      "@type": "Country",
+      "name": "Malawi"
+    }
+  }
+  </script>
+  
+  <!-- Structured Data - Collection -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Poetry Collection - Black Broken Heart",
+    "description": "A collection of sonnets, heartbreak poems, and Chichewa poetry exploring themes of love, loss, and personal transformation.",
+    "url": "https://poeverse.netlify.app/#poems",
+    "numberOfItems": 15,
+    "genre": ["Poetry", "Literature", "African Literature"],
+    "inLanguage": ["en", "ny"],
+    "author": {
+      "@type": "Person",
+      "name": "Black Broken Heart"
+    }
+  }
+  </script>
+  
+  <!-- Structured Data - Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PoeVerse",
+    "url": "https://poeverse.netlify.app/",
+    "logo": "https://poeverse.netlify.app/logo.png",
+    "description": "A platform for discovering and sharing beautiful poetry",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "charlesmaster1234567@gmail.com",
+      "contactType": "customer service"
+    }
+  }
+  </script>
+
 </head>
 <body>
 
+  <!-- Skip to Content Link (Accessibility) -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- Loading Screen -->
-  <div class="loader" id="loader">
+  <div class="loader" id="loader" role="alert" aria-live="polite" aria-busy="true">
     <div class="loader-content">
-      <div class="loader-heart">💔</div>
+      <div class="loader-heart" aria-hidden="true">💔</div>
       <h2>Poetry Universe</h2>
-      <div class="loader-bar"><div class="loader-progress"></div></div>
+      <p class="loader-tagline">Loading beautiful verses...</p>
+      <div class="loader-bar">
+        <div class="loader-progress"></div>
+      </div>
     </div>
   </div>
 
-  <!-- Progress Bar -->
-  <div class="scroll-progress" id="scrollProgress"></div>
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress" role="progressbar" aria-label="Page scroll progress"></div>
 
   <!-- Navigation -->
-  <nav class="navbar">
-    <div class="nav-brand">
-      <span class="nav-logo">💔</span>
-      <span class="nav-title">Poetry Universe</span>
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/" class="nav-logo-link" aria-label="PoeVerse Home">
+          <span class="nav-logo" aria-hidden="true">💔</span>
+          <span class="nav-title">Poetry Universe</span>
+        </a>
+      </div>
+      
+      <div class="nav-links" id="navLinks">
+        <a href="#poems" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">📖</span>
+          <span>Poems</span>
+        </a>
+        
+        <!-- Categories Dropdown -->
+        <div class="nav-dropdown">
+          <button class="nav-link dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+            <span class="nav-icon" aria-hidden="true">📚</span>
+            <span>Categories</span>
+            <span class="dropdown-arrow" aria-hidden="true">▼</span>
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <a href="#poems" data-filter="all" class="dropdown-item" role="menuitem">
+              <span aria-hidden="true">📖</span> All Poems
+            </a>
+            <a href="#poems" data-filter="sonnets" class="dropdown-item" role="menuitem">
+              <span aria-hidden="true">📜</span> Sonnets
+            </a>
+            <a href="#poems" data-filter="heartbreak" class="dropdown-item" role="menuitem">
+              <span aria-hidden="true">💔</span> Heartbreak
+            </a>
+            <a href="#poems" data-filter="chichewa" class="dropdown-item" role="menuitem">
+              <span aria-hidden="true">🇲🇼</span> Chichewa
+            </a>
+          </div>
+        </div>
+        
+        <a href="#submit" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">✍️</span>
+          <span>Submit</span>
+        </a>
+        <a href="#about" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">✨</span>
+          <span>About</span>
+        </a>
+        <a href="#contact" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">📬</span>
+          <span>Contact</span>
+        </a>
+        
+        <div class="nav-actions">
+          <button class="nav-action-btn search-toggle" id="searchToggle" title="Search poems" aria-label="Open search">
+            🔍
+          </button>
+          <button class="nav-action-btn theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle dark and light theme" aria-pressed="false">
+            🌙
+          </button>
+        </div>
+      </div>
+      
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </div>
-    <div class="nav-links" id="navLinks">
-      <a href="#poems" class="nav-link">📖 Poems</a>
-      <a href="#about" class="nav-link">✨ About</a>
-      <a href="#contact" class="nav-link">📬 Contact</a>
-      <button class="theme-toggle" id="themeToggle" title="Toggle Theme">🌙</button>
-    </div>
-    <button class="nav-hamburger" id="navHamburger">☰</button>
   </nav>
 
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search poems">
+    <div class="search-overlay-content">
+      <button class="search-overlay-close" id="searchOverlayClose" aria-label="Close search">✕</button>
+      <div class="search-wrapper">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input 
+          type="search" 
+          id="poemSearch" 
+          class="search-input" 
+          placeholder="Search poems by title, category, or keywords..."
+          aria-label="Search poems"
+          autocomplete="off"
+        >
+        <button class="search-clear" id="searchClear" aria-label="Clear search" hidden>✕</button>
+        <button class="voice-search-btn" id="voiceSearch" title="Voice search" aria-label="Search with voice">
+          🎤
+        </button>
+      </div>
+      <div class="search-hints">
+        <p>Try searching for: <button class="search-hint-btn" data-search="love">love</button>, <button class="search-hint-btn" data-search="heartbreak">heartbreak</button>, <button class="search-hint-btn" data-search="sonnet">sonnet</button></p>
+      </div>
+      <div class="search-results" id="searchResults">
+        <p class="search-results-count" id="searchResultsCount"></p>
+        <div class="search-results-list" id="searchResultsList"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Hero Section -->
-  <header class="hero">
+  <header class="hero" id="hero">
+    <div class="hero-background">
+      <div class="hero-particles" id="heroParticles" aria-hidden="true"></div>
+    </div>
     <div class="hero-content">
-      <div class="hero-icon">💔</div>
-      <h1 class="hero-title">Poetry Universe</h1>
+      <div class="hero-icon" aria-hidden="true">💔</div>
+      <h1 class="hero-title">
+        <span class="title-line">Poetry</span>
+        <span class="title-line">Universe</span>
+      </h1>
       <p class="hero-subtitle">Where tears become verses and heartbreak transforms into art</p>
-      <a href="#poems" class="hero-btn">Explore Poems</a>
+      <div class="hero-buttons">
+        <a href="#poems" class="hero-btn primary">
+          <span>Explore Poems</span>
+          <span class="btn-icon" aria-hidden="true">→</span>
+        </a>
+        <a href="#submit" class="hero-btn secondary">
+          <span>Submit Yours</span>
+          <span class="btn-icon" aria-hidden="true">✍️</span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-value">15+</span>
+          <span class="hero-stat-label">Poems</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">3</span>
+          <span class="hero-stat-label">Categories</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">2</span>
+          <span class="hero-stat-label">Languages</span>
+        </div>
+      </div>
     </div>
     <div class="hero-quote">
-      <p>"Don't weep! Any timely we are going to rest in peace."</p>
+      <blockquote>
+        <p>"Don't weep! Any time we are going to rest in peace."</p>
+        <cite>— Black Broken Heart</cite>
+      </blockquote>
+    </div>
+    <div class="hero-scroll-indicator" aria-hidden="true">
+      <span class="scroll-arrow">↓</span>
+      <span class="scroll-text">Scroll to explore</span>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="container">
+  <main class="container" id="main-content">
+
+    <!-- Poem of the Day Section -->
+    <section class="poem-of-day-section" id="poemOfDay" aria-labelledby="potdTitle">
+      <div class="potd-container">
+        <div class="potd-badge" aria-hidden="true">✨ Poem of the Day</div>
+        <div class="potd-content">
+          <h2 class="potd-title" id="potdTitleHeading">Today's Featured Poem</h2>
+          <h3 class="potd-poem-title" id="potdPoemTitle">Loading...</h3>
+          <p class="potd-excerpt" id="potdExcerpt"></p>
+          <div class="potd-meta">
+            <span class="potd-category" id="potdCategory"></span>
+            <span class="potd-date" id="potdDate"></span>
+          </div>
+          <button class="potd-read-btn" id="potdReadBtn" aria-label="Read full poem">
+            Read Full Poem <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div class="potd-decoration" aria-hidden="true">
+          <span>📜</span>
+        </div>
+      </div>
+    </section>
 
     <!-- Poems Section -->
-    <section id="poems" class="section">
+    <section id="poems" class="section poems-section" aria-labelledby="poems-title">
       <div class="section-header">
-        <h2 class="section-title">📖 Poetry Collection</h2>
+        <h2 class="section-title" id="poems-title">
+          <span class="title-icon" aria-hidden="true">📖</span>
+          Poetry Collection
+        </h2>
         <p class="section-desc">Click on any poem to read and explore</p>
       </div>
 
-      <!-- Category Tabs -->
-      <div class="category-tabs">
-        <button class="category-tab active" data-category="all">All Poems</button>
-        <button class="category-tab" data-category="sonnets">Sonnets</button>
-        <button class="category-tab" data-category="heartbreak">Heartbreak</button>
-        <button class="category-tab" data-category="chichewa">Chichewa</button>
+      <!-- Filter & Sort Controls -->
+      <div class="poems-controls">
+        <!-- Category Tabs -->
+        <div class="category-tabs" role="tablist" aria-label="Filter poems by category">
+          <button class="category-tab active" data-category="all" role="tab" aria-selected="true" aria-controls="poemsGrid">
+            <span aria-hidden="true">📚</span> All Poems
+          </button>
+          <button class="category-tab" data-category="sonnets" role="tab" aria-selected="false" aria-controls="poemsGrid">
+            <span aria-hidden="true">📜</span> Sonnets
+          </button>
+          <button class="category-tab" data-category="heartbreak" role="tab" aria-selected="false" aria-controls="poemsGrid">
+            <span aria-hidden="true">💔</span> Heartbreak
+          </button>
+          <button class="category-tab" data-category="chichewa" role="tab" aria-selected="false" aria-controls="poemsGrid">
+            <span aria-hidden="true">🇲🇼</span> Chichewa
+          </button>
+        </div>
+
+        <!-- Sort & View Options -->
+        <div class="poems-options">
+          <div class="sort-dropdown">
+            <label for="sortSelect" class="visually-hidden">Sort poems</label>
+            <select id="sortSelect" class="sort-select">
+              <option value="default">Default Order</option>
+              <option value="title-asc">Title (A-Z)</option>
+              <option value="title-desc">Title (Z-A)</option>
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="reading-time">Reading Time</option>
+            </select>
+          </div>
+          <div class="view-toggle" role="group" aria-label="View options">
+            <button class="view-btn active" data-view="grid" aria-label="Grid view" aria-pressed="true">
+              <span aria-hidden="true">▦</span>
+            </button>
+            <button class="view-btn" data-view="list" aria-label="List view" aria-pressed="false">
+              <span aria-hidden="true">☰</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Poems Count -->
+      <div class="poems-count" id="poemsCount" aria-live="polite">
+        Showing <span id="visibleCount">15</span> of <span id="totalCount">15</span> poems
       </div>
 
       <!-- Poems Grid -->
-      <div class="poems-grid" id="poemsGrid">
+      <div class="poems-grid" id="poemsGrid" role="tabpanel">
 
-        <!-- Sonnet 72 -->
-        <article class="poem-card" data-category="sonnets" data-id="poem1">
+        <!-- Sonnet 72 - My Beloved -->
+        <article class="poem-card" data-category="sonnets" data-id="poem1" data-title="My Beloved" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">#72</span>
             <span class="poem-category">Sonnet</span>
@@ -109,13 +417,24 @@
           <h3 class="poem-card-title">My Beloved</h3>
           <p class="poem-preview">Go there in a dark room, Is a yellow bag and...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read My Beloved poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem1" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Sonnet 84 -->
-        <article class="poem-card" data-category="sonnets" data-id="poem2">
+        <!-- Sonnet 84 - Escaped -->
+        <article class="poem-card" data-category="sonnets" data-id="poem2" data-title="Escaped" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">#84</span>
             <span class="poem-category">Sonnet</span>
@@ -123,13 +442,24 @@
           <h3 class="poem-card-title">Escaped</h3>
           <p class="poem-preview">In the darkness, when asleep, your image persuaded all nightmares...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Escaped poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem2" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Sonnet 85 -->
-        <article class="poem-card" data-category="sonnets" data-id="poem3">
+        <!-- Sonnet 85 - Time Traveler -->
+        <article class="poem-card" data-category="sonnets" data-id="poem3" data-title="Time Traveler" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">#85</span>
             <span class="poem-category">Sonnet</span>
@@ -137,13 +467,24 @@
           <h3 class="poem-card-title">Time Traveler</h3>
           <p class="poem-preview">I can, yes, I can, I can be a time-traveler...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Time Traveler poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem3" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Sonnet 65 -->
-        <article class="poem-card" data-category="sonnets" data-id="poem4">
+        <!-- Sonnet 65 - So Funny -->
+        <article class="poem-card" data-category="sonnets" data-id="poem4" data-title="So Funny" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">#65</span>
             <span class="poem-category">Sonnet</span>
@@ -151,13 +492,24 @@
           <h3 class="poem-card-title">So Funny</h3>
           <p class="poem-preview">So funny so sweet so interesting that you have got...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read So Funny poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem4" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Sonnet 66 -->
-        <article class="poem-card" data-category="sonnets" data-id="poem5">
+        <!-- Sonnet 66 - Evaporated Love -->
+        <article class="poem-card" data-category="sonnets" data-id="poem5" data-title="Evaporated Love" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">#66</span>
             <span class="poem-category">Sonnet</span>
@@ -165,13 +517,24 @@
           <h3 class="poem-card-title">Evaporated Love</h3>
           <p class="poem-preview">The love has evaporated, Sweets have gone leaving bitterness...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Evaporated Love poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem5" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Sonnet 69 -->
-        <article class="poem-card" data-category="sonnets" data-id="poem6">
+        <!-- Sonnet 69 - Not Well? -->
+        <article class="poem-card" data-category="sonnets" data-id="poem6" data-title="Not Well?" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">#69</span>
             <span class="poem-category">Sonnet</span>
@@ -179,13 +542,24 @@
           <h3 class="poem-card-title">Not Well?</h3>
           <p class="poem-preview">In this darkroom God, where are you? Here is the holly room...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Not Well poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem6" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Sonnet 86 -->
-        <article class="poem-card" data-category="sonnets" data-id="poem7">
+        <!-- Sonnet 86 - Something Wrong -->
+        <article class="poem-card" data-category="sonnets" data-id="poem7" data-title="Something Wrong" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">#86</span>
             <span class="poem-category">Sonnet</span>
@@ -193,13 +567,24 @@
           <h3 class="poem-card-title">Something Wrong</h3>
           <p class="poem-preview">I wonder, something is wrong. It seems like blood in bones is freezing...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Something Wrong poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem7" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
         <!-- The Different World -->
-        <article class="poem-card" data-category="heartbreak" data-id="poem8">
+        <article class="poem-card" data-category="heartbreak" data-id="poem8" data-title="The Different World" data-time="2" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">✦</span>
             <span class="poem-category">Heartbreak</span>
@@ -207,13 +592,24 @@
           <h3 class="poem-card-title">The Different World</h3>
           <p class="poem-preview">500 years ago, I went to see my husband, finding him with...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 2 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>2 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read The Different World poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem8" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
         <!-- Helpless -->
-        <article class="poem-card" data-category="heartbreak" data-id="poem9">
+        <article class="poem-card" data-category="heartbreak" data-id="poem9" data-title="Helpless" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">✦</span>
             <span class="poem-category">Heartbreak</span>
@@ -221,13 +617,24 @@
           <h3 class="poem-card-title">Helpless</h3>
           <p class="poem-preview">How does a man feel, or act? When he sees a shining damsel...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Helpless poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem9" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Again'nd 'gain -->
-        <article class="poem-card" data-category="heartbreak" data-id="poem10">
+        <!-- Again'nd 'gain Broken Heart -->
+        <article class="poem-card" data-category="heartbreak" data-id="poem10" data-title="Again'nd 'gain Broken Heart" data-time="1" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">✦</span>
             <span class="poem-category">Heartbreak</span>
@@ -235,27 +642,49 @@
           <h3 class="poem-card-title">Again'nd 'gain Broken Heart</h3>
           <p class="poem-preview">Again'nd 'gain broken heart, though 'Ndagain dead...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 1 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>1 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Again'nd 'gain Broken Heart poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem10" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
         <!-- The Interview -->
-        <article class="poem-card" data-category="heartbreak" data-id="poem11">
+        <article class="poem-card" data-category="heartbreak" data-id="poem11" data-title="The Interview" data-time="2" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">✦</span>
             <span class="poem-category">Heartbreak</span>
           </div>
           <h3 class="poem-card-title">The Interview</h3>
-          <p class="poem-preview">Hello, I think your is Lone Philip, a journalist from Grief...</p>
+          <p class="poem-preview">Hello, I think your name is Lone Philip, a journalist from Grief...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 2 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>2 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read The Interview poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem11" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- This is my soul -->
-        <article class="poem-card" data-category="heartbreak" data-id="poem12">
+        <!-- This Is My Soul -->
+        <article class="poem-card" data-category="heartbreak" data-id="poem12" data-title="This Is My Soul" data-time="2" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">✦</span>
             <span class="poem-category">Heartbreak</span>
@@ -263,27 +692,49 @@
           <h3 class="poem-card-title">This Is My Soul</h3>
           <p class="poem-preview">One thing, Ever my God put on my tongue when I sing...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 2 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>2 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read This Is My Soul poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem12" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Bitter days -->
-        <article class="poem-card" data-category="heartbreak" data-id="poem13">
+        <!-- Bitter Days -->
+        <article class="poem-card" data-category="heartbreak" data-id="poem13" data-title="Bitter Days" data-time="2" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">✦</span>
             <span class="poem-category">Heartbreak</span>
           </div>
           <h3 class="poem-card-title">Bitter Days</h3>
-          <p class="poem-preview">Don't you see? Can use googles and look at me clearly...</p>
+          <p class="poem-preview">Don't you see? Can use goggles and look at me clearly...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 2 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>2 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Bitter Days poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem13" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
         <!-- Mapeto a zam'tima -->
-        <article class="poem-card" data-category="chichewa" data-id="poem14">
+        <article class="poem-card" data-category="chichewa" data-id="poem14" data-title="Mapeto a zam'tima" data-time="3" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">🇲🇼</span>
             <span class="poem-category">Chichewa</span>
@@ -291,13 +742,24 @@
           <h3 class="poem-card-title">Mapeto a zam'tima</h3>
           <p class="poem-preview">Kumbuka, ukazipatula suli wekha, Koma ndi wako mbuye...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 3 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>3 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Mapeto a zam'tima poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem14" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
-        <!-- Pemphero losweka mtima -->
-        <article class="poem-card" data-category="chichewa" data-id="poem15">
+        <!-- Pemphero Losweka Mtima -->
+        <article class="poem-card" data-category="chichewa" data-id="poem15" data-title="Pemphero Losweka Mtima" data-time="2" role="article" tabindex="0">
           <div class="poem-card-header">
             <span class="poem-number">🇲🇼</span>
             <span class="poem-category">Chichewa</span>
@@ -305,159 +767,749 @@
           <h3 class="poem-card-title">Pemphero Losweka Mtima</h3>
           <p class="poem-preview">Ena ng'oma sichiimba chakuza, Zimandipweteka mowawa...</p>
           <div class="poem-card-footer">
-            <span class="poem-time">⏱ 2 min</span>
-            <button class="poem-read-btn">Read →</button>
+            <span class="poem-time">
+              <span aria-hidden="true">⏱</span>
+              <span>2 min read</span>
+            </span>
+            <button class="poem-read-btn" aria-label="Read Pemphero Losweka Mtima poem">
+              Read <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="poem-card-actions">
+            <button class="card-action-btn favorite" data-id="poem15" aria-label="Add to favorites" aria-pressed="false">
+              <span class="icon-unfavorited">🤍</span>
+              <span class="icon-favorited">❤️</span>
+            </button>
           </div>
         </article>
 
       </div>
+
+      <!-- No Results Message -->
+      <div class="no-results" id="noResults" hidden>
+        <div class="no-results-icon" aria-hidden="true">📭</div>
+        <h3>No poems found</h3>
+        <p>Try adjusting your search or filter criteria</p>
+        <button class="reset-filters-btn" id="resetFilters">Reset Filters</button>
+      </div>
+
+      <!-- Load More Button (for future use) -->
+      <div class="load-more-container" id="loadMoreContainer" hidden>
+        <button class="load-more-btn" id="loadMoreBtn">
+          Load More Poems
+          <span class="load-more-spinner" hidden></span>
+        </button>
+      </div>
     </section>
 
     <!-- Stats Section -->
-    <section class="section stats-section">
+    <section class="section stats-section" aria-labelledby="stats-title">
       <div class="section-header">
-        <h2 class="section-title">📊 Your Reading Stats</h2>
+        <h2 class="section-title" id="stats-title">
+          <span class="title-icon" aria-hidden="true">📊</span>
+          Your Reading Stats
+        </h2>
+        <p class="section-desc">Track your poetry journey</p>
       </div>
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-icon">📖</div>
+          <div class="stat-icon" aria-hidden="true">📖</div>
           <div class="stat-value" id="statPoems">0</div>
           <div class="stat-label">Poems Read</div>
+          <div class="stat-progress">
+            <div class="stat-progress-bar" id="poemsProgressBar" style="width: 0%"></div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">⏱️</div>
+          <div class="stat-icon" aria-hidden="true">⏱️</div>
           <div class="stat-value" id="statTime">0m</div>
           <div class="stat-label">Reading Time</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">🔄</div>
+          <div class="stat-icon" aria-hidden="true">🔄</div>
           <div class="stat-value" id="statVisits">1</div>
           <div class="stat-label">Visits</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">❤️</div>
+          <div class="stat-icon" aria-hidden="true">❤️</div>
           <div class="stat-value" id="statFavorites">0</div>
           <div class="stat-label">Favorites</div>
         </div>
       </div>
+      <div class="stats-actions">
+        <button class="stats-action-btn" id="viewFavorites">
+          <span aria-hidden="true">❤️</span> View Favorites
+        </button>
+        <button class="stats-action-btn" id="clearStats">
+          <span aria-hidden="true">🗑️</span> Clear Stats
+        </button>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials-section" id="testimonials" aria-labelledby="testimonials-title">
+      <div class="section-header">
+        <h2 class="section-title" id="testimonials-title">
+          <span class="title-icon" aria-hidden="true">💬</span>
+          What Readers Say
+        </h2>
+        <p class="section-desc">Hear from our poetry community</p>
+      </div>
+      <div class="testimonials-container">
+        <div class="testimonials-slider" id="testimonialsSlider">
+          <div class="testimonial-card">
+            <div class="testimonial-quote" aria-hidden="true">"</div>
+            <div class="testimonial-content">
+              <p>These poems touched my soul in ways I never expected. Beautiful expressions of raw emotion that speak directly to the heart.</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true">👤</div>
+              <div class="author-info">
+                <span class="author-name">Sarah M.</span>
+                <span class="author-title">Poetry Enthusiast</span>
+              </div>
+            </div>
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <span aria-hidden="true">⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+          
+          <div class="testimonial-card">
+            <div class="testimonial-quote" aria-hidden="true">"</div>
+            <div class="testimonial-content">
+              <p>The Chichewa poems are a treasure. Finally, poetry that represents our African heritage and speaks in our mother tongue!</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true">👤</div>
+              <div class="author-info">
+                <span class="author-name">James K.</span>
+                <span class="author-title">Literature Student</span>
+              </div>
+            </div>
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <span aria-hidden="true">⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+          
+          <div class="testimonial-card">
+            <div class="testimonial-quote" aria-hidden="true">"</div>
+            <div class="testimonial-content">
+              <p>I come here every day for my daily dose of beautiful words. The ambient music feature makes the reading experience perfect!</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true">👤</div>
+              <div class="author-info">
+                <span class="author-name">Linda O.</span>
+                <span class="author-title">Daily Reader</span>
+              </div>
+            </div>
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <span aria-hidden="true">⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-quote" aria-hidden="true">"</div>
+            <div class="testimonial-content">
+              <p>Black Broken Heart's sonnets remind me of classical poetry with a modern African twist. Truly unique and deeply moving.</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true">👤</div>
+              <div class="author-info">
+                <span class="author-name">Michael T.</span>
+                <span class="author-title">English Teacher</span>
+              </div>
+            </div>
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <span aria-hidden="true">⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonials-nav">
+          <button class="testimonial-nav-btn prev" id="prevTestimonial" aria-label="Previous testimonial">
+            ←
+          </button>
+          <div class="testimonials-dots" id="testimonialsDots" role="tablist" aria-label="Testimonial slides"></div>
+          <button class="testimonial-nav-btn next" id="nextTestimonial" aria-label="Next testimonial">
+            →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Submit Poem Section -->
+    <section class="section submit-section" id="submit" aria-labelledby="submit-title">
+      <div class="section-header">
+        <h2 class="section-title" id="submit-title">
+          <span class="title-icon" aria-hidden="true">✍️</span>
+          Submit Your Poetry
+        </h2>
+        <p class="section-desc">Share your verses with the world and become part of our community</p>
+      </div>
+      <form class="submit-form" id="submitPoemForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="poetName">Your Name / Pen Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="poetName" 
+              name="poetName"
+              required 
+              placeholder="Enter your name"
+              autocomplete="name"
+            >
+            <span class="form-error" id="poetNameError"></span>
+          </div>
+          <div class="form-group">
+            <label for="poetEmail">Email Address <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="poetEmail" 
+              name="poetEmail"
+              required 
+              placeholder="your@email.com"
+              autocomplete="email"
+            >
+            <span class="form-error" id="poetEmailError"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="poemTitle">Poem Title <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="poemTitle" 
+              name="poemTitle"
+              required 
+              placeholder="Enter poem title"
+            >
+            <span class="form-error" id="poemTitleError"></span>
+          </div>
+          <div class="form-group">
+            <label for="poemCategory">Category <span class="required">*</span></label>
+            <select id="poemCategory" name="poemCategory" required>
+              <option value="">Select a category</option>
+              <option value="sonnets">Sonnets</option>
+              <option value="heartbreak">Heartbreak</option>
+              <option value="love">Love</option>
+              <option value="nature">Nature</option>
+              <option value="spiritual">Spiritual</option>
+              <option value="chichewa">Chichewa</option>
+              <option value="other">Other</option>
+            </select>
+            <span class="form-error" id="poemCategoryError"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="poemContent">Your Poem <span class="required">*</span></label>
+          <textarea 
+            id="poemContent" 
+            name="poemContent"
+            rows="12" 
+            required 
+            placeholder="Write or paste your poem here...
+
+Use line breaks to separate stanzas.
+Let your words flow freely..."
+          ></textarea>
+          <div class="textarea-footer">
+            <span class="char-count" id="charCount">0 / 5000 characters</span>
+            <span class="form-error" id="poemContentError"></span>
+          </div>
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+          <label for="agreeTerms">
+            I confirm this is my original work and I grant permission to publish it on PoeVerse <span class="required">*</span>
+          </label>
+          <span class="form-error" id="agreeTermsError"></span>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="submit-btn" id="submitPoemBtn">
+            <span class="btn-text">Submit Poem</span>
+            <span class="btn-icon" aria-hidden="true">📤</span>
+            <span class="btn-spinner" hidden></span>
+          </button>
+          <button type="reset" class="reset-btn">Clear Form</button>
+        </div>
+      </form>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section about-section">
+    <section id="about" class="section about-section" aria-labelledby="about-title">
       <div class="about-content">
         <div class="about-image">
-          <img class="about-image-placeholder" 
-     src="me.jpg">
+          <img 
+            class="about-image-placeholder" 
+            src="me.jpg"
+            alt="Black Broken Heart - Poet portrait"
+            loading="lazy"
+            onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%231a1a2e%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23fff%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2248%22>💔</text></svg>'"
+          >
+          <div class="about-image-decoration" aria-hidden="true"></div>
         </div>
         <div class="about-text">
-          <h2 class="section-title">✨ About the Poet</h2>
-          <p>"Black Broken Heart" is a collection of poetic expressions exploring themes of love, loss, and personal transformation. Each poem is carefully crafted to evoke deep emotions and introspection through the beauty of language.</p>
+          <h2 class="section-title" id="about-title">
+            <span class="title-icon" aria-hidden="true">✨</span>
+            About the Poet
+          </h2>
+          <p class="about-intro">"Black Broken Heart" is a collection of poetic expressions exploring themes of love, loss, and personal transformation. Each poem is carefully crafted to evoke deep emotions and introspection through the beauty of language.</p>
+          <p>Hailing from Malawi, the poet draws inspiration from African traditions, personal experiences, and the universal human condition. Writing in both English and Chichewa, the poetry bridges cultures and speaks to hearts across the world.</p>
           <blockquote class="about-quote">
-            "In every tear, there lies a hidden smile waiting to bloom."
+            <p>"In every tear, there lies a hidden smile waiting to bloom."</p>
+            <cite>— Black Broken Heart</cite>
           </blockquote>
+          <div class="about-facts">
+            <div class="fact">
+              <span class="fact-icon" aria-hidden="true">🇲🇼</span>
+              <span class="fact-text">From Malawi</span>
+            </div>
+            <div class="fact">
+              <span class="fact-icon" aria-hidden="true">📝</span>
+              <span class="fact-text">15+ Poems</span>
+            </div>
+            <div class="fact">
+              <span class="fact-icon" aria-hidden="true">🌍</span>
+              <span class="fact-text">2 Languages</span>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="section newsletter-section" id="newsletter" aria-labelledby="newsletter-title">
+      <div class="newsletter-container">
+        <div class="newsletter-content">
+          <div class="newsletter-icon" aria-hidden="true">📬</div>
+          <h2 class="newsletter-title" id="newsletter-title">Join Our Poetry Circle</h2>
+          <p class="newsletter-desc">Get weekly poems, writing tips, and exclusive content delivered to your inbox.</p>
+        </div>
+        <form class="newsletter-form" id="newsletterForm" novalidate>
+          <div class="newsletter-input-group">
+            <label for="newsletterEmail" class="visually-hidden">Email address</label>
+            <input 
+              type="email" 
+              id="newsletterEmail" 
+              name="email"
+              placeholder="Enter your email address" 
+              required
+              autocomplete="email"
+            >
+            <button type="submit" class="newsletter-btn">
+              <span class="btn-text">Subscribe</span>
+              <span class="btn-icon" aria-hidden="true">✨</span>
+              <span class="btn-spinner" hidden></span>
+            </button>
+          </div>
+          <p class="newsletter-privacy">
+            <span aria-hidden="true">🔒</span> We respect your privacy. Unsubscribe anytime.
+          </p>
+        </form>
       </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
+    <section id="contact" class="section contact-section" aria-labelledby="contact-title">
       <div class="section-header">
-        <h2 class="section-title">📬 Get In Touch</h2>
+        <h2 class="section-title" id="contact-title">
+          <span class="title-icon" aria-hidden="true">📬</span>
+          Get In Touch
+        </h2>
         <p class="section-desc">Connect with me through any of these channels</p>
       </div>
-      <div class="contact-buttons">
-        <a href="https://wa.me/+265987959242" class="contact-btn whatsapp">
-          <span class="contact-icon">💬</span>
-          <span>WhatsApp</span>
-        </a>
-        <a href="mailto:charlesmaster1234567@gmail.com" class="contact-btn email">
-          <span class="contact-icon">✉️</span>
-          <span>Email</span>
-        </a>
+      <div class="contact-grid">
+        <div class="contact-buttons">
+          <a href="https://wa.me/+265987959242" class="contact-btn whatsapp" target="_blank" rel="noopener noreferrer">
+            <span class="contact-icon" aria-hidden="true">💬</span>
+            <span class="contact-text">
+              <span class="contact-label">WhatsApp</span>
+              <span class="contact-value">+265 987 959 242</span>
+            </span>
+          </a>
+          <a href="mailto:charlesmaster1234567@gmail.com" class="contact-btn email">
+            <span class="contact-icon" aria-hidden="true">✉️</span>
+            <span class="contact-text">
+              <span class="contact-label">Email</span>
+              <span class="contact-value">charlesmaster1234567@gmail.com</span>
+            </span>
+          </a>
+        </div>
+        <div class="contact-form-wrapper">
+          <h3>Send a Message</h3>
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-group">
+              <label for="contactName">Name <span class="required">*</span></label>
+              <input type="text" id="contactName" name="name" required placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label for="contactEmail">Email <span class="required">*</span></label>
+              <input type="email" id="contactEmail" name="email" required placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+              <label for="contactSubject">Subject</label>
+              <input type="text" id="contactSubject" name="subject" placeholder="What's this about?">
+            </div>
+            <div class="form-group">
+              <label for="contactMessage">Message <span class="required">*</span></label>
+              <textarea id="contactMessage" name="message" rows="5" required placeholder="Your message..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">
+              <span>Send Message</span>
+              <span aria-hidden="true">📤</span>
+            </button>
+          </form>
+        </div>
       </div>
     </section>
 
   </main>
 
   <!-- Poem Modal -->
-  <div class="modal" id="poemModal">
+  <div class="modal" id="poemModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalBody" hidden>
     <div class="modal-overlay" id="modalOverlay"></div>
     <div class="modal-content">
-      <button class="modal-close" id="modalClose">✕</button>
+      <button class="modal-close" id="modalClose" aria-label="Close poem modal">✕</button>
+      
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="#poems">Poems</a></li>
+          <li><span id="breadcrumbTitle" aria-current="page">Poem Title</span></li>
+        </ol>
+      </nav>
+      
       <div class="modal-header">
         <h2 class="modal-title" id="modalTitle">Poem Title</h2>
         <div class="modal-meta">
           <span class="modal-category" id="modalCategory">Category</span>
-          <span class="modal-time" id="modalTime">⏱ 1 min</span>
+          <span class="modal-number" id="modalNumber">#00</span>
+          <span class="modal-time" id="modalTime">
+            <span aria-hidden="true">⏱</span> 1 min read
+          </span>
         </div>
       </div>
+      
       <div class="modal-body" id="modalBody">
         <!-- Poem content will be injected here -->
       </div>
+      
       <div class="modal-actions">
-        <button class="action-btn favorite-btn" id="favoriteBtn">
-          <span class="action-icon">🤍</span>
-          <span>Favorite</span>
+        <button class="action-btn favorite-btn" id="favoriteBtn" aria-pressed="false">
+          <span class="action-icon unfavorited">🤍</span>
+          <span class="action-icon favorited">❤️</span>
+          <span class="action-text">Favorite</span>
         </button>
-        <button class="action-btn speaker-btn" id="speakerBtn">
+        <button class="action-btn speaker-btn" id="speakerBtn" aria-pressed="false">
           <span class="action-icon">🔊</span>
-          <span>Read Aloud</span>
+          <span class="action-text">Read Aloud</span>
         </button>
-        <button class="action-btn share-btn" id="shareBtn">
+        <button class="action-btn focus-btn" id="focusBtn">
+          <span class="action-icon">🎯</span>
+          <span class="action-text">Focus Mode</span>
+        </button>
+        <button class="action-btn share-btn" id="shareBtn" aria-expanded="false">
           <span class="action-icon">📤</span>
-          <span>Share</span>
+          <span class="action-text">Share</span>
         </button>
         <button class="action-btn pdf-btn" id="pdfBtn">
           <span class="action-icon">📕</span>
-          <span>PDF</span>
+          <span class="action-text">PDF</span>
         </button>
       </div>
+      
       <!-- Share Menu -->
-      <div class="share-menu" id="shareMenu">
-        <button class="share-option" data-platform="twitter">𝕏 Twitter</button>
-        <button class="share-option" data-platform="whatsapp">💬 WhatsApp</button>
-        <button class="share-option" data-platform="facebook">f Facebook</button>
-        <button class="share-option" data-platform="copy">📋 Copy Link</button>
+      <div class="share-menu" id="shareMenu" role="menu" hidden>
+        <button class="share-option" data-platform="twitter" role="menuitem">
+          <span aria-hidden="true">𝕏</span> Twitter
+        </button>
+        <button class="share-option" data-platform="whatsapp" role="menuitem">
+          <span aria-hidden="true">💬</span> WhatsApp
+        </button>
+        <button class="share-option" data-platform="facebook" role="menuitem">
+          <span aria-hidden="true">f</span> Facebook
+        </button>
+        <button class="share-option" data-platform="linkedin" role="menuitem">
+          <span aria-hidden="true">in</span> LinkedIn
+        </button>
+        <button class="share-option" data-platform="copy" role="menuitem">
+          <span aria-hidden="true">📋</span> Copy Link
+        </button>
+      </div>
+      
+      <!-- Poem Navigation -->
+      <div class="modal-navigation">
+        <button class="modal-nav-btn prev" id="prevPoem" aria-label="Previous poem">
+          <span aria-hidden="true">←</span> Previous
+        </button>
+        <span class="poem-counter" id="poemCounter">1 of 15</span>
+        <button class="modal-nav-btn next" id="nextPoem" aria-label="Next poem">
+          Next <span aria-hidden="true">→</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Music Player -->
+  <!-- Focus Mode Overlay -->
+  <div class="focus-mode" id="focusMode" hidden>
+    <div class="focus-controls">
+      <button class="focus-control" id="fontSizeDecrease" aria-label="Decrease font size">A-</button>
+      <span class="focus-font-size" id="focusFontSize">18px</span>
+      <button class="focus-control" id="fontSizeIncrease" aria-label="Increase font size">A+</button>
+      <button class="focus-control" id="lineSpacingToggle" aria-label="Toggle line spacing">↕️</button>
+      <button class="focus-control" id="focusThemeToggle" aria-label="Toggle focus theme">🌙</button>
+      <button class="focus-control exit" id="exitFocus" aria-label="Exit focus mode">✕ Exit</button>
+    </div>
+    <div class="focus-content" id="focusContent">
+      <!-- Focus mode content rendered here -->
+    </div>
+  </div>
+
+  <!-- Favorites Modal -->
+  <div class="modal favorites-modal" id="favoritesModal" role="dialog" aria-modal="true" aria-labelledby="favoritesTitle" hidden>
+    <div class="modal-overlay" id="favoritesModalOverlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="favoritesModalClose" aria-label="Close favorites">✕</button>
+      <div class="modal-header">
+        <h2 class="modal-title" id="favoritesTitle">❤️ Your Favorites</h2>
+      </div>
+      <div class="favorites-list" id="favoritesList">
+        <!-- Favorites will be injected here -->
+      </div>
+      <div class="favorites-empty" id="favoritesEmpty" hidden>
+        <span class="empty-icon" aria-hidden="true">💔</span>
+        <p>No favorites yet</p>
+        <p class="empty-hint">Click the heart icon on any poem to add it to your favorites</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Music Player Widget -->
   <div class="music-widget" id="musicWidget">
-    <button class="music-toggle" id="musicToggle">🎵</button>
-    <div class="music-panel" id="musicPanel">
+    <button class="music-toggle" id="musicToggle" aria-label="Toggle music player" aria-expanded="false">
+      🎵
+    </button>
+    <div class="music-panel" id="musicPanel" hidden>
       <div class="music-header">
         <h3>🎵 Ambient Sounds</h3>
-        <button class="music-close" id="musicClose">✕</button>
+        <button class="music-close" id="musicClose" aria-label="Close music panel">✕</button>
       </div>
-      <div class="music-tracks">
-        <button class="music-track" data-track="ocean">🌊 Ocean Waves</button>
-        <button class="music-track" data-track="rain">🌧️ Gentle Rain</button>
-        <button class="music-track" data-track="forest">🌲 Forest Night</button>
-        <button class="music-track" data-track="bells">🔔 Monastic Bells</button>
-        <button class="music-track" data-track="flute">🪶 Soft Flute</button>
-        <button class="music-track" data-track="choir">🎵 Ambient Choir</button>
+      <div class="music-tracks" role="radiogroup" aria-label="Select ambient sound">
+        <button class="music-track" data-track="ocean" role="radio" aria-checked="false">
+          <span class="track-icon" aria-hidden="true">🌊</span>
+          <span class="track-name">Ocean Waves</span>
+        </button>
+        <button class="music-track" data-track="rain" role="radio" aria-checked="false">
+          <span class="track-icon" aria-hidden="true">🌧️</span>
+          <span class="track-name">Gentle Rain</span>
+        </button>
+        <button class="music-track" data-track="forest" role="radio" aria-checked="false">
+          <span class="track-icon" aria-hidden="true">🌲</span>
+          <span class="track-name">Forest Night</span>
+        </button>
+        <button class="music-track" data-track="bells" role="radio" aria-checked="false">
+          <span class="track-icon" aria-hidden="true">🔔</span>
+          <span class="track-name">Monastic Bells</span>
+        </button>
+        <button class="music-track" data-track="flute" role="radio" aria-checked="false">
+          <span class="track-icon" aria-hidden="true">🪶</span>
+          <span class="track-name">Soft Flute</span>
+        </button>
+        <button class="music-track" data-track="choir" role="radio" aria-checked="false">
+          <span class="track-icon" aria-hidden="true">🎵</span>
+          <span class="track-name">Ambient Choir</span>
+        </button>
       </div>
       <div class="music-controls">
-        <button class="music-control-btn" id="musicPlayPause">⏸️</button>
-        <button class="music-control-btn" id="musicStop">⏹️</button>
-        <input type="range" class="music-volume" id="musicVolume" min="0" max="100" value="30">
-        <span class="volume-label" id="volumeLabel">30%</span>
+        <button class="music-control-btn" id="musicPlayPause" aria-label="Play/Pause">
+          <span class="play-icon">▶️</span>
+          <span class="pause-icon" hidden>⏸️</span>
+        </button>
+        <button class="music-control-btn" id="musicStop" aria-label="Stop">⏹️</button>
+        <div class="volume-control">
+          <label for="musicVolume" class="visually-hidden">Volume</label>
+          <span class="volume-icon" aria-hidden="true">🔈</span>
+          <input type="range" class="music-volume" id="musicVolume" min="0" max="100" value="30">
+          <span class="volume-label" id="volumeLabel">30%</span>
+        </div>
+      </div>
+      <div class="music-now-playing" id="nowPlaying" hidden>
+        <span class="now-playing-icon" aria-hidden="true">♫</span>
+        <span class="now-playing-text" id="nowPlayingText">Ocean Waves</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div class="shortcuts-modal" id="shortcutsModal" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle" hidden>
+    <div class="shortcuts-overlay" id="shortcutsOverlay"></div>
+    <div class="shortcuts-content">
+      <button class="shortcuts-close" id="shortcutsClose" aria-label="Close shortcuts">✕</button>
+      <h3 id="shortcutsTitle">⌨️ Keyboard Shortcuts</h3>
+      <div class="shortcuts-grid">
+        <div class="shortcut-section">
+          <h4>Navigation</h4>
+          <div class="shortcut-item">
+            <kbd>/</kbd>
+            <span>Focus search</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>Esc</kbd>
+            <span>Close modal/overlay</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>←</kbd>
+            <span>Previous poem</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>→</kbd>
+            <span>Next poem</span>
+          </div>
+        </div>
+        <div class="shortcut-section">
+          <h4>Actions</h4>
+          <div class="shortcut-item">
+            <kbd>F</kbd>
+            <span>Toggle favorite</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>R</kbd>
+            <span>Read aloud</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>S</kbd>
+            <span>Share poem</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>P</kbd>
+            <span>Download PDF</span>
+          </div>
+        </div>
+        <div class="shortcut-section">
+          <h4>Themes & Settings</h4>
+          <div class="shortcut-item">
+            <kbd>T</kbd>
+            <span>Toggle theme</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>M</kbd>
+            <span>Toggle music</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>1</kbd>-<kbd>9</kbd>
+            <span>Change theme color</span>
+          </div>
+          <div class="shortcut-item">
+            <kbd>?</kbd>
+            <span>Show this help</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top" hidden>
+    <span aria-hidden="true">↑</span>
+  </button>
+
+  <!-- Toast Notifications Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Cookie Consent Banner -->
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-labelledby="cookieTitle" hidden>
+    <div class="cookie-content">
+      <span class="cookie-icon" aria-hidden="true">🍪</span>
+      <div class="cookie-text">
+        <p id="cookieTitle"><strong>We value your privacy</strong></p>
+        <p>We use cookies to enhance your reading experience, remember your preferences, and analyze our traffic.</p>
+      </div>
+      <div class="cookie-actions">
+        <button class="cookie-btn accept" id="acceptCookies">Accept All</button>
+        <button class="cookie-btn customize" id="customizeCookies">Customize</button>
+        <button class="cookie-btn decline" id="declineCookies">Decline</button>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <p>💔 Poetry Universe — Magic on Net</p>
-      <p class="footer-hint">Press keys 1-9 to change themes</p>
+  <footer class="footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <span aria-hidden="true">💔</span>
+            <h3>Poetry Universe</h3>
+          </div>
+          <p class="footer-tagline">Where tears become verses and heartbreak transforms into art</p>
+          <div class="footer-social">
+            <a href="#" class="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">𝕏</a>
+            <a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">📷</a>
+            <a href="#" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">f</a>
+            <a href="https://wa.me/+265987959242" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">💬</a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Explore</h4>
+            <ul>
+              <li><a href="#poems">All Poems</a></li>
+              <li><a href="#poems" data-filter="sonnets">Sonnets</a></li>
+              <li><a href="#poems" data-filter="heartbreak">Heartbreak</a></li>
+              <li><a href="#poems" data-filter="chichewa">Chichewa</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="#submit">Submit Poetry</a></li>
+              <li><a href="#newsletter">Newsletter</a></li>
+              <li><a href="#testimonials">Testimonials</a></li>
+              <li><a href="#about">About the Poet</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#contact">Contact Us</a></li>
+              <li><a href="/privacy.html">Privacy Policy</a></li>
+              <li><a href="/terms.html">Terms of Use</a></li>
+              <li><button class="link-btn" id="showShortcuts">Keyboard Shortcuts</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="currentYear">2024</span> PoeVerse. All rights reserved.</p>
+        <p class="footer-hint">Press <kbd>?</kbd> for keyboard shortcuts</p>
+        <p class="footer-made">Made with 💔 in Malawi</p>
+      </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="script.js"></script>
+  <!-- External Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+  
+  <!-- Main Script -->
+  <script src="script.js" defer></script>
+  
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('SW registered:', registration.scope);
+          })
+          .catch(error => {
+            console.log('SW registration failed:', error);
+          });
+      });
+    }
+  </script>
 
 </body>
 </html>
