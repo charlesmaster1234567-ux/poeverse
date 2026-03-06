@@ -2625,3 +2625,83 @@ ${escapeHtml(poem.content)}
   }
 
 })();
+
+/* ============================================
+   WIDGET DATA GENERATION
+   ============================================ */
+
+function generateWidgetData() {
+  const poemIds = Object.keys(poemsData);
+  const today = getTodayString();
+  
+  // Use date to seed "random" selection (same poem all day)
+  const dateNum = parseInt(today.replace(/-/g, ''), 10);
+  const index = dateNum % poemIds.length;
+  const poemId = poemIds[index];
+  const poem = poemsData[poemId];
+
+  const widgetData = {
+    title: poem.title,
+    category: `${capitalize(poem.category)} ${poem.number}`,
+    excerpt: poem.preview,
+    backgroundUrl: `${window.location.origin}/widgets/widget-bg.png`,
+    readUrl: `${window.location.origin}/#poem-${poemId}`,
+    date: new Date().toLocaleDateString('en-US', { 
+      weekday: 'short', 
+      month: 'short', 
+      day: 'numeric' 
+    }),
+    timestamp: new Date().toISOString()
+  };
+
+  return widgetData;
+}
+
+// Expose widget data endpoint (if needed)
+function exposeWidgetAPI() {
+  // Check if running in service worker context
+  if (typeof window !== 'undefined') {
+    window.getWidgetData = generateWidgetData;
+  }
+}
+
+// Initialize widget API
+exposeWidgetAPI();
+
+/* ============================================
+   WIDGET REGISTRATION
+   ============================================ */
+
+async function registerWidgets() {
+  if (!('getInstalledRelatedApps' in navigator)) {
+    console.log('Widgets not supported');
+    return;
+  }
+
+  try {
+    // Check if app is installed
+    const relatedApps = await navigator.getInstalledRelatedApps();
+    const isInstalled = relatedApps.length > 0;
+
+    if (isInstalled) {
+      console.log('App is installed, widgets available');
+      
+      // Register periodic sync for widget updates
+      if ('periodicSync' in registration) {
+        await registration.periodicSync.register('update-widgets', {
+          minInterval: 60 * 60 * 1000 // Update every hour
+        });
+        console.log('Widget periodic sync registered');
+      }
+    }
+  } catch (error) {
+    console.error('Widget registration failed:', error);
+  }
+}
+
+// Call during initialization
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.ready.then(registration => {
+    registerWidgets();
+  });
+}

@@ -1,0 +1,22 @@
+{
+    "name": "poeverse",
+    "version": "2.0.0",
+    "description": "Poetry Universe - Discover and Share Beautiful Poetry",
+    "main": "index.html",
+    "scripts": {
+        "setup": "node scripts/setup-widgets.js",
+        "generate-icons": "node scripts/generate-icons.js",
+        "serve": "npx serve .",
+        "dev": "npx live-server ."
+    },
+    "keywords": [
+        "poetry",
+        "poems",
+        "pwa"
+    ],
+    "author": "Black Broken Heart",
+    "license": "MIT",
+    "devDependencies": {
+        "sharp": "^0.33.5"
+    }
+}
