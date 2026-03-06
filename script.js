@@ -367,25 +367,56 @@ When I learn to let go of every letter.`
       category: 'chichewa',
       time: 3,
       preview: 'Kumbuka, ukazipatula suli wekha, Koma ndi wako mbuye...',
-      content: `Kumbuka, ukazipatula suli wekha,
-Koma ndi wako Mbuye,
-Amene amakukonda osasiya,
-Ngakhale muli m'gome.
-
-Mapeto a zam'tima, ndiwowawa,
-Koma Mulungu ndi wachifundo,
-Misozi yanga yayamba kuuma,
-Chifukwa ndili mu manja ake okhazikika.
-
-Dziko ili linandichitira zoipa,
-Koma ine sindidzasiya kukhulupirira,
-Mapeto a mavuto ali pafupi,
-Tsopano ndikuyamba kuyamba.
-
-Mtima wanga, ngakhale wosweka,
-Udakali ndi mphamvu zokonda,
-Mapeto a zam'tima, si mapeto a moyo,
-Koma chiyambi cha ulendo watsopano.`
+      content: `
+      Mapeto a zam’tima💔 
+      “kumbuka, ukazipatula suli wekha 
+      Koma ndi wako mbuye wangodekha 
+      Pondikumbukiranso dziwa uli nane 
+      Momwemonso ngati pa udzu mame” 
+      Ankakhala mawu otsiriza amenewa. 
+      Tsono moyo watha, khumbo ndi mwayi 
+      Chiyembekezo n’dataya, khumbo iyayi 
+      Zinalidi zochedwa, koma zonse n’mthayi 
+      Kodi sindinapereke ochuluka mwayi? 
+      Ankakhalanso mawu otsiriza amenewa. 
+      Sev, Jim, Vit, Asa, Dis, amzako aja 
+      Iwebe unali ngati wanga mtima, tsogoro lija 
+      Posadziwa wamzako n’tsidya lina, hmm! 
+      Pikitipikiti kumbaliko kundiswera mtim’ 
+      Tsono tubwa poti mphaka wachoka. 
+      Tidzaonananso ukazayamba kupenya 
+      Ukazakhazika mtima wako m’thiti, mwina 
+      Uzakumbuka mawu anga aja, “palibenso” 
+      Koma monga ukondera, tseka nkutu usamvenso 
+      Kulira kwa chiseko chosekedwa mtimamu. 
+      Momwemonso ngati pa udzu mame 
+      Paliwombo dzuwa liri n’saname 
+      Ngati duwa malingaliro anga afota. 
+      Zonse zatha, palibenso zolota 
+      Tidzaonananso ukazayamba kupenya. 
+      Lonjezo wa Yohane linadulitsa 
+      Lomwelonso wathu ubale lathetsa 
+      Poti sindizakukakamira ndinalonjeza 
+      Indedi, pakadafunda galu padajiwiza 
+      Tsono tubwa poti mphaka wachoka. 
+      Ndinkaona zonse, mu ako oyera masowo 
+      Ukamawamwemwetera, nkumanyada nawo 
+      Ukaona ine ndeye ngati n’dwangan’dwadi 
+      Koma pandekha misonzi ndimakhetsadi 
+      Tsono tubwa poti mphaka wachoka. 
+      Ukamandinyadira ntimasayato maso 
+      Sumadziwa umawawa kachasokachaso 
+      Dzulo lake utandinyoza, ine nditsiluke 
+      Koma ikaopa imayenera mbalame iwuluke 
+      Monga moyo, mthawinso ndi mpamba. 
+      Tsono ano ndi mathero, mapeto ndithu 
+      Sindikuganizanso zokagula mapoto athu 
+      Izo nzakale; tsogoro la mdima bii 
+      Ndeno usazandiyang’anenso, apobii 
+      Monga ine nawenso udzalira, udzalira 
+      Kulilira pa chitseko chotsekedwa mtimamu 
+      Ngatinso mthawi, chiyembekezo wanditayitsa!   
+      `
     },
     poem15: {
       id: 'poem15',
@@ -394,25 +425,32 @@ Koma chiyambi cha ulendo watsopano.`
       category: 'chichewa',
       time: 2,
       preview: 'Ena ng\'oma sichiimba chakuza, Zimandipweteka mowawa...',
-      content: `Ena ng'oma sichiimba chakuza,
-Zimandipweteka mowawa,
-Koma ine ndimapemphera mosamaliza,
-Kwa Mulungu wamkulu kwambiri.
-
-Pemphero losweka mtima langa,
-Limafika kumwamba mwamsanga,
-Mulungu amamva kulira kwanga,
-Ndipo amandiyankha motsanga.
-
-Usiku wanga wasanduka usana,
-Misozi yanga yasanduka chimwemwe,
-Pemphero losweka mtima, uthenga wabwino,
-Kwa onse amene akudwala.
-
-Pempherani, abale anga, pempherani,
-Ngakhale mtima uli wosweka,
-Mulungu adzakuchiritsirani,
-Ndi chikondi chake chosamaliza.`
+      content: `Pemphero losweka mtima 
+      Ena ng’oma sichiimba chakuza 
+      Zimandipweteka  mowawa mtima kwambiri 
+      Ambuye simumandikaniza ine, chiyambire 
+      Mbari  yanga mmakhala, mmandimva ine 
+      Koma pano chifukwa chani, nkulira ine 
+      Wanga mtima ngati mchere wasungunuka, ndingatani 
+      Mwaloranji iye kuti atayisidwe mtima, walakwa chani 
+      Bola ndikanakhala ine, ndikukupemphani 
+      Sinthanitsani moyowu, wake wanga 
+      Zolakwa zake mundilange nazo, Mulungu wanga 
+      Zabwino zanga mmoyowu mpatseni, wanga wake 
+      Ngakhaleso wangawu moyo muutenge 
+      Bola Chimwemwe ndi mtendere mwake mtima zisale 
+      Ngatidi zili izizi bola moyo wanga upakire 
+      Kaya gahena kaya paradiso, ukhale uwu ulendo wakumalire 
+      Zimandipweteka ndikamaona dzikoli 
+      Dzulo ine, leronso mwalora chinkhanira chiyese iye ngati Yobu 
+      Kupatula chikondi chisoni komabe zandiwawa 
+      Ake maonekedwe ali ofooka, chilimbikitso sakulandira 
+      Ngati paife pakati palibe mtendere, otembereredwa 
+      Minyama masoka misonzi mavuto mapazi mpaka mmutu 
+      Chimwemwe athu masaya safuna ngati, ikakuona litsiro 
+      Ake ngati mphale oyera maso dziko silifuna kuaona? 
+      Koma Ambuye mutenge wanga moyowu 
+      Mugulire cha wokondedwa wanga chisangalaro! `
     }
   };
 
