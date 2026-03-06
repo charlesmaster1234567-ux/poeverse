@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Black Broken Heart | Space 1</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+ <body class="page">
+   <button class="nav-toggle-btn" onclick="toggleNavMenu()">💬</button>
+   <div class="nav-menu" id="navMenu">
+     <a href="https://wa.me/+265987959242"><b>📱 WHATSAPP</b></a>
+     <a href="mailto:charlesmaster1234567@gmail.com"><b>✉️ MAIL</b></a>
+     <a href="./files.html"><b>📁 FILES</b></a>
+   </div>
+   <button id="themeToggle">🌙 Dark Mode</button>
+   <div class="progress-bar"></div>
+
+   <!-- Floating Action Button -->
+   <button class="fab" ck="toggleFabMenu()">✨</button>
+   <div class="fab-menu">
+     <button class="fab-item" onclick="fabAction('theme')">🌙</button>
+     <button class="fab-item" onclick="fabAction('music')">🎵</button>
+     <button class="fab-item" onclick="fabAction('favorites')">❤️</button>
+     <button class="fab-item" onclick="fabAction('stats')">📊</button>
+   </div>
+
+   <div class="hidden">
+     <button class="back">↑ Click here to restore contents ↑</button>
+
+     <p class="hiddenwarning"><b>⚠ WARNING ⚠</b></p>
+
+     <p class="rules">You attempted to copy content in a way that violates our rules. Please read our guidelines:</p>
+
+     <div class="rules">
+       <ul>
+         <li>This site was built from scratch with passion, incorporating original creative works.</li>
+         <li>The creator invested significant time and effort to develop this experience.</li>
+         <li>For security and respect purposes, copying content is restricted.</li>
+         <li>Click the multicolored bar above and promise: "i promise to not plagiarize this site"</li>
+         <li>Refreshing will reset your progress on this page.</li>
+       </ul>
+     </div>
+
+   </div>
+   <div class="home">
+   <center>
+     <div style="width: 80px; height: 80px; margin: 20px auto; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 0 15px #ffffff; border: 2px solid rgb(9, 0, 0); cursor: pointer;" class="logo" title="Click to change theme">💔</div>
+
+     <div class="loadpage">
+       <div class="loader-spinner"></div>
+       <div class="loader-text">POETRY UNIVERSE</div>
+       <div class="loader-dots">loading</div>
+     </div>
+
+     <h1 style="
+       font-size:35px;
+       text-align: center;
+       color: #ff0000;">
+       POETRY UNIVERSE<br /><i>magic on net.</i>🪄</h1><br />
+
+     <div class="caller">
+       <p>Don't weep! Any timely we are going to rest in peace.</p>
+     </div><br />
+     <div class="coment">💔click buttons below to taste how my tears fell💔</div>
+
+     <div class="section-header">
+       <h2 class="section-title">📖 Sonnets Collection</h2>
+       <p class="section-subtitle">Explore the depths of emotion through poetic verses</p>
+     </div>
+
+     <div class="tab-container">
+       <button class="tab-button" data-tab="tab1" style="background-color: orange; color: #9b0505;">Sonnet 72</button>
+       <div class="tab-content" id="tab1" style="display: none; background-color: orange;">
+        My Beloved <br />
+        Go there in a dark room<br /> 
+        Is a yellow bag and <br />
+        In it there is <br />
+        Yet in my heart I said:<br /> 
+        Your eyes are now different <br />
+        There are ice blocks, love Sparkling<br /> 
+        Looking at me without hesitation <br />
+        And a mild smile I know you love me <br />
+        But my mouth continued to say: <br />
+        "…There is a fruit for you" <br />
+        Ignited, while smiling, while rushing there<br /> 
+        Didn't you say that I'm your best friend? <br />
+        As a rat free from a cat was my heart feeling.<br />
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab1" onclick="toggleSpeaker('tab1')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab1')">⋮</button>
+            <div id="settings-panel-tab1" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab1">Voice:</label>
+                <select id="voice-select-tab1" class="settings-control" onchange="updateVoiceSettings('tab1')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab1">1.0x</span></label>
+                <input type="range" id="speed-slider-tab1" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab1', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab1">1.0</span></label>
+                <input type="range" id="pitch-slider-tab1" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab1', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Sonnet 72')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Sonnet 72')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Sonnet 72')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab1', 'Sonnet 72')">📕 Download PDF</button>
+        </div>
+       </div>
+
+     <button class="tab-button" data-tab="tab2" style="background-color: lime; color: rgb(2, 112, 255);">Sonnet 84</button>
+     <div class="tab-content" id="tab2" style="display: none; background-color: lime;">In the darkness, when asleep, your image <br />
+        Persuaded all nightmares, and you made my heart cool <br />
+        When I was angry, and my brain was almost without a thought<br /> 
+        When you held my hand and called my name <br />
+        Your smile penetrated-penetrated deep in me <br />
+        Deeper, very deep and I hoped, a good life, ever <br />
+        For I was in a cage as a hen, silently imprisoned <br />
+        And my memories of whole scene, all prove <br />
+        That I have been fooled by snow like eyes <br />
+        Names, looks you gave me, promises all I hoped <br />
+        Were traps so I would fall, and I fell  <br />
+        But now I rise again, your pace, smile and voice<br /> 
+        Are now dances and songs of birds which are blank <br />
+        For you trapped me, now I have escaped!<br />
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab2" onclick="toggleSpeaker('tab2')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab2')">⋮</button>
+            <div id="settings-panel-tab2" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab2">Voice:</label>
+                <select id="voice-select-tab2" class="settings-control" onchange="updateVoiceSettings('tab2')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab2">1.0x</span></label>
+                <input type="range" id="speed-slider-tab2" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab2', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab2">1.0</span></label>
+                <input type="range" id="pitch-slider-tab2" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab2', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Sonnet 84')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Sonnet 84')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Sonnet 84')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab2', 'Sonnet 84')">📕 Download PDF</button>
+        </div>
+     </div>
+
+     <button class="tab-button" data-tab="tab3" style="background-color: pink; color: #f0f;">Sonnet 85</button>
+     <div class="tab-content" id="tab3" style="display: none; background-color: pink;">I can, yes, I can, I can be a time-traveler <br />
+        I can deteriorate all memories, and skip to<br />
+        Past days when we never met, to reckless life <br />
+        When they said I was careless, women just flowers <br />
+        I can live again, in future or old days and hours <br />
+        And if you continue trying to talk with me, <br />
+        With a time-traveler you will find your time going <br />
+        While talking with flowers in your garden <br />
+        Then stand before a mirror, talk to sad image <br />
+        And come near me and look at my far away face <br />
+        And widen your ears thinking I have called you <br />
+        But I am not there, I am traveling in time, far away <br />
+        Far from present I can go never seen again <br />
+        And sorry for you are wasting your time weeping! <br />
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab3" onclick="toggleSpeaker('tab3')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab3')">⋮</button>
+            <div id="settings-panel-tab3" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab3">Voice:</label>
+                <select id="voice-select-tab3" class="settings-control" onchange="updateVoiceSettings('tab3')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab3">1.0x</span></label>
+                <input type="range" id="speed-slider-tab3" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab3', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab3">1.0</span></label>
+                <input type="range" id="pitch-slider-tab3" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab3', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Sonnet 85')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Sonnet 85')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Sonnet 85')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab3', 'Sonnet 85')">📕 Download PDF</button>
+        </div>
+     </div>
+
+     <button class="tab-button" data-tab="tab4" style="background-color: cyan; color: #000;">Sonnet 65</button>
+     <div class="tab-content" id="tab4" style="display: none; background-color: cyan;">so funny so sweet so interesting <br />
+        that you have got a handsome than me <br />
+        his hands on your breasts are resting <br />
+        for you say he loves you than me <br />
+        walking together and two taking one seat <br />
+        he holds your hand then you smile <br />
+        foolish lad is congratulating you, all the best <br />
+        enjoy, enjoy your embraces loving handsome <br />
+        who loves your looks and shadow <br />
+        with his fresh soft well-dressed body <br />
+        but remember that love is in heart, face is for confusion <br />
+        and this model does not mean love but confusing <br />
+        you will learn when you will learn <br />
+        you will see if your rudeness will earn <br />
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab4" onclick="toggleSpeaker('tab4')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab4')">⋮</button>
+            <div id="settings-panel-tab4" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab4">Voice:</label>
+                <select id="voice-select-tab4" class="settings-control" onchange="updateVoiceSettings('tab4')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab4">1.0x</span></label>
+                <input type="range" id="speed-slider-tab4" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab4', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab4">1.0</span></label>
+                <input type="range" id="pitch-slider-tab4" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab4', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Sonnet 65')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Sonnet 65')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Sonnet 65')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab4', 'Sonnet 65')">📕 Download PDF</button>
+        </div>
+     </div>
+
+     <button class="tab-button" data-tab="tab5" style="background-color: magenta; color: #fff;">Sonnet 66</button>
+     <div class="tab-content" id="tab5" style="display: none; background-color: magenta;">The love has evaporated <br />
+        Sweets have gone leaving bitterness <br />
+        So never look at me nor smile <br />
+        For in my heart rudeness is concentrated I'm a bad idea <br />
+        My heart has gained greatness and happiness <br />
+        Never follow me nor call for me when I walk a mile <br />
+        No bore down under my feet even if you are interested <br />
+        Never plead piteously, asking for my forgiveness <br />
+        I won't forgive you, will fire you in each your trail <br />
+        Your beauty is a poisonous flower indeed <br />
+        You are guilty in my mind though sinless <br />
+        You cannot cross my heart again as a river Nile <br />
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab5" onclick="toggleSpeaker('tab5')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab5')">⋮</button>
+            <div id="settings-panel-tab5" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab5">Voice:</label>
+                <select id="voice-select-tab5" class="settings-control" onchange="updateVoiceSettings('tab5')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab5">1.0x</span></label>
+                <input type="range" id="speed-slider-tab5" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab5', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab5">1.0</span></label>
+                <input type="range" id="pitch-slider-tab5" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab5', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Sonnet 66')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Sonnet 66')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Sonnet 66')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab5', 'Sonnet 66')">📕 Download PDF</button>
+        </div>
+     </div>
+
+     <button class="tab-button" data-tab="tab6" style="background-color: yellow; color: #000;">Sonnet 69</button>
+     <div class="tab-content" id="tab6" style="display: none; background-color: yellow;">Not well? <br />
+        In this darkroom God, where are you? <br />
+        Here is the holly room Can't you heal this nymph <br />
+        Oh no! she's in pain, backache <br />
+        Better to give me her disease; She to be fine <br />
+        Awake hold my hand My sick heart <br />
+        Let me escort you to your hat <br />
+        Leave this dirty mat <br />
+        Walk with me, my hearts nut <br />
+        I will never leave you, Trust <br />
+        In troubles you I will lift <br />
+        Surely, our dandles will never wilt <br />
+        Come on….. let me carry you <br />
+        "No, I will walk with my mother" <br />
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab6" onclick="toggleSpeaker('tab6')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab6')">⋮</button>
+            <div id="settings-panel-tab6" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab6">Voice:</label>
+                <select id="voice-select-tab6" class="settings-control" onchange="updateVoiceSettings('tab6')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab6">1.0x</span></label>
+                <input type="range" id="speed-slider-tab6" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab6', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab6">1.0</span></label>
+                <input type="range" id="pitch-slider-tab6" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab6', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Sonnet 69')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Sonnet 69')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Sonnet 69')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab6', 'Sonnet 69')">📕 Download PDF</button>
+        </div>
+     </div>
+
+     <button class="tab-button" data-tab="tab7" style="background-color: lightgreen; color: #000;">Sonnet 86</button>
+     <div class="tab-content" id="tab7" style="display: none; background-color: lightgreen;">I wonder, something is wrong <br />
+        It seems like blood in bones is freezing <br />
+        Sick not weak not, but something sad me <br />
+        This's not my full heart, something out of me <br />
+        World is not ordinary, 's new and dull day <br />
+        I wonder if now I've not headed the heaven <br />
+        Was it yesterday or today which was that day? <br />
+        My heart was overloaded with thoughts; a burden <br />
+        I felt a burden inside when speaking, all the day <br />
+        I witnessed, yes, it really a heavy burden <br />
+        For a second, for a minute, for an hour, for a day <br />
+        He had no single smile at me nor a look even <br />
+        I feel like sleepy, I fear like puppy, today <br />
+        He's shown me his back, I've seen …….. <br />
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab7" onclick="toggleSpeaker('tab7')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab7')">⋮</button>
+            <div id="settings-panel-tab7" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab7">Voice:</label>
+                <select id="voice-select-tab7" class="settings-control" onchange="updateVoiceSettings('tab7')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab7">1.0x</span></label>
+                <input type="range" id="speed-slider-tab7" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab7', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab7">1.0</span></label>
+                <input type="range" id="pitch-slider-tab7" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab7', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Sonnet 86')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Sonnet 86')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Sonnet 86')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab7', 'Sonnet 86')">📕 Download PDF</button>
+        </div>
+     </div>
+
+     <h2 style="text-align: center; color: #ff0000; margin: 20px 0;">Chichewa Poems</h2>
+
+     <button class="tab-button" data-tab="tab8" style="background-color: green; color: white;">Mapeto a zam'tima</button>
+     <div class="tab-content" id="tab8" style="display: none; background-color: green;">
+        <p>
+        "kumbuka, ukazipatula suli wekha <br />
+        Koma ndi wako mbuye wangodekha <br />
+        Pondikumbukiranso dziwa uli nane <br />
+        Momwemonso ngati pa udzu mame" <br />
+        Ankakhala mawu otsiriza amenewa. <br />
+        <br />
+        Tsono moyo watha, khumbo ndi mwayi <br />
+        Chiyembekezo n'dataya, khumbo iyayi <br />
+        Zinalidi zochedwa, koma zonse n'mthayi <br />
+        Kodi sindinapereke ochuluka mwayi? <br />
+        Ankakhalanso mawu otsiriza amenewa. <br />
+        <br />
+        Sev, Jim, Vit, Asa, Dis, amzako aja <br />
+        Iwebe unali ngati wanga mtima, tsogoro lija <br />
+        Posadziwa wamzako n'tsidya lina, hmm! <br />
+        Pikitipikiti kumbaliko kundiswera mtim' <br />
+        Tsono tubwa poti mphaka wachoka. <br />
+        <br />
+        Tidzaonananso ukazayamba kupenya <br />
+        Ukazakhazika mtima wako m'thiti, mwina <br />
+        Ukakumbuka mawu anga aja, "palibenso" <br />
+        Koma monga ukondera, tseka nkutu usamvenso <br />
+        Kulira kwa chiseko chosekedwa mtimamu. <br />
+        <br />
+        Momwemonso ngati pa udzu mame <br />
+        Paliwombo dzuwa liri n'saname <br />
+        Ngati duwa malingaliro anga afota. <br />
+        Zonse zatha, palibenso zolota <br />
+        Tidzaonananso ukazayamba kupenya. <br />
+        <br />
+        Lonjezo wa Yohane linadulitsa <br />
+        Lomwelonso wathu ubale lathetsa <br />
+        Poti sindizakukakamira ndinalonjeza <br />
+        Indedi, pakadafunda galu padajiwiza <br />
+        Tsono tubwa poti mphaka wachoka. <br />
+        <br />
+        Ndinkaona zonse, mu ako oyera masowo <br />
+        Ukamawamwemwetera, nkumanyada nawo <br />
+        Ukaona ine ndeye ngati n'dwangan'dwadi <br />
+        Koma pandekha misonzi ndimakhetsadi <br />
+        Tsono tubwa poti mphaka wachoka. <br />
+        <br />
+        Ukamandinyadira ntimasayato maso <br />
+        Sumadziwa umawawa kachasokachaso <br />
+        Dzulo lake utandinyoza, ine nditsiluke <br />
+        Koma ikaopa imayenera mbalame iwuluke <br />
+        Monga moyo, mthawinso ndi mpamba. <br />
+        <br />
+        Tsono ano ndi mathero, mapeto ndithu <br />
+        Sindikuganizanso zokagula mapoto athu <br />
+        Izo nzakale; tsogoro la mdima bii <br />
+        Ndeno usazandiyang'anenso, apobii <br />
+        Monga ine nawenso udzalira, udzalira <br />
+        Kulilira pa chitseko chotsekedwa mtimamu <br />
+        Ngatinso mthawi, chiyembekezo wanditayitsa!
+        </p>
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab8" onclick="toggleSpeaker('tab8')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab8')">⋮</button>
+            <div id="settings-panel-tab8" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab8">Voice:</label>
+                <select id="voice-select-tab8" class="settings-control" onchange="updateVoiceSettings('tab8')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab8">1.0x</span></label>
+                <input type="range" id="speed-slider-tab8" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab8', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab8">1.0</span></label>
+                <input type="range" id="pitch-slider-tab8" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab8', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Mapeto a zam\'tima')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Mapeto a zam\'tima')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Mapeto a zam\'tima')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab8', 'Mapeto a zam\'tima')">📕 Download PDF</button>
+        </div>
+     </div>
+
+     <button class="tab-button" data-tab="tab9" style="background-color: teal; color: white;">Pemphero losweka mtima</button>
+     <div class="tab-content" id="tab9" style="display: none; background-color: teal;">
+        <p>
+        Ena ng'oma sichiimba chakuza <br />
+        Zimandipweteka  mowawa mtima kwambiri <br />
+        Ambuye simumandikaniza ine, chiyambire <br />
+        Mbari  yanga mmakhala, mmandimva ine <br />
+        Koma pano chifukwa chani, nkulira ine <br />
+        Wanga mtima ngati mchere wasungunuka, ndingatani <br />
+        Mwaloranji iye kuti atayisidwe mtima, walakwa chani <br />
+        Bola ndikanakhala ine, ndikukupemphani <br />
+        Sinthanitsani moyowu, wake wanga <br />
+        Zolakwa zake mundilange nazo, Mulungu wanga <br />
+        Zabwino zanga mmoyowu mpatseni, wanga wake <br />
+        Ngakhaleso wangawu moyo muutenge <br />
+        Bola Chimwemwe ndi mtendere mwake mtima zisale <br />
+        Ngatidi zili izizi bola moyo wanga upakire <br />
+        Kaya gahena kaya paradiso, ukhale uwu ulendo wakumalire <br />
+        Zimandipweteka ndikamaona dzikoli <br />
+        Dzulo ine, leronso mwalora chinkhanira chiyese iye ngati Yobu <br />
+        Kupatula chikondi chisoni komabe zandiwawa <br />
+        Ake maonekedwe ali ofooka, chilimbikitso sakulandira <br />
+        Ngati paife pakati palibe mtendere, otembereredwa <br />
+        Minyama masoka misonzi mavuto mapazi mpaka mmutu <br />
+        Chimwemwe athu masaya safuna ngati, ikakuona litsiro <br />
+        Ake ngati mphale oyera maso dziko silifuna kuaona? <br />
+        Koma Ambuye mutenge wanga moyowu <br />
+        Mugulire cha wokondedwa wanga chisangalaro!
+        </p>
+        <div class="reading-time">⏱️ Reading time: ~1 min</div>
+        <div class="share-buttons">
+          <div style="position: relative; display: inline-block;">
+            <button class="speaker-btn" id="speaker-tab9" onclick="toggleSpeaker('tab9')">🔊 Read Aloud</button>
+            <button class="speaker-settings-toggle" onclick="toggleSettings('tab9')">⋮</button>
+            <div id="settings-panel-tab9" class="speaker-settings-panel">
+              <div class="settings-header">Speaker Settings</div>
+              <div class="settings-group">
+                <label class="settings-label" for="voice-select-tab9">Voice:</label>
+                <select id="voice-select-tab9" class="settings-control" onchange="updateVoiceSettings('tab9')">
+                  <option value="">Default Voice</option>
+                </select>
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Speed: <span class="slider-value" id="speed-value-tab9">1.0x</span></label>
+                <input type="range" id="speed-slider-tab9" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updateSpeed('tab9', this.value)">
+              </div>
+              <div class="settings-group">
+                <label class="settings-label">Pitch: <span class="slider-value" id="pitch-value-tab9">1.0</span></label>
+                <input type="range" id="pitch-slider-tab9" class="settings-control" min="0.5" max="2" step="0.1" value="1" oninput="updatePitch('tab9', this.value)">
+              </div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="shareToTwitter('Pemphero losweka mtima')">𝕏 Tweet</button>
+          <button class="share-btn" onclick="shareToWhatsApp('Pemphero losweka mtima')">💬 Share</button>
+          <button class="share-btn" onclick="shareToFacebook('Pemphero losweka mtima')">f Share</button>
+        </div>
+        <div class="export-separator"></div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportAsPDF('tab9', 'Pemphero losweka mtima')">📕 Download PDF</button>
+        </div>
+     </div>
+     </div>
+
+     <!-- FAVORITES SECTION -->
+     <div class="favorites-section" id="favoritesSection" style="display: none;">
+       <div class="favorites-title">❤️ My Favorites</div>
+       <div class="favorites-list" id="favoritesList"></div>
+     </div>
+
+     <!-- STATS DASHBOARD -->
+     <div class="stats-section">
+       <div class="stats-title">📊 Reading Statistics</div>
+       <div class="stats-grid">
+         <div class="stat-item">
+           <div>📖 Sonnets Read</div>
+           <div class="stat-value" id="statSonnets">0</div>
+         </div>
+         <div class="stat-item">
+           <div>⏱️ Total Time</div>
+           <div class="stat-value" id="statTime">0 min</div>
+         </div>
+         <div class="stat-item">
+           <div>🔄 Visits</div>
+           <div class="stat-value" id="statVisits">1</div>
+         </div>
+         <div class="stat-item">
+           <div>⭐ Favorite</div>
+           <div class="stat-value" id="statFavorite">-</div>
+         </div>
+       </div>
+       <button class="stats-reset" onclick="resetStats()">🔄 Reset Stats</button>
+     </div>
+
+     <!-- AUTHOR SECTION -->
+     <div class="author-section">
+       <img src="me.jpg" alt="Poet Portrait" class="author-image">
+       <div class="author-title">✨ About the Poet</div>
+       <div class="author-bio">
+         "Black Broken Heart" is a collection of poetic expressions exploring themes of love, loss, and personal transformation. Each sonnet is carefully crafted to evoke deep emotions and introspection through the beauty of language.
+       </div>
+       <div class="quote-box" id="quoteOfWeek">
+         "In every tear, there lies a hidden smile waiting to bloom."
+       </div>
+       <div class="author-contacts">
+         <button class="contact-btn" onclick="window.open('mailto:charlesmaster1234567@gmail.com')">✉️ Email</button>
+         <button class="contact-btn" onclick="window.open('https://wa.me/+265987959242')">💬 WhatsApp</button>
+       </div>
+     </div>
+
+     <!-- FONT CUSTOMIZATION -->
+     <div class="font-customization">
+       <div class="font-title">🎨 Customize Reading</div>
+       <div class="font-control">
+         <label>Font Size:</label>
+         <input type="range" id="fontSizeSlider" min="12" max="24" value="16" oninput="updateFontSize(this.value)">
+         <span id="fontSizeValue">16px</span>
+       </div>
+       <div class="font-control">
+         <label>Font Family:</label>
+         <select id="fontFamilySelect" onchange="updateFontFamily(this.value)">
+           <option value="'Courier New', Courier, monospace">Monospace</option>
+           <option value="Georgia, serif">Serif</option>
+           <option value="'Segoe UI', Tahoma, sans-serif">Sans-Serif</option>
+           <option value="Garamond, serif">Garamond</option>
+           <option value="'Times New Roman', serif">Times New Roman</option>
+         </select>
+       </div>
+       <div class="font-control">
+         <label>Line Height:</label>
+         <input type="range" id="lineHeightSlider" min="1" max="2.5" step="0.1" value="1.8" oninput="updateLineHeight(this.value)">
+         <span id="lineHeightValue">1.8</span>
+       </div>
+       <div class="font-preview">Preview: The quick brown fox jumps over the lazy dog</div>
+     </div>
+
+     <div  style="font-size: 1.5rem; text-align: center; color: #800000; margin: 30px 0;">
+     <p><i>Press any key from 1 to 9 to change theme colors.</i></p></div>
+  
+     <p>Don't forget to play <a href="./bikerace.html">bikerace</a> then <a href="./chess.html">chess</a> for more fantastic experiences!</p>
+
+     <!-- MUSIC PLAYER -->
+     <div class="music-player" id="musicPlayer">
+       <button class="music-toggle" onclick="toggleMusicPanel()">🎵</button>
+       <audio id="bgMusic" loop style="display: none;"></audio>
+       <div class="music-controls" id="musicControls">
+  <div class="music-grid" id="musicGrid">
+    <div class="track-card" data-type="ocean_long" onclick="playMusic('ocean_long', this)">
+      <div class="track-icon">🌊</div>
+      <div class="track-info"><div class="track-title">Ocean Drone</div><div class="track-desc">Endless ocean ambience • calm</div></div>
+      <button class="track-play" onclick="playMusic('ocean_long', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="instrumental_long" onclick="playMusic('instrumental_long', this)">
+      <div class="track-icon">🎹</div>
+      <div class="track-info"><div class="track-title">Ambient Pad</div><div class="track-desc">Long meditative instrumental</div></div>
+      <button class="track-play" onclick="playMusic('instrumental_long', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="rain_long" onclick="playMusic('rain_long', this)">
+      <div class="track-icon">🌧️</div>
+      <div class="track-info"><div class="track-title">Rain + Soft Instruments</div><div class="track-desc">Gentle rain with soft textures</div></div>
+      <button class="track-play" onclick="playMusic('rain_long', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="siren_meditation" onclick="playMusic('siren_meditation', this)">
+      <div class="track-icon">🌀</div>
+      <div class="track-info"><div class="track-title">Siren Meditation</div><div class="track-desc">Slow sweeping tones, endless</div></div>
+      <button class="track-play" onclick="playMusic('siren_meditation', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="chant_long" onclick="playMusic('chant_long', this)">
+      <div class="track-icon">🎶</div>
+      <div class="track-info"><div class="track-title">Deep Chant</div><div class="track-desc">Vocal-like drone, long loop</div></div>
+      <button class="track-play" onclick="playMusic('chant_long', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="choir_long" onclick="playMusic('choir_long', this)">
+      <div class="track-icon">🎵</div>
+      <div class="track-info"><div class="track-title">Ambient Choir</div><div class="track-desc">Soft choir textures, evolving</div></div>
+      <button class="track-play" onclick="playMusic('choir_long', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="forest_long" onclick="playMusic('forest_long', this)">
+      <div class="track-icon">🌲</div>
+      <div class="track-info"><div class="track-title">Forest Night</div><div class="track-desc">Nature night ambiences</div></div>
+      <button class="track-play" onclick="playMusic('forest_long', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="bells_long" onclick="playMusic('bells_long', this)">
+      <div class="track-icon">🔔</div>
+      <div class="track-info"><div class="track-title">Monastic Bells</div><div class="track-desc">Slow bells for meditation</div></div>
+      <button class="track-play" onclick="playMusic('bells_long', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="vocal_meditation" onclick="playMusic('vocal_meditation', this)">
+      <div class="track-icon">🧘</div>
+      <div class="track-info"><div class="track-title">Vocal Meditation</div><div class="track-desc">Guided meditation with vocals • relaxing</div></div>
+      <button class="track-play" onclick="playMusic('vocal_meditation', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="flute_meditate" onclick="playMusic('flute_meditate', this)">
+      <div class="track-icon">🪶</div>
+      <div class="track-info"><div class="track-title">Flute Meditation</div><div class="track-desc">Soft flute instrumental • peaceful</div></div>
+      <button class="track-play" onclick="playMusic('flute_meditate', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="om_chant" onclick="playMusic('om_chant', this)">
+      <div class="track-icon">☮️</div>
+      <div class="track-info"><div class="track-title">OM Chanting</div><div class="track-desc">Vocal OM chant • transcendental</div></div>
+      <button class="track-play" onclick="playMusic('om_chant', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+
+    <div class="track-card" data-type="brahms_lullaby" onclick="playMusic('brahms_lullaby', this)">
+      <div class="track-icon">🎼</div>
+      <div class="track-info"><div class="track-title">Brahms Lullaby</div><div class="track-desc">Classic piano instrumental • soothing</div></div>
+      <button class="track-play" onclick="playMusic('brahms_lullaby', this.parentElement); event.stopPropagation();">▶</button>
+    </div>
+  </div>
+
+  <div class="music-controls-bottom">
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button class="control-btn" id="btnPlayPause" onclick="togglePauseResume()">⏯️ Play/Pause</button>
+      <button class="control-btn" onclick="stopMusic()">⏹️ Stop</button>
+      <button class="control-btn" id="btnMute" onclick="toggleMute()">🔇 Mute</button>
+    </div>
+
+    <div style="display:flex; gap:8px; align-items:center; flex:1; justify-content:flex-end;">
+      <div class="now-playing" id="nowPlaying">Now Playing: —</div>
+    </div>
+
+    <div class="music-volume" style="width:100%; margin-top:6px;">
+      <span>🔊</span>
+      <input type="range" id="volumeSlider" min="0" max="100" value="30" oninput="setMusicVolume(this.value)">
+      <span id="volumeValue">30%</span>
+    </div>
+  </div>
+</div>
+     </div>
+
+<!-- PDF Library for export functionality -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+ 
+<script src="script.js">
+ 
+</script>
+     </div>
+       </center>
+     </div>
+  </body>
+</html>
