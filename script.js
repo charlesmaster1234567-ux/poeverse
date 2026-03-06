@@ -576,30 +576,32 @@ poemCards.forEach(card => {
 });
 
 function openPoemModal(poemId) {
-  const poem = poemsData[poemId];
-  if (!poem) return;
-
-  currentPoemId = poemId;
+    const poem = poemsData[poemId];
+    if (!poem) return;
   
-  modalTitle.textContent = poem.title;
-  modalCategory.textContent = poem.category;
-  modalTime.textContent = '⏱ ' + poem.time;
-  modalBody.innerHTML = `<div class="poem-text">${poem.content.replace(/\n\n/g, '</p><p class="stanza">').replace(/\n/g, '<br>')}</div>`;
-  
-  // Update favorite button
-  updateFavoriteButton();
-  
-  // Track reading
-  if (!stats.readPoems.includes(poemId)) {
-    stats.readPoems.push(poemId);
-    stats.poems = stats.readPoems.length;
-    saveStats();
-    updateStatsUI();
+    currentPoemId = poemId;
+    
+    modalTitle.textContent = poem.title;
+    modalCategory.textContent = poem.category;
+    modalTime.textContent = '⏱ ' + poem.time;
+    modalBody.innerHTML = `<div class="poem-text">${poem.content.replace(/\n\n/g, '</p><p class="stanza">').replace(/\n/g, '<br>')}</div>`;
+    
+    updateFavoriteButton();
+    
+    // 🆕 FIXED tracking
+    if (!Array.isArray(stats.readPoems)) {
+      stats.readPoems = [];
+    }
+    if (!stats.readPoems.includes(poemId)) {
+      stats.readPoems.push(poemId);
+      stats.poems = stats.readPoems.length;
+      saveStats();
+      updateStatsUI();
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
-  
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
 
 function closePoemModal() {
   modal.classList.remove('active');

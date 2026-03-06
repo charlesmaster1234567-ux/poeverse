@@ -435,6 +435,7 @@ body {
   margin-bottom: 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -917,6 +918,7 @@ body {
   flex: 1;
   height: 6px;
   -webkit-appearance: none;
+  appearance: none;
   background: var(--border);
   border-radius: 3px;
   outline: none;
@@ -924,11 +926,22 @@ body {
 
 .music-volume::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   width: 16px;
   height: 16px;
   background: var(--accent);
   border-radius: 50%;
   cursor: pointer;
+}
+
+.music-volume::-moz-range-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
 }
 
 .volume-label {
