@@ -1,0 +1,30 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.5",
+    "body": [
+      {
+        "type": "Container",
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "📜 Poem of the Day",
+            "weight": "Bolder",
+            "size": "Medium"
+          },
+          {
+            "type": "TextBlock",
+            "text": "${title}",
+            "weight": "Bolder",
+            "size": "Large",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "${excerpt}",
+            "wrap": true,
+            "maxLines": 3
+          }
+        ]
+      }
+    ]
+  }
