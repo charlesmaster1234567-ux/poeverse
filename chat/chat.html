@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PoeVerse Chat</title>
   <link rel="stylesheet" href="chat.css">
-  <!-- Google API -->
+  
+  <!-- Google API Libraries -->
   <script src="https://apis.google.com/js/api.js"></script>
-  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -18,8 +19,16 @@
       <p>Enter your username to join</p>
       <form id="joinForm">
         <input type="text" id="nameInput" placeholder="Your username..." maxlength="30" required>
+        
+        <!-- Google Drive Toggle -->
+        <label class="drive-toggle">
+          <input type="checkbox" id="driveToggle">
+          <span>📁 Save to Google Drive (FREE)</span>
+        </label>
+        
         <button type="submit">Join Chat</button>
       </form>
+      <p class="drive-info">💡 Enable to keep chat history across devices</p>
     </div>
   </div>
 
@@ -31,6 +40,12 @@
         <span id="count">0</span>
       </div>
       <ul id="users" class="users"></ul>
+      
+      <!-- Drive Status -->
+      <div id="driveStatus" class="drive-status hidden">
+        <span id="driveIcon">💾</span>
+        <span id="driveText">Drive: Connected</span>
+      </div>
     </aside>
 
     <main class="main">
@@ -51,6 +66,8 @@
       </form>
     </main>
   </div>
+
+  <!-- Scripts -->
   <script src="googleDrive.js"></script>
   <script src="chat.js"></script>
 </body>
