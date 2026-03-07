@@ -69,23 +69,20 @@ Escaped from pain, forever free.`
       category: 'sonnets',
       time: 1,
       preview: 'I can, yes, I can, I can be a time-traveler...',
-      content: `I can, yes, I can,
-I can be a time-traveler,
-Going back to when love began,
-To be your forever dweller.
-
-Through the sands of time I'd run,
-Past the years of pain and sorrow,
-To catch the moments, one by one,
-Before there was no tomorrow.
-
-I'd hold you tight and never leave,
-Change the words I never said,
-Give you reasons to believe,
-Before our love was left for dead.
-
-But time moves on, it doesn't wait,
-And travelers arrive too late.`
+      content: `I can, yes, I can, I can be a time-traveler 
+      I can deteriorate all memories, and skip to 
+      Past days when we never met, to reckless life 
+      When they said I was careless, women just flowers 
+      I can live again, in future or old days and hours 
+      And if you continue trying to talk with me, 
+      With a time-traveler you will find your time going 
+      While talking with flowers in your garden 
+      Then stand before a mirror, talk to sad image 
+      And come near me and look at my far away face 
+      And widen your ears thinking I have called you 
+      But I am not there, I am traveling in time, far away 
+      Far from present I can go never seen again 
+      And sorry for you are wasting your time weeping! `
     },
     poem4: {
       id: 'poem4',

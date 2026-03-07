@@ -9,7 +9,7 @@
         "type": "text/html",
         "screenshots": [
           {
-            "src": "/widgets/poem-widget-preview.jpg",
+            "src": "/widgets/poem-widget-preview.png",
             "sizes": "300x400",
             "type": "image/png",
             "label": "Poem of the Day Widget"
@@ -17,4 +17,5 @@
         ]
       }
     ]
-  }
+}
+
