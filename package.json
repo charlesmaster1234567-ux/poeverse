@@ -19,6 +19,8 @@
   "license": "MIT",
   "devDependencies": {
     "sharp": "^0.33.5"
+  },
+  "dependencies": {
+    "appwrite": "^23.0.0"
   }
 }
-
