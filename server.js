@@ -1,7 +1,18 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const { WebSocketServer } = require('ws');
+
+// Try to load ws, with error handling
+let WebSocketServer;
+try {
+  const ws = require('ws');
+  WebSocketServer = ws.WebSocketServer;
+  console.log('✅ WebSocket module loaded successfully');
+} catch (error) {
+  console.error('❌ Failed to load ws module:', error.message);
+  console.error('Run: npm install ws');
+  process.exit(1);
+}
 
 // ===== MIME TYPES =====
 const MIME_TYPES = {
@@ -26,7 +37,6 @@ const MIME_TYPES = {
 const server = http.createServer((req, res) => {
   console.log(`${req.method} ${req.url}`);
 
-  // Parse URL
   let filePath = req.url;
   
   // Remove query string
@@ -35,7 +45,7 @@ const server = http.createServer((req, res) => {
     filePath = filePath.substring(0, queryIndex);
   }
 
-  // Default routes
+  // Default route
   if (filePath === '/') {
     filePath = '/index.html';
   }
@@ -43,7 +53,7 @@ const server = http.createServer((req, res) => {
   // Build full path
   const fullPath = path.join(__dirname, filePath);
 
-  // Security check - prevent directory traversal
+  // Security check
   const normalizedPath = path.normalize(fullPath);
   if (!normalizedPath.startsWith(__dirname)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
@@ -51,19 +61,19 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Get file extension
+  // Get extension
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-  // Read and serve file
+  // Read file
   fs.readFile(fullPath, (err, content) => {
     if (err) {
       if (err.code === 'ENOENT') {
-        // File not found - try .html extension
+        // Try .html extension
         fs.readFile(fullPath + '.html', (err2, content2) => {
           if (err2) {
             res.writeHead(404, { 'Content-Type': 'text/html' });
-            res.end('<h1>404 - Not Found</h1>');
+            res.end('<h1>404 - Not Found</h1><p>File: ' + filePath + '</p>');
           } else {
             res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(content2);
@@ -71,7 +81,7 @@ const server = http.createServer((req, res) => {
         });
       } else {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('500 - Internal Server Error');
+        res.end('500 - Internal Server Error\n' + err.message);
       }
     } else {
       res.writeHead(200, { 
@@ -83,8 +93,14 @@ const server = http.createServer((req, res) => {
   });
 });
 
-// ===== WEBSOCKET SERVER FOR CHAT =====
-const wss = new WebSocketServer({ server });
+// ===== WEBSOCKET SERVER =====
+console.log('Initializing WebSocket server...');
+
+const wss = new WebSocketServer({ 
+  server,
+  perMessageDeflate: false,
+  clientTracking: true
+});
 
 const clients = new Map();
 let userIdCounter = 0;
@@ -112,8 +128,12 @@ const getOnlineUsers = () => {
 const broadcast = (data, excludeWs = null) => {
   const message = JSON.stringify(data);
   clients.forEach((clientData, ws) => {
-    if (ws !== excludeWs && ws.readyState === ws.OPEN) {
-      ws.send(message);
+    if (ws !== excludeWs && ws.readyState === 1) {
+      try {
+        ws.send(message);
+      } catch (e) {
+        console.error('Broadcast error:', e.message);
+      }
     }
   });
 };
@@ -121,8 +141,12 @@ const broadcast = (data, excludeWs = null) => {
 const broadcastAll = (data) => {
   const message = JSON.stringify(data);
   clients.forEach((clientData, ws) => {
-    if (ws.readyState === ws.OPEN) {
-      ws.send(message);
+    if (ws.readyState === 1) {
+      try {
+        ws.send(message);
+      } catch (e) {
+        console.error('Broadcast error:', e.message);
+      }
     }
   });
 };
@@ -130,6 +154,7 @@ const broadcastAll = (data) => {
 wss.on('connection', (ws, req) => {
   const userId = ++userIdCounter;
   const userColor = getRandomColor();
+  const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
   clients.set(ws, {
     id: userId,
@@ -137,14 +162,18 @@ wss.on('connection', (ws, req) => {
     color: userColor
   });
 
-  console.log(`[+] User ${userId} connected (Total: ${clients.size})`);
+  console.log(`[+] User ${userId} connected from ${clientIP} (Total: ${clients.size})`);
 
-  // Send welcome message
-  ws.send(JSON.stringify({
-    type: 'welcome',
-    id: userId,
-    color: userColor
-  }));
+  // Send welcome
+  try {
+    ws.send(JSON.stringify({
+      type: 'welcome',
+      id: userId,
+      color: userColor
+    }));
+  } catch (e) {
+    console.error('Failed to send welcome:', e.message);
+  }
 
   // Handle messages
   ws.on('message', (rawData) => {
@@ -152,7 +181,7 @@ wss.on('connection', (ws, req) => {
     try {
       data = JSON.parse(rawData.toString());
     } catch (e) {
-      console.error('[WS] Invalid JSON received');
+      console.error('[WS] Invalid JSON');
       return;
     }
 
@@ -178,7 +207,7 @@ wss.on('connection', (ws, req) => {
         const text = (data.text || '').trim().slice(0, 500);
         if (!text) return;
 
-        console.log(`[MSG] ${client.username}: ${text.substring(0, 50)}`);
+        console.log(`[MSG] ${client.username}: ${text.substring(0, 30)}`);
 
         broadcastAll({
           type: 'message',
@@ -200,7 +229,7 @@ wss.on('connection', (ws, req) => {
         break;
 
       default:
-        console.log('[WS] Unknown message type:', data.type);
+        console.log('[WS] Unknown type:', data.type);
     }
   });
 
@@ -208,8 +237,7 @@ wss.on('connection', (ws, req) => {
   ws.on('close', () => {
     const client = clients.get(ws);
     if (client) {
-      console.log(`[-] ${client.username} disconnected (Total: ${clients.size - 1})`);
-      
+      console.log(`[-] ${client.username} left (Total: ${clients.size - 1})`);
       clients.delete(ws);
 
       broadcastAll({
@@ -223,23 +251,30 @@ wss.on('connection', (ws, req) => {
   });
 
   ws.on('error', (error) => {
-    console.error('[WS] Error:', error.message);
+    console.error('[WS] Client error:', error.message);
   });
 });
 
+wss.on('error', (error) => {
+  console.error('[WSS] Server error:', error.message);
+});
+
+console.log('✅ WebSocket server initialized');
+
 // ===== START SERVER =====
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+
+server.listen(PORT, '0.0.0.0', () => {
   console.log('\n' + '='.repeat(60));
   console.log('🚀 PoeVerse Server Running!');
   console.log('='.repeat(60));
-  console.log(`📍 Local:     http://localhost:${PORT}`);
-  console.log(`💬 Chat:      http://localhost:${PORT}/chat/chat.html`);
-  console.log(`📡 WebSocket: ws://localhost:${PORT}`);
+  console.log(`📍 Port: ${PORT}`);
+  console.log(`💬 Chat: /chat/chat.html`);
+  console.log(`📡 WebSocket: Active`);
+  console.log(`👥 Clients: ${clients.size}`);
   console.log('='.repeat(60) + '\n');
 });
 
-// Handle server errors
 server.on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
     console.error(`❌ Port ${PORT} is already in use`);
@@ -250,18 +285,25 @@ server.on('error', (err) => {
 });
 
 // Graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received, closing server...');
+const shutdown = () => {
+  console.log('\nShutting down gracefully...');
+  
+  // Close all WebSocket connections
+  clients.forEach((client, ws) => {
+    ws.close();
+  });
+  
   server.close(() => {
     console.log('Server closed');
     process.exit(0);
   });
-});
 
-process.on('SIGINT', () => {
-  console.log('\nSIGINT received, closing server...');
-  server.close(() => {
-    console.log('Server closed');
-    process.exit(0);
-  });
-});
+  // Force close after 5 seconds
+  setTimeout(() => {
+    console.error('Forcing shutdown');
+    process.exit(1);
+  }, 5000);
+};
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);

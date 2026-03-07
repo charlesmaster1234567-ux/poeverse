@@ -17,9 +17,12 @@
   ],
   "author": "Black Broken Heart",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "appwrite": "^23.0.0",
-    "ws": "^8.16.0"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "sharp": "^0.33.5"
