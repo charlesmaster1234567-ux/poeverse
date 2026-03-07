@@ -3,12 +3,12 @@
   "name": "poeverse",
   "version": "2.0.0",
   "description": "Poetry Universe - Discover and Share Beautiful Poetry",
-  "main": "index.html",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
     "setup": "node scripts/setup-widgets.js",
-    "generate-icons": "node scripts/generate-shortcut-icons.js",
-    "serve": "npx serve .",
-    "dev": "npx live-server ."
+    "generate-icons": "node scripts/generate-shortcut-icons.js"
   },
   "keywords": [
     "poetry",
@@ -17,10 +17,11 @@
   ],
   "author": "Black Broken Heart",
   "license": "MIT",
+  "dependencies": {
+    "appwrite": "^23.0.0",
+    "ws": "^8.16.0"
+  },
   "devDependencies": {
     "sharp": "^0.33.5"
-  },
-  "dependencies": {
-    "appwrite": "^23.0.0"
   }
 }
