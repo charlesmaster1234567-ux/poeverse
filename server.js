@@ -2,15 +2,13 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-// Try to load ws, with error handling
+// Check if ws module exists
 let WebSocketServer;
 try {
   const ws = require('ws');
-  WebSocketServer = ws.WebSocketServer;
-  console.log('✅ WebSocket module loaded successfully');
+  WebSocketServer = ws.WebSocketServer || ws.Server;
 } catch (error) {
-  console.error('❌ Failed to load ws module:', error.message);
-  console.error('Run: npm install ws');
+  console.error('❌ ws module not found. Run: npm install ws');
   process.exit(1);
 }
 
@@ -22,7 +20,6 @@ const MIME_TYPES = {
   '.json': 'application/json',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
@@ -35,69 +32,47 @@ const MIME_TYPES = {
 
 // ===== HTTP SERVER =====
 const server = http.createServer((req, res) => {
-  console.log(`${req.method} ${req.url}`);
-
-  let filePath = req.url;
+  let filePath = req.url.split('?')[0]; // Remove query params
   
-  // Remove query string
-  const queryIndex = filePath.indexOf('?');
-  if (queryIndex !== -1) {
-    filePath = filePath.substring(0, queryIndex);
-  }
-
   // Default route
-  if (filePath === '/') {
-    filePath = '/index.html';
-  }
-
-  // Build full path
-  const fullPath = path.join(__dirname, filePath);
-
-  // Security check
-  const normalizedPath = path.normalize(fullPath);
-  if (!normalizedPath.startsWith(__dirname)) {
-    res.writeHead(403, { 'Content-Type': 'text/plain' });
-    res.end('403 Forbidden');
+  if (filePath === '/') filePath = '/index.html';
+  
+  // Health check
+  if (filePath === '/health') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      status: 'ok',
+      websocket: 'active',
+      clients: clients.size,
+      uptime: Math.floor(process.uptime())
+    }));
     return;
   }
 
-  // Get extension
+  const fullPath = path.join(__dirname, filePath);
   const ext = path.extname(filePath).toLowerCase();
-  const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+  const contentType = MIME_TYPES[ext] || 'text/plain';
 
-  // Read file
   fs.readFile(fullPath, (err, content) => {
     if (err) {
       if (err.code === 'ENOENT') {
-        // Try .html extension
-        fs.readFile(fullPath + '.html', (err2, content2) => {
-          if (err2) {
-            res.writeHead(404, { 'Content-Type': 'text/html' });
-            res.end('<h1>404 - Not Found</h1><p>File: ' + filePath + '</p>');
-          } else {
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(content2);
-          }
-        });
+        res.writeHead(404, { 'Content-Type': 'text/html' });
+        res.end('<h1>404 Not Found</h1>');
       } else {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('500 - Internal Server Error\n' + err.message);
+        res.writeHead(500);
+        res.end('Server Error');
       }
     } else {
-      res.writeHead(200, { 
-        'Content-Type': contentType,
-        'Cache-Control': 'no-cache'
-      });
+      res.writeHead(200, { 'Content-Type': contentType });
       res.end(content);
     }
   });
 });
 
 // ===== WEBSOCKET SERVER =====
-console.log('Initializing WebSocket server...');
-
 const wss = new WebSocketServer({ 
   server,
+  path: '/',  // Accept connections on root path
   perMessageDeflate: false,
   clientTracking: true
 });
@@ -105,100 +80,56 @@ const wss = new WebSocketServer({
 const clients = new Map();
 let userIdCounter = 0;
 
-const colors = [
-  '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
-  '#FFEAA7', '#DDA0DD', '#F7DC6F', '#82E0AA',
-  '#BB8FCE', '#85C1E9', '#F0B27A', '#58D68D'
-];
+const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#F7DC6F','#82E0AA'];
+const getColor = () => colors[Math.floor(Math.random() * colors.length)];
 
-const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
+const getUsers = () => Array.from(clients.values()).map(c => ({
+  id: c.id, username: c.username, color: c.color
+}));
 
-const getOnlineUsers = () => {
-  const users = [];
-  clients.forEach(client => {
-    users.push({
-      id: client.id,
-      username: client.username,
-      color: client.color
-    });
-  });
-  return users;
-};
-
-const broadcast = (data, excludeWs = null) => {
-  const message = JSON.stringify(data);
-  clients.forEach((clientData, ws) => {
-    if (ws !== excludeWs && ws.readyState === 1) {
-      try {
-        ws.send(message);
-      } catch (e) {
-        console.error('Broadcast error:', e.message);
-      }
+const broadcast = (data, exclude = null) => {
+  const msg = JSON.stringify(data);
+  clients.forEach((c, ws) => {
+    if (ws !== exclude && ws.readyState === 1) {
+      ws.send(msg);
     }
   });
 };
 
 const broadcastAll = (data) => {
-  const message = JSON.stringify(data);
-  clients.forEach((clientData, ws) => {
-    if (ws.readyState === 1) {
-      try {
-        ws.send(message);
-      } catch (e) {
-        console.error('Broadcast error:', e.message);
-      }
-    }
+  const msg = JSON.stringify(data);
+  clients.forEach((c, ws) => {
+    if (ws.readyState === 1) ws.send(msg);
   });
 };
 
 wss.on('connection', (ws, req) => {
-  const userId = ++userIdCounter;
-  const userColor = getRandomColor();
-  const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const id = ++userIdCounter;
+  const color = getColor();
+  
+  clients.set(ws, { id, username: `Guest_${id}`, color });
+  
+  console.log(`[+] User ${id} connected (Total: ${clients.size})`);
 
-  clients.set(ws, {
-    id: userId,
-    username: `Guest_${userId}`,
-    color: userColor
-  });
+  ws.send(JSON.stringify({ type: 'welcome', id, color }));
 
-  console.log(`[+] User ${userId} connected from ${clientIP} (Total: ${clients.size})`);
-
-  // Send welcome
-  try {
-    ws.send(JSON.stringify({
-      type: 'welcome',
-      id: userId,
-      color: userColor
-    }));
-  } catch (e) {
-    console.error('Failed to send welcome:', e.message);
-  }
-
-  // Handle messages
-  ws.on('message', (rawData) => {
+  ws.on('message', (raw) => {
     let data;
-    try {
-      data = JSON.parse(rawData.toString());
-    } catch (e) {
-      console.error('[WS] Invalid JSON');
-      return;
-    }
-
+    try { data = JSON.parse(raw); } catch { return; }
+    
     const client = clients.get(ws);
     if (!client) return;
 
     switch (data.type) {
       case 'join':
-        client.username = (data.username || '').trim().slice(0, 30) || `Guest_${userId}`;
+        client.username = (data.username || '').trim().slice(0, 30) || `Guest_${id}`;
         console.log(`[JOIN] ${client.username}`);
-        
         broadcastAll({
           type: 'user_joined',
           id: client.id,
           username: client.username,
           color: client.color,
-          users: getOnlineUsers(),
+          users: getUsers(),
           timestamp: Date.now()
         });
         break;
@@ -206,15 +137,13 @@ wss.on('connection', (ws, req) => {
       case 'message':
         const text = (data.text || '').trim().slice(0, 500);
         if (!text) return;
-
         console.log(`[MSG] ${client.username}: ${text.substring(0, 30)}`);
-
         broadcastAll({
           type: 'message',
           id: client.id,
           username: client.username,
           color: client.color,
-          text: text,
+          text,
           timestamp: Date.now()
         });
         break;
@@ -227,83 +156,43 @@ wss.on('connection', (ws, req) => {
           isTyping: data.isTyping
         }, ws);
         break;
-
-      default:
-        console.log('[WS] Unknown type:', data.type);
     }
   });
 
-  // Handle disconnect
   ws.on('close', () => {
     const client = clients.get(ws);
     if (client) {
       console.log(`[-] ${client.username} left (Total: ${clients.size - 1})`);
       clients.delete(ws);
-
       broadcastAll({
         type: 'user_left',
         id: client.id,
         username: client.username,
-        users: getOnlineUsers(),
+        users: getUsers(),
         timestamp: Date.now()
       });
     }
   });
 
-  ws.on('error', (error) => {
-    console.error('[WS] Client error:', error.message);
-  });
+  ws.on('error', (err) => console.error('[WS Error]', err.message));
 });
 
-wss.on('error', (error) => {
-  console.error('[WSS] Server error:', error.message);
-});
-
-console.log('✅ WebSocket server initialized');
+wss.on('error', (err) => console.error('[WSS Error]', err.message));
 
 // ===== START SERVER =====
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, '0.0.0.0', () => {
-  console.log('\n' + '='.repeat(60));
-  console.log('🚀 PoeVerse Server Running!');
-  console.log('='.repeat(60));
+  console.log('='.repeat(50));
+  console.log('🚀 PoeVerse Server');
+  console.log('='.repeat(50));
   console.log(`📍 Port: ${PORT}`);
-  console.log(`💬 Chat: /chat/chat.html`);
-  console.log(`📡 WebSocket: Active`);
-  console.log(`👥 Clients: ${clients.size}`);
-  console.log('='.repeat(60) + '\n');
+  console.log(`✅ HTTP Server: Ready`);
+  console.log(`✅ WebSocket Server: Ready`);
+  console.log('='.repeat(50));
 });
 
 server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`❌ Port ${PORT} is already in use`);
-    process.exit(1);
-  } else {
-    console.error('❌ Server error:', err);
-  }
+  console.error('❌ Server Error:', err.message);
+  process.exit(1);
 });
-
-// Graceful shutdown
-const shutdown = () => {
-  console.log('\nShutting down gracefully...');
-  
-  // Close all WebSocket connections
-  clients.forEach((client, ws) => {
-    ws.close();
-  });
-  
-  server.close(() => {
-    console.log('Server closed');
-    process.exit(0);
-  });
-
-  // Force close after 5 seconds
-  setTimeout(() => {
-    console.error('Forcing shutdown');
-    process.exit(1);
-  }, 5000);
-};
-
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);

@@ -5,16 +5,9 @@
   "description": "Poetry Universe - Discover and Share Beautiful Poetry",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "setup": "node scripts/setup-widgets.js",
-    "generate-icons": "node scripts/generate-shortcut-icons.js"
+    "start": "node server.js"
   },
-  "keywords": [
-    "poetry",
-    "poems",
-    "pwa"
-  ],
+  "keywords": ["poetry", "poems", "pwa"],
   "author": "Black Broken Heart",
   "license": "MIT",
   "engines": {
