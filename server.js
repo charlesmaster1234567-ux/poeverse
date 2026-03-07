@@ -37,14 +37,23 @@ const server = http.createServer((req, res) => {
   // Default route
   if (filePath === '/') filePath = '/index.html';
   
-  // Health check
+  // ✅ KEEP-ALIVE ENDPOINT (for GitHub Actions)
+  if (filePath === '/ping') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('pong');
+    return;
+  }
+  
+  // Health check (more detailed)
   if (filePath === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       status: 'ok',
       websocket: 'active',
       clients: clients.size,
-      uptime: Math.floor(process.uptime())
+      uptime: Math.floor(process.uptime()),
+      memory: process.memoryUsage().heapUsed / 1024 / 1024, // MB
+      timestamp: Date.now()
     }));
     return;
   }
@@ -189,6 +198,8 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`📍 Port: ${PORT}`);
   console.log(`✅ HTTP Server: Ready`);
   console.log(`✅ WebSocket Server: Ready`);
+  console.log(`🏓 Keep-alive endpoint: /ping`);
+  console.log(`💚 Health check: /health`);
   console.log('='.repeat(50));
 });
 
