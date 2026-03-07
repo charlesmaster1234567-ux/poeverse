@@ -10,7 +10,7 @@ const databases = new Databases(client);
 // Ping function to verify connection
 async function verifyAppwriteConnection() {
     try {
-        const health = await client.call('get', '/health');
+        const health = await client.getHealth();
         console.log('✅ Appwrite connection verified:', health);
         return true;
     } catch (error) {

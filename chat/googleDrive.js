@@ -4,8 +4,8 @@
  */
 
 const DriveStorage = {
-  // ⚠️ REGENERATE THESE KEYS - The ones you posted are compromised!
-  CLIENT_ID: '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.apps.googleusercontent.com',
+  // OAuth credentials
+  CLIENT_ID: '696191736653-s3e7mts0iaq3og1inudj031rck34oqeu.apps.googleusercontent.com',
   API_KEY: 'AIzaSyBgg9wPuu7FAJciFLbzJUZgkRSYY-6pY6k',
   
   // Constants
