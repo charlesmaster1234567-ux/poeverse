@@ -225,3 +225,80 @@
     nameInput.focus();
   
   })();
+  (function() {
+    'use strict';
+    
+    // ... your existing code ...
+    
+    let useDrive = false;
+    let messageCache = [];
+  
+    // Add Drive button to join modal
+    joinForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const name = nameInput.value.trim();
+      if (!name) return;
+  
+      myUsername = name;
+  
+      // Ask if user wants Drive storage
+      if (confirm('📁 Enable Google Drive storage?\n(FREE - keeps chat history)')) {
+        try {
+          await DriveStorage.init();
+          
+          // Load old messages
+          const oldMessages = await DriveStorage.loadMessages();
+          oldMessages.forEach(msg => {
+            addMsg(msg, false); // Display but don't re-save
+          });
+          
+          useDrive = true;
+          addSysMsg('✅ Google Drive connected');
+        } catch (err) {
+          console.error('Drive init failed:', err);
+          addSysMsg('⚠️ Drive connection failed, using local storage');
+        }
+      }
+  
+      modal.classList.add('hidden');
+      chat.classList.remove('hidden');
+      myNameEl.textContent = myUsername;
+      msgInput.focus();
+  
+      send({ type: 'join', username: myUsername });
+    };
+  
+    // Modified addMsg to save to Drive
+    function addMsg(data, shouldSave = true) {
+      const own = data.id === myId;
+      const div = document.createElement('div');
+      div.className = `msg ${own ? 'own' : 'other'}`;
+  
+      const time = new Date(data.timestamp).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+  
+      div.innerHTML = `
+        <div class="avatar" style="background:${data.color}">${data.username[0].toUpperCase()}</div>
+        <div class="msg-body">
+          <div class="msg-head">
+            <span class="msg-name" style="color:${data.color}">${data.username}</span>
+            <span class="msg-time">${time}</span>
+          </div>
+          <div class="bubble">${escapeHtml(data.text)}</div>
+        </div>
+      `;
+  
+      msgs.appendChild(div);
+      scroll();
+  
+      // Save to Drive if enabled
+      if (shouldSave && useDrive) {
+        messageCache.push(data);
+        DriveStorage.addMessage(data);
+      }
+    }
+  
+    // ... rest of your code ...
+  })();
