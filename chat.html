@@ -11,20 +11,14 @@
       --dark: #16213e;
       --darker: #1a1a2e;
       --success: #4CAF50;
-      --warning: #ff9800;
-      --error: #f44336;
       --text: #eee;
       --text-muted: #888;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
       color: var(--text);
       display: flex;
@@ -52,20 +46,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    .chat-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .chat-header h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 0;
-    }
+    .chat-header h2 { font-size: 1.5rem; margin: 0; }
 
     .status-badge {
       display: flex;
@@ -85,34 +68,17 @@
       animation: pulse 2s infinite;
     }
 
-    .status-dot.error {
-      background: var(--error);
-      animation: none;
-    }
+    .status-dot.error { background: #f44336; animation: none; }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(0.9); }
-    }
-
-    .chat-stats {
-      display: flex;
-      gap: 16px;
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
 
     #messages {
       flex: 1;
       overflow-y: auto;
       padding: 20px;
-      background: var(--dark);
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -127,27 +93,19 @@
     }
 
     @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .message-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       margin-bottom: 8px;
     }
 
     .message-user {
       font-weight: 600;
       color: var(--primary);
-      font-size: 0.95rem;
     }
 
     .message-time {
@@ -156,29 +114,14 @@
     }
 
     .message-text {
-      color: var(--text);
-      word-wrap: break-word;
       line-height: 1.5;
+      word-wrap: break-word;
     }
 
     .loading {
       text-align: center;
-      padding: 40px 20px;
+      padding: 40px;
       color: var(--text-muted);
-    }
-
-    .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid rgba(255, 255, 255, 0.1);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 16px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
     }
 
     .chat-input {
@@ -206,13 +149,8 @@
       border-color: var(--primary);
     }
 
-    #usernameInput {
-      width: 140px;
-    }
-
-    #messageInput {
-      flex: 1;
-    }
+    #usernameInput { width: 140px; }
+    #messageInput { flex: 1; }
 
     button {
       padding: 12px 24px;
@@ -229,68 +167,34 @@
       cursor: not-allowed;
     }
 
-    #messages::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    #messages::-webkit-scrollbar-track {
-      background: var(--darker);
-    }
-
-    #messages::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 10px;
-    }
+    #messages::-webkit-scrollbar { width: 10px; }
+    #messages::-webkit-scrollbar-track { background: var(--darker); }
+    #messages::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
     @media (max-width: 768px) {
-      .input-wrapper {
-        flex-direction: column;
-      }
-      #usernameInput {
-        width: 100%;
-      }
+      .input-wrapper { flex-direction: column; }
+      #usernameInput { width: 100%; }
     }
   </style>
 </head>
 <body>
   <div class="chat-container">
     <div class="chat-header">
-      <div class="chat-header-left">
-        <h2>🌙 Poeverse Chat</h2>
-        <div class="status-badge">
-          <span class="status-dot" id="statusDot"></span>
-          <span id="statusText">Connecting...</span>
-        </div>
-      </div>
-      <div class="chat-stats">
-        <div class="stat-item">
-          <span>💬</span>
-          <span id="messageCount">0</span>
-        </div>
+      <h2>🌙 Poeverse Chat</h2>
+      <div class="status-badge">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connecting...</span>
       </div>
     </div>
 
     <div id="messages">
-      <div class="loading">
-        <div class="loading-spinner"></div>
-        <p>Loading messages...</p>
-      </div>
+      <div class="loading">Loading messages...</div>
     </div>
 
     <div class="chat-input">
       <div class="input-wrapper">
-        <input 
-          type="text" 
-          id="usernameInput" 
-          placeholder="Your name" 
-          maxlength="20"
-        >
-        <input 
-          type="text" 
-          id="messageInput" 
-          placeholder="Type your message..." 
-          maxlength="500"
-        >
+        <input type="text" id="usernameInput" placeholder="Your name" maxlength="20">
+        <input type="text" id="messageInput" placeholder="Type your message..." maxlength="500">
         <button onclick="sendMessage()" id="sendBtn">Send</button>
       </div>
     </div>
@@ -299,7 +203,6 @@
   <script type="module">
     import { Client, Databases, ID, Query } from 'https://cdn.jsdelivr.net/npm/appwrite@14.0.1/+esm';
 
-    // Configuration
     const CONFIG = {
       endpoint: 'https://nyc.cloud.appwrite.io/v1',
       projectId: '69abe2f5003b67f06aa9',
@@ -307,84 +210,58 @@
       collectionId: 'chatting'
     };
 
-    // Initialize
     const client = new Client()
       .setEndpoint(CONFIG.endpoint)
       .setProject(CONFIG.projectId);
 
     const databases = new Databases(client);
 
-    // Verify connection on load
-    async function verifyConnection() {
-      try {
-        console.log('🔄 Verifying Appwrite connection...');
-        await databases.listDocuments(CONFIG.databaseId, CONFIG.collectionId, [Query.limit(1)]);
-        console.log('✅ Appwrite connection verified!');
-        setStatus('connected', 'Connected');
-        return true;
-      } catch (error) {
-        console.error('❌ Connection verification failed:', error);
-        setStatus('error', 'Connection failed');
-        return false;
-      }
-    }
-
-    // Load messages
     async function loadMessages() {
       try {
         const response = await databases.listDocuments(
           CONFIG.databaseId,
           CONFIG.collectionId,
-          [
-            Query.orderDesc('timestamp'),
-            Query.limit(50)
-          ]
+          [Query.orderDesc('timestamp'), Query.limit(50)]
         );
 
         const messagesDiv = document.getElementById('messages');
-        document.getElementById('messageCount').textContent = response.total;
 
         if (response.documents.length === 0) {
           messagesDiv.innerHTML = '<div class="loading">No messages yet. Be the first! 💬</div>';
+          setStatus('connected', 'Connected');
           return;
         }
 
-        messagesDiv.innerHTML = response.documents
-          .reverse()
-          .map(doc => {
-            const time = new Date(doc.timestamp).toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit'
-            });
-            
-            return `
-              <div class="message">
-                <div class="message-header">
-                  <span class="message-user">User ${doc.senderId}</span>
-                  <span class="message-time">${time}</span>
-                </div>
-                <div class="message-text">${escapeHtml(doc.messageContent)}</div>
+        messagesDiv.innerHTML = response.documents.reverse().map(doc => {
+          const time = new Date(doc.timestamp).toLocaleTimeString('en-US', {
+            hour: '2-digit', minute: '2-digit'
+          });
+          
+          return `
+            <div class="message">
+              <div class="message-header">
+                <span class="message-user">User ${doc.senderId}</span>
+                <span class="message-time">${time}</span>
               </div>
-            `;
-          })
-          .join('');
+              <div class="message-text">${escapeHtml(doc.messageContent)}</div>
+            </div>
+          `;
+        }).join('');
 
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        setStatus('connected', 'Connected');
+        setStatus('connected', 'Connected ✓');
 
       } catch (error) {
-        console.error('Error loading messages:', error);
-        setStatus('error', error.message);
+        console.error('Error:', error);
+        document.getElementById('messages').innerHTML = 
+          `<div class="loading">⚠️ ${error.message}<br><small>Make sure "Account" and "Databases" services are enabled in Settings</small></div>`;
+        setStatus('error', 'Error');
       }
     }
 
-    // Send message
     window.sendMessage = async function() {
-      const usernameInput = document.getElementById('usernameInput');
       const messageInput = document.getElementById('messageInput');
       const sendBtn = document.getElementById('sendBtn');
-
-      const username = usernameInput.value.trim() || 'Anonymous';
       const message = messageInput.value.trim();
 
       if (!message) return;
@@ -411,15 +288,13 @@
         await loadMessages();
 
       } catch (error) {
-        console.error('Error sending:', error);
-        alert('Failed to send: ' + error.message);
+        alert('Failed: ' + error.message);
       } finally {
         sendBtn.disabled = false;
         sendBtn.textContent = 'Send';
       }
     };
 
-    // Utilities
     function setStatus(type, text) {
       document.getElementById('statusDot').classList.toggle('error', type === 'error');
       document.getElementById('statusText').textContent = text;
@@ -431,27 +306,19 @@
       return div.innerHTML;
     }
 
-    // Event listeners
     document.getElementById('messageInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') sendMessage();
     });
 
-    const savedUsername = localStorage.getItem('poeverseUsername');
-    if (savedUsername) {
-      document.getElementById('usernameInput').value = savedUsername;
-    }
+    const saved = localStorage.getItem('poeverseUsername');
+    if (saved) document.getElementById('usernameInput').value = saved;
 
     document.getElementById('usernameInput').addEventListener('input', (e) => {
       localStorage.setItem('poeverseUsername', e.target.value);
     });
 
-    // Initialize
-    verifyConnection().then(success => {
-      if (success) {
-        loadMessages();
-        setInterval(loadMessages, 3000);
-      }
-    });
+    loadMessages();
+    setInterval(loadMessages, 3000);
   </script>
 </body>
 </html>

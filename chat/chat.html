@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PoeVerse Chat</title>
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+  <!-- Join Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-box">
+      <h2>🌙 PoeVerse Chat</h2>
+      <p>Enter your username to join</p>
+      <form id="joinForm">
+        <input type="text" id="nameInput" placeholder="Your username..." maxlength="30" required>
+        <button type="submit">Join Chat</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chat -->
+  <div id="chat" class="chat hidden">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <strong>Online</strong>
+        <span id="count">0</span>
+      </div>
+      <ul id="users" class="users"></ul>
+    </aside>
+
+    <main class="main">
+      <header class="header">
+        <h2>💬 Chat Room</h2>
+        <span id="myName" class="my-name"></span>
+      </header>
+
+      <div id="msgsWrap" class="msgs-wrap">
+        <div id="msgs" class="msgs"></div>
+      </div>
+
+      <div id="typing" class="typing"></div>
+
+      <form id="msgForm" class="form">
+        <input type="text" id="msgInput" placeholder="Type a message..." maxlength="500" autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="chat.js"></script>
+</body>
+</html>
