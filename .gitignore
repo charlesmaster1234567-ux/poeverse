@@ -25,4 +25,4 @@ npm-debug.log*
 
 # Temporary
 *.tmp
-.cache/
+.cache/"node_modules/" 
