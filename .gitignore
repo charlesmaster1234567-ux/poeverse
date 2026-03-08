@@ -25,7 +25,9 @@ npm-debug.log*
 
 # Chat history (generated at runtime)
 chat-history.json
+users.json
+sessions.json
 
 # Temporary
 *.tmp
-.cache/"node_modules/"
+.cache/

@@ -4,9 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PoeVerse Chat</title>
-  <link rel="stylesheet" href="chat.css">
+  <link rel="stylesheet" href="/chat/chat.css">
 </head>
 <body>
+
+  <!-- Navigation Bar -->
+  <nav class="chat-nav">
+    <div class="chat-nav-brand">
+      <a href="/" class="chat-nav-logo">💔</a>
+      <a href="/" class="chat-nav-title">Poetry <span>Universe</span></a>
+    </div>
+    <div class="chat-nav-links">
+      <a href="/" class="chat-nav-link">Home</a>
+      <a href="/#poems" class="chat-nav-link">Poems</a>
+      <a href="/#about" class="chat-nav-link">About</a>
+      <a href="/#contact" class="chat-nav-link">Contact</a>
+      <a href="/chat/chat.html" class="chat-nav-link active">Chat</a>
+    </div>
+    <div class="chat-nav-mobile">
+      <button class="mobile-menu-toggle" id="mobileNavToggle">☰</button>
+    </div>
+  </nav>
 
   <!-- Auth Modal -->
   <div id="authModal" class="modal">
@@ -14,6 +32,7 @@
     <div class="modal-box auth-box">
       <span class="modal-icon">💬</span>
       <h2>PoeVerse Chat</h2>
+      <p class="version-info">Version 2.1 - With Private Messages</p>
       
       <!-- Login Form -->
       <div id="loginForm" class="auth-form">
@@ -73,15 +92,41 @@
         <button class="logout-btn" id="logoutBtn" title="Logout">🚪</button>
       </div>
       
+      <!-- Chat Type Tabs -->
+      <div class="chat-tabs">
+        <button class="chat-tab active" data-tab="public" id="tabPublic">
+          <span>📢</span> Public
+        </button>
+        <button class="chat-tab" data-tab="private" id="tabPrivate">
+          <span>🔒</span> Private
+          <span class="pm-badge hidden" id="pmBadge">0</span>
+        </button>
+      </div>
+      
       <!-- Search -->
       <div class="sidebar-search">
         <input type="text" id="searchInput" placeholder="Search messages...">
       </div>
       
-      <!-- Users -->
-      <ul class="users" id="users">
-        <p class="users-title">Online Now</p>
-      </ul>
+      <!-- Users / Private Chats -->
+      <div class="users-section">
+        <!-- public Chat Users -->
+        <div class="users-container" id="usersContainer">
+          <p class="users-title">Online Now</p>
+          <ul class="users" id="users"></ul>
+        </div>
+        
+        <!-- Private Messages List -->
+        <div class="private-container hidden" id="privateContainer">
+          <p class="users-title">Private Conversations</p>
+          <ul class="private-chats" id="privateChats">
+            <li class="no-chats">No private messages yet</li>
+          </ul>
+          <button class="new-pm-btn" id="newPmBtn">
+            <span>➕</span> New Private Message
+          </button>
+        </div>
+      </div>
       
       <!-- Settings -->
       <div class="sidebar-settings">
@@ -93,9 +138,10 @@
     <!-- Main Chat -->
     <main class="main">
       <header class="header">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">☰</button>
         <div class="header-info">
-          <h2>💬 Chat Room</h2>
-          <div class="header-status">
+          <h2 id="chatTitle">📢 Public Chat</h2>
+          <div class="header-status" id="headerStatus">
             <span class="online-dot"></span>
             <span id="onlineCount">0</span> users online
           </div>
@@ -118,7 +164,7 @@
       <div class="input-area">
         <form class="input-wrapper" id="msgForm">
           <div class="input-container">
-            <textarea class="msg-input" id="msgInput" placeholder="Type a message... (Use @username to mention, /pm username: message for private)" maxlength="500" rows="1" autocomplete="off"></textarea>
+            <textarea class="msg-input" id="msgInput" placeholder="Type a message... (Use @username to mention)" maxlength="500" rows="1" autocomplete="off"></textarea>
             <div class="input-actions">
               <button type="button" class="emoji-btn" id="emojiBtn" title="Add emoji">😊</button>
             </div>
@@ -140,6 +186,26 @@
     </main>
   </div>
 
+  <!-- New Private Message Modal -->
+  <div id="newPmModal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-box">
+      <button class="close-btn" id="closeNewPmModal">✕</button>
+      <h2>Send Private Message</h2>
+      <div class="pm-form">
+        <div class="form-group">
+          <label for="pmRecipient">To:</label>
+          <input type="text" id="pmRecipient" placeholder="Username" maxlength="30">
+        </div>
+        <div class="form-group">
+          <label for="pmMessage">Message:</label>
+          <textarea id="pmMessage" placeholder="Type your private message..." maxlength="500" rows="4"></textarea>
+        </div>
+        <button class="submit-btn" id="sendPmBtn">Send 🔒</button>
+      </div>
+    </div>
+  </div>
+
   <!-- All Users Modal -->
   <div id="usersModal" class="modal hidden">
     <div class="modal-backdrop"></div>
@@ -153,7 +219,7 @@
   <!-- Auth Toast -->
   <div class="auth-toast hidden" id="authToast"></div>
 
-  <script src="chat.js"></script>
+  <script src="/chat/chat.js"></script>
 </body>
 </html>
 

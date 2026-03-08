@@ -42,6 +42,22 @@
   const userStatus = $('userStatus');
   const logoutBtn = $('logoutBtn');
   const authToast = $('authToast');
+  
+  // Private Message Elements
+  const tabPublic = $('tabPublic');
+  const tabPrivate = $('tabPrivate');
+  const pmBadge = $('pmBadge');
+  const usersContainer = $('usersContainer');
+  const privateContainer = $('privateContainer');
+  const privateChats = $('privateChats');
+  const newPmBtn = $('newPmBtn');
+  const newPmModal = $('newPmModal');
+  const closeNewPmModal = $('closeNewPmModal');
+  const pmRecipient = $('pmRecipient');
+  const pmMessage = $('pmMessage');
+  const sendPmBtn = $('sendPmBtn');
+  const chatTitle = $('chatTitle');
+  const headerStatus = $('headerStatus');
 
   // ===== STATE =====
   var ws = null;
@@ -62,6 +78,13 @@
   var authToken = null;
   var userEmail = null;
   var guestMode = false;
+  
+  // Private Messages State
+  var currentChatType = 'public'; // 'public' or 'private'
+  var currentPrivateChat = null; // username of current private chat
+  var privateMessages = {}; // { username: [messages] }
+  var unreadPMs = {}; // { username: count }
+  var totalUnreadPMs = 0;
 
   // ===== COLORS & EMOJIS =====
   const userColors = [
@@ -83,6 +106,99 @@
     setupEventListeners();
     checkExistingSession();
     connect();
+    setupStorageListener();
+    requestNotificationPermission();
+  }
+  
+  // ===== BROWSER NOTIFICATIONS =====
+  function requestNotificationPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }
+  
+  function showBrowserNotification(title, body, icon, tag) {
+    if (!('Notification' in window)) return;
+    
+    if (Notification.permission === 'granted') {
+      const notification = new Notification(title, {
+        body: body,
+        icon: icon || '/icons/icon-192x192.png',
+        tag: tag || 'poeverse-chat',
+        vibrate: [200, 100, 200],
+        requireInteraction: false
+      });
+      
+      notification.onclick = () => {
+        window.focus();
+        notification.close();
+      };
+      
+      setTimeout(() => notification.close(), 5000);
+    }
+  }
+  
+  function showInAppNotification(title, body, type, color) {
+    // Remove existing notifications
+    const existing = document.querySelector('.notification-toast');
+    if (existing) existing.remove();
+    
+    const notification = document.createElement('div');
+    notification.className = 'notification-toast ' + type;
+    notification.innerHTML = `
+      <div class="notification-toast-header">
+        <div class="notification-toast-avatar" style="background: ${color || '#e94560'}">${title[0].toUpperCase()}</div>
+        <div class="notification-toast-title">${escapeHtml(title)}</div>
+      </div>
+      <div class="notification-toast-body">${escapeHtml(body)}</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto dismiss after 5 seconds
+    setTimeout(() => {
+      notification.style.animation = 'slideOutRight 0.3s ease-out';
+      setTimeout(() => notification.remove(), 300);
+    }, 5000);
+  }
+  
+  // Add slideOutRight animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideOutRight {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // ===== MULTI-TAB SYNC =====
+  function setupStorageListener() {
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'poeverse_chat_sync') {
+        try {
+          const data = JSON.parse(e.newValue);
+          if (data && data.type === 'message_sync' && data.username === myUsername) {
+            addMsg(data, false, true);
+            messageCount++;
+            updateMessageCount();
+          }
+        } catch (err) {}
+      }
+    });
+  }
+
+  function syncMessageToTabs(messageData) {
+    const syncData = {
+      ...messageData,
+      type: 'message_sync',
+      timestamp: Date.now()
+    };
+    localStorage.setItem('poeverse_chat_sync', JSON.stringify(syncData));
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'poeverse_chat_sync',
+      newValue: JSON.stringify(syncData)
+    }));
   }
 
   // ===== SESSION MANAGEMENT =====
@@ -135,6 +251,7 @@
     if (ws && ws.readyState === WebSocket.OPEN) {
       sendJoin();
     }
+    updateUserPanel();
   }
 
   function showToast(message, type = 'info') {
@@ -174,14 +291,12 @@
         isAuthenticated = true;
         guestMode = false;
         
-        // Save session
         localStorage.setItem('poeverse_chat_token', data.token);
         localStorage.setItem('poeverse_chat_email', data.user.email);
         localStorage.setItem('poeverse_chat_username', data.user.username);
         
         showToast('Welcome back, ' + myUsername + '!', 'success');
         showChat();
-        updateUserPanel();
       } else {
         showToast(data.error || 'Login failed', 'error');
       }
@@ -240,7 +355,6 @@
         
         showToast('Account created! Welcome, ' + myUsername + '!', 'success');
         showChat();
-        updateUserPanel();
       } else {
         showToast(data.error || 'Registration failed', 'error');
       }
@@ -337,7 +451,7 @@
 
   // ===== EVENT LISTENERS =====
   function setupEventListeners() {
-    // Auth forms - with null checks
+    // Auth forms
     if (loginBtn) loginBtn.onclick = handleLogin;
     if (registerBtn) registerBtn.onclick = handleRegister;
     if (guestBtn) guestBtn.onclick = handleGuest;
@@ -377,6 +491,26 @@
       searchInput.addEventListener('input', handleSearch);
     }
 
+    // Chat tabs (Public/Private)
+    if (tabPublic) {
+      tabPublic.addEventListener('click', () => switchChatTab('public'));
+    }
+    if (tabPrivate) {
+      tabPrivate.addEventListener('click', () => switchChatTab('private'));
+    }
+
+    // New Private Message
+    if (newPmBtn) {
+      newPmBtn.addEventListener('click', openNewPmModal);
+    }
+    if (closeNewPmModal && newPmModal) {
+      closeNewPmModal.onclick = () => newPmModal.classList.add('hidden');
+      newPmModal.querySelector('.modal-backdrop').onclick = () => newPmModal.classList.add('hidden');
+    }
+    if (sendPmBtn) {
+      sendPmBtn.addEventListener('click', sendPrivateMessage);
+    }
+
     // Users modal
     if (showUsersBtn && usersModal) {
       showUsersBtn.onclick = showAllUsers;
@@ -390,6 +524,223 @@
     // Theme & Sound
     if (toggleTheme) toggleTheme.onclick = toggleThemeMode;
     if (toggleSound) toggleSound.onclick = toggleSoundSetting;
+    
+    // Mobile menu toggle
+    const mobileMenuBtn = $('mobileMenuBtn');
+    if (mobileMenuBtn) {
+      mobileMenuBtn.onclick = () => {
+        document.querySelector('.sidebar').classList.toggle('mobile-open');
+      };
+    }
+  }
+
+  // ===== CHAT TABS (Public/Private) =====
+  function switchChatTab(tab) {
+    currentChatType = tab;
+    
+    // Update tab UI
+    if (tabPublic && tabPrivate) {
+      tabPublic.classList.toggle('active', tab === 'public');
+      tabPrivate.classList.toggle('active', tab === 'private');
+    }
+    
+    // Show/hide appropriate containers
+    if (usersContainer && privateContainer) {
+      usersContainer.classList.toggle('hidden', tab !== 'public');
+      privateContainer.classList.toggle('hidden', tab !== 'private');
+    }
+    
+    // Update header
+    if (tab === 'public') {
+      if (chatTitle) chatTitle.textContent = '📢 Public Chat';
+      if (headerStatus) {
+        headerStatus.innerHTML = '<span class="online-dot"></span><span id="onlineCount">' + onlineUsers.length + '</span> users online';
+      }
+      currentPrivateChat = null;
+      displayPublicMessages();
+    } else {
+      if (chatTitle) chatTitle.textContent = '🔒 Private Messages';
+      if (headerStatus) {
+        headerStatus.textContent = currentPrivateChat ? 'Chatting with ' + currentPrivateChat : 'Select a conversation';
+      }
+      displayPrivateMessages();
+    }
+    
+    // Clear input placeholder
+    if (msgInput) {
+      msgInput.placeholder = tab === 'public' 
+        ? 'Type a message... (Use @username to mention)' 
+        : 'Type a private message...';
+    }
+    
+    scrollToBottom();
+  }
+
+  // ===== PRIVATE MESSAGE FUNCTIONS =====
+  function openNewPmModal() {
+    if (newPmModal) {
+      newPmModal.classList.remove('hidden');
+      if (pmRecipient) {
+        pmRecipient.value = '';
+        pmRecipient.focus();
+      }
+      if (pmMessage) pmMessage.value = '';
+    }
+  }
+
+  function sendPrivateMessage() {
+    const recipient = pmRecipient.value.trim();
+    const message = pmMessage.value.trim();
+    
+    if (!recipient) {
+      showToast('Please enter a recipient', 'error');
+      return;
+    }
+    
+    if (!message) {
+      showToast('Please enter a message', 'error');
+      return;
+    }
+    
+    if (recipient === myUsername) {
+      showToast("You can't send a private message to yourself", 'error');
+      return;
+    }
+    
+    // Send via WebSocket
+    const pmData = {
+      type: 'private_message',
+      to: recipient,
+      text: message,
+      color: myColor
+    };
+    
+    send(pmData);
+    
+    // Add to local messages
+    addPrivateMessage(myUsername, recipient, {
+      from: myUsername,
+      to: recipient,
+      text: message,
+      color: myColor,
+      timestamp: Date.now(),
+      isSent: true
+    });
+    
+    showToast('Private message sent to ' + recipient, 'success');
+    
+    if (newPmModal) newPmModal.classList.add('hidden');
+    if (pmMessage) pmMessage.value = '';
+    
+    // Switch to private tab and show conversation
+    switchChatTab('private');
+    openPrivateChat(recipient);
+  }
+
+  function addPrivateMessage(from, to, message) {
+    const otherUser = from === myUsername ? to : from;
+    
+    if (!privateMessages[otherUser]) {
+      privateMessages[otherUser] = [];
+    }
+    
+    privateMessages[otherUser].push(message);
+    
+    // Update unread if not current chat
+    if (currentChatType !== 'private' || currentPrivateChat !== otherUser) {
+      if (!unreadPMs[otherUser]) unreadPMs[otherUser] = 0;
+      unreadPMs[otherUser]++;
+      totalUnreadPMs++;
+      updatePMBadge();
+    }
+    
+    // Update UI if viewing this chat
+    if (currentChatType === 'private' && currentPrivateChat === otherUser) {
+      displayPrivateMessages();
+    } else {
+      updatePrivateChatsList();
+    }
+  }
+
+  function updatePMBadge() {
+    if (pmBadge) {
+      pmBadge.textContent = totalUnreadPMs;
+      pmBadge.classList.toggle('hidden', totalUnreadPMs === 0);
+    }
+  }
+
+  function openPrivateChat(username) {
+    currentPrivateChat = username;
+    
+    // Clear unread
+    if (unreadPMs[username]) {
+      totalUnreadPMs -= unreadPMs[username];
+      unreadPMs[username] = 0;
+      updatePMBadge();
+    }
+    
+    if (headerStatus) {
+      headerStatus.textContent = 'Chatting with ' + username;
+    }
+    
+    displayPrivateMessages();
+  }
+
+  function displayPrivateMessages() {
+    if (!msgs) return;
+    msgs.innerHTML = '';
+    
+    if (!currentPrivateChat || !privateMessages[currentPrivateChat]) {
+      msgs.innerHTML = '<div class="sys">No messages yet. Start a conversation!</div>';
+      return;
+    }
+    
+    const messages = privateMessages[currentPrivateChat];
+    messages.forEach(msg => {
+      addMsg(msg, true, msg.from === myUsername || msg.isSent);
+    });
+    
+    scrollToBottom();
+  }
+
+  function displayPublicMessages() {
+    // This is handled by the WebSocket message handler
+    // Just refresh the view
+  }
+
+  function updatePrivateChatsList() {
+    if (!privateChats) return;
+    privateChats.innerHTML = '';
+    
+    const users = Object.keys(privateMessages);
+    
+    if (users.length === 0) {
+      privateChats.innerHTML = '<li class="no-chats">No private messages yet</li>';
+      return;
+    }
+    
+    users.forEach(user => {
+      const li = document.createElement('li');
+      li.className = 'private-chat-item' + (user === currentPrivateChat ? ' active' : '');
+      
+      const unread = unreadPMs[user] || 0;
+      const lastMsg = privateMessages[user][privateMessages[user].length - 1];
+      const preview = lastMsg ? lastMsg.text.substring(0, 30) + (lastMsg.text.length > 30 ? '...' : '') : 'No messages';
+      
+      li.innerHTML = `
+        <div class="chat-user-avatar">${user[0].toUpperCase()}</div>
+        <div class="chat-user-info">
+          <div class="chat-user-name">${escapeHtml(user)}${unread > 0 ? '<span class="unread-count">' + unread + '</span>' : ''}</div>
+          <div class="chat-user-preview">${escapeHtml(preview)}</div>
+      `;
+      
+      li.onclick = () => {
+        switchChatTab('private');
+        openPrivateChat(user);
+      };
+      
+      privateChats.appendChild(li);
+    });
   }
 
   // ===== MESSAGE HANDLERS =====
@@ -398,7 +749,41 @@
     const text = msgInput.value.trim();
     if (!text) return;
 
-    send({ type: 'message', text, color: myColor });
+    // Check if in private mode and has a conversation open
+    if (currentChatType === 'private' && currentPrivateChat) {
+      const messageData = { 
+        type: 'private_message', 
+        to: currentPrivateChat,
+        text: text, 
+        color: myColor 
+      };
+      send(messageData);
+      
+      addPrivateMessage(myUsername, currentPrivateChat, {
+        from: myUsername,
+        to: currentPrivateChat,
+        text: text,
+        color: myColor,
+        timestamp: Date.now(),
+        isSent: true
+      });
+    } else {
+      // Public message
+      const messageData = { type: 'message', text: text, color: myColor };
+      send(messageData);
+      
+      // Sync to other tabs for same user
+      if (isAuthenticated) {
+        syncMessageToTabs({
+          id: myId,
+          username: myUsername,
+          color: myColor,
+          text: text,
+          authenticated: true
+        });
+      }
+    }
+    
     msgInput.value = '';
     msgInput.style.height = 'auto';
 
@@ -523,34 +908,38 @@
         break;
 
       case 'message':
-        addMsg(data);
-        messageCount++;
-        updateMessageCount();
+        // Only display in public chat mode
+        if (currentChatType === 'public') {
+          addMsg(data);
+          messageCount++;
+          updateMessageCount();
+        }
         delete typingUsers[data.id];
         updateTyping();
         break;
         
-      // Private message received
       case 'private_message':
-        addSysMsg('🔒 Private message from ' + escapeHtml(data.from.username));
-        addMsg(data, true, false);
-        messageCount++;
-        updateMessageCount();
-        // Show notification
-        showToast('Private message from ' + data.from.username, 'info');
+        // Handle incoming private message
+        addPrivateMessage(data.from.username, myUsername, {
+          from: data.from.username,
+          to: myUsername,
+          text: data.text,
+          color: data.from.color,
+          timestamp: data.timestamp,
+          isSent: false
+        });
+        
+        // Show notifications
+        showInAppNotification('🔒 Private Message', data.from.username + ': ' + data.text.substring(0, 50), 'pm', data.from.color);
+        showBrowserNotification('🔒 Private Message from ' + data.from.username, data.text.substring(0, 100), '/icons/icon-192x192.png', 'pm-' + data.from.username);
         break;
         
-      // Private message sent confirmation
       case 'private_sent':
-        addSysMsg('🔒 Private sent to ' + escapeHtml(data.to));
-        addMsg(data, true, true);
-        messageCount++;
-        updateMessageCount();
+        // Confirmation that PM was sent
+        showToast('🔒 Private message sent to ' + data.to, 'success');
         break;
         
-      // Message deleted
       case 'message_deleted':
-        // Remove message from UI
         const msgEl = document.querySelector('[data-msg-id="' + data.id + '"]');
         if (msgEl) {
           msgEl.remove();
@@ -558,13 +947,12 @@
         }
         break;
         
-      // Mention notification
       case 'mention':
         addSysMsg('📢 ' + escapeHtml(data.from.username) + ' mentioned you!');
-        showToast(data.from.username + ' mentioned you: ' + data.text.substring(0, 50), 'info');
+        showInAppNotification('📢 You were mentioned', data.from.username + ': ' + data.text.substring(0, 50), 'mention', data.from.color);
+        showBrowserNotification('📢 ' + data.from.username + ' mentioned you', data.text.substring(0, 100), '/icons/icon-192x192.png', 'mention-' + data.from.username);
         break;
         
-      // Error message
       case 'error':
         showToast(data.message, 'error');
         break;
@@ -581,9 +969,6 @@
   }
 
   // ===== UI FUNCTIONS =====
-  // Track messages for deletion
-  var myMessages = [];
-
   function addSysMsg(text) {
     const div = document.createElement('div');
     div.className = 'sys';
@@ -593,9 +978,9 @@
   }
 
   function addMsg(data, isPrivate = false, isSent = false) {
-    const own = data.id === myId;
+    const own = data.id === myId || isSent;
     const div = document.createElement('div');
-    div.className = 'msg ' + (own || isSent ? 'own' : 'other') + ' new';
+    div.className = 'msg ' + (own ? 'own' : 'other') + ' new';
     if (isPrivate) div.classList.add('private');
 
     const time = new Date(data.timestamp || Date.now());
@@ -605,14 +990,12 @@
     const fromName = data.from ? data.from.username : data.username;
     const fromColor = data.from ? data.from.color : data.color;
     
-    // Generate unique message ID for deletion
     const msgId = data.id + '_' + (data.timestamp || Date.now());
     
     div.dataset.msgId = msgId;
     div.dataset.fromId = data.fromId || data.id;
 
-    // Delete button for own messages
-    const deleteBtn = (own || isSent) ? '<button class="delete-msg-btn" onclick="deleteMessage(\'' + msgId + '\')" title="Delete">🗑️</button>' : '';
+    const deleteBtn = own ? '<button class="delete-msg-btn" onclick="deleteMessage(\'' + msgId + '\')" title="Delete">🗑️</button>' : '';
 
     div.innerHTML = 
       '<div class="avatar" style="background:' + (fromColor || '#666') + '">' + ((fromName && fromName[0]) || '?').toUpperCase() + '</div>' +
@@ -631,7 +1014,6 @@
     setTimeout(() => div.classList.remove('new'), 1000);
   }
 
-  // Delete message function (global for onclick)
   window.deleteMessage = function(msgId) {
     if (!confirm('Delete this message?')) return;
     send({ type: 'message', text: '/delete ' + msgId });
@@ -670,6 +1052,16 @@
           '<div class="user-name' + (isMe ? ' you' : '') + '">' + escapeHtml(user.username) + (isMe ? ' (You)' : '') + '</div>' +
           '<div class="user-status-text">' + (user.authenticated ? '✓ Verified' : 'Online') + '</div>' +
         '</div>';
+      
+      // Click to start private message
+      if (!isMe) {
+        li.onclick = () => {
+          switchChatTab('private');
+          openPrivateChat(user.username);
+        };
+        li.style.cursor = 'pointer';
+      }
+      
       usersList.appendChild(li);
     });
   }
@@ -687,6 +1079,17 @@
           '<div class="user-name">' + escapeHtml(user.username) + '</div>' +
           '<div class="user-status-text">' + (user.authenticated ? '✓ Verified Member' : 'Guest') + '</div>' +
         '</div>';
+      
+      // Click to start private message
+      if (user.id !== myId) {
+        li.onclick = () => {
+          usersModal.classList.add('hidden');
+          switchChatTab('private');
+          openPrivateChat(user.username);
+        };
+        li.style.cursor = 'pointer';
+      }
+      
       allUsersList.appendChild(li);
     });
     
@@ -758,19 +1161,20 @@
       .then(data => {
         if (data.messages?.length > 0) {
           data.messages.forEach(msg => {
-            addMsg(msg);
-            messageCount++;
+            // Only load public messages initially
+            if (!msg.to || msg.to.startsWith('/')) {
+              addMsg(msg);
+              messageCount++;
+            }
           });
           updateMessageCount();
           addSysMsg('📜 Loaded ' + data.messages.length + ' previous messages');
         } else {
           addSysMsg('💬 Welcome to PoeVerse Chat! ' + (isAuthenticated ? 'You are logged in!' : 'Join the conversation!'));
         }
-        updateUserPanel();
       })
       .catch(() => {
         addSysMsg('💬 Welcome to PoeVerse Chat!');
-        updateUserPanel();
       });
   }
 

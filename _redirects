@@ -1,5 +1,12 @@
 # Redirect www to non-www
 https://www.poeverse.netlify.app/* https://poeverse.netlify.app/:splat 301!
 
+# Handle chat pages
+/chat/* /chat/:splat 200
+
+# Handle API
+/api/* /api/:splat 200
+
 # Handle SPA routing
 /*    /index.html   200
+

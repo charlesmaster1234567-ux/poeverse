@@ -155,37 +155,6 @@
       }
     ],
     
-    "screenshots": [
-      {
-        "src": "/screenshots/screenshot-wide-1.png",
-        "sizes": "1920x1080",
-        "type": "image/png",
-        "form_factor": "wide",
-        "label": "PoeVerse Homepage - Desktop View"
-      },
-      {
-        "src": "/screenshots/screenshot-wide-2.png",
-        "sizes": "1920x1080",
-        "type": "image/png",
-        "form_factor": "wide",
-        "label": "Poetry Collection - Desktop View"
-      },
-      {
-        "src": "/screenshots/screenshot-narrow-1.png",
-        "sizes": "750x1334",
-        "type": "image/png",
-        "form_factor": "narrow",
-        "label": "PoeVerse Homepage - Mobile View"
-      },
-      {
-        "src": "/screenshots/screenshot-narrow-2.png",
-        "sizes": "750x1334",
-        "type": "image/png",
-        "form_factor": "narrow",
-        "label": "Reading a Poem - Mobile View"
-      }
-    ],
-    
     "categories": [
       "books",
       "education",
@@ -193,8 +162,6 @@
       "lifestyle",
       "magazines"
     ],
-    
-    "iarc_rating_id": "",
     
     "prefer_related_applications": false,
     

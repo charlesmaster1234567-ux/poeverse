@@ -366,16 +366,36 @@ const wss = new WebSocketServer({
 const clients = new Map();
 let userIdCounter = 0;
 
+// Track unique users by username (for same account across tabs)
+const userSessions = new Map(); // username -> {ws: WebSocket, id: number, color: string}
+
+// Colors for users
 const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#F7DC6F','#82E0AA'];
 const getColor = () => colors[Math.floor(Math.random() * colors.length)];
 
-const getUsers = () => Array.from(clients.values()).map(c => ({
-  id: c.id, username: c.username, color: c.color
-}));
+// Get unique users (deduplicated by username)
+const getUsers = () => {
+  const uniqueUsers = [];
+  const seen = new Set();
+  
+  userSessions.forEach((session) => {
+    if (!seen.has(session.username.toLowerCase())) {
+      seen.add(session.username.toLowerCase());
+      uniqueUsers.push({
+        id: session.id,
+        username: session.username,
+        color: session.color
+      });
+    }
+  });
+  
+  return uniqueUsers;
+};
 
 const broadcast = (data, exclude = null) => {
   const msg = JSON.stringify(data);
-  clients.forEach((c, ws) => {
+  // Send to all unique user sessions
+  userSessions.forEach((session, ws) => {
     if (ws !== exclude && ws.readyState === 1) {
       ws.send(msg);
     }
@@ -384,7 +404,7 @@ const broadcast = (data, exclude = null) => {
 
 const broadcastAll = (data) => {
   const msg = JSON.stringify(data);
-  clients.forEach((c, ws) => {
+  userSessions.forEach((session, ws) => {
     if (ws.readyState === 1) ws.send(msg);
   });
 };
@@ -393,9 +413,10 @@ wss.on('connection', (ws, req) => {
   const id = ++userIdCounter;
   const color = getColor();
   
-  clients.set(ws, { id, username: `Guest_${id}`, color, authenticated: false });
+  // Initialize as guest initially
+  clients.set(ws, { id, username: `Guest_${id}`, color, authenticated: false, tabs: new Set([id]) });
   
-  console.log(`[+] User ${id} connected (Total: ${clients.size})`);
+  console.log(`[+] Connection ${id} (Total connections: ${clients.size})`);
 
   ws.send(JSON.stringify({ type: 'welcome', id, color }));
 
@@ -408,12 +429,54 @@ wss.on('connection', (ws, req) => {
 
     switch (data.type) {
       case 'join':
-        // Support both guest and authenticated
-        client.username = (data.username || '').trim().slice(0, 30) || `Guest_${id}`;
-        client.color = data.color || client.color;
-        client.authenticated = data.authenticated || false;
+        // Handle same user from multiple tabs
+        const newUsername = (data.username || '').trim().slice(0, 30) || `Guest_${id}`;
+        const usernameLower = newUsername.toLowerCase();
         
-        console.log(`[JOIN] ${client.username} (auth: ${client.authenticated})`);
+        // Check if this username already exists
+        let existingSession = null;
+        let existingClient = null;
+        
+        userSessions.forEach((session, wsCheck) => {
+          if (session.username.toLowerCase() === usernameLower) {
+            existingSession = session;
+            existingClient = clients.get(wsCheck);
+          }
+        });
+        
+        if (existingSession && data.authenticated) {
+          // Same authenticated user joining from another tab - merge sessions
+          client.id = existingSession.id;
+          client.username = existingSession.username;
+          client.color = existingSession.color;
+          client.authenticated = true;
+          client.tabs.add(id);
+          
+          // Update userSessions with this new connection
+          userSessions.set(ws, { 
+            id: existingSession.id, 
+            username: existingSession.username, 
+            color: existingSession.color,
+            authenticated: true
+          });
+          
+          console.log(`[JOIN] ${client.username} merged tabs (${client.tabs.size} tabs)`);
+        } else {
+          // New user or guest
+          client.username = newUsername;
+          client.color = data.color || client.color;
+          client.authenticated = data.authenticated || false;
+          client.tabs = new Set([id]);
+          
+          userSessions.set(ws, { 
+            id: client.id, 
+            username: client.username, 
+            color: client.color,
+            authenticated: client.authenticated
+          });
+          
+          console.log(`[JOIN] ${client.username} (auth: ${client.authenticated})`);
+        }
         
         broadcastAll({
           type: 'user_joined',
@@ -421,6 +484,7 @@ wss.on('connection', (ws, req) => {
           username: client.username,
           color: client.color,
           authenticated: client.authenticated,
+          tabs: client.tabs ? client.tabs.size : 1,
           users: getUsers(),
           timestamp: Date.now()
         });
@@ -551,6 +615,56 @@ wss.on('connection', (ws, req) => {
           username: client.username,
           isTyping: data.isTyping
         }, ws);
+        break;
+        
+      // Handle dedicated private message type
+      case 'private_message':
+        const pmRecipient = (data.to || '').trim();
+        const pmText = (data.text || '').trim().slice(0, 500);
+        
+        if (!pmRecipient || !pmText) return;
+        if (pmRecipient.toLowerCase() === client.username.toLowerCase()) {
+          ws.send(JSON.stringify({ type: 'error', message: "You can't message yourself" }));
+          return;
+        }
+        
+        // Find target user by username
+        let targetWs = null;
+        let targetClient = null;
+        
+        clients.forEach((c, wsClient) => {
+          if (c.username.toLowerCase() === pmRecipient.toLowerCase()) {
+            targetWs = wsClient;
+            targetClient = c;
+          }
+        });
+        
+        if (targetWs && targetClient) {
+          // Send to recipient
+          const pmData = {
+            type: 'private_message',
+            from: { id: client.id, username: client.username, color: client.color },
+            text: pmText,
+            timestamp: Date.now()
+          };
+          targetWs.send(JSON.stringify(pmData));
+          
+          // Send confirmation to sender
+          ws.send(JSON.stringify({
+            type: 'private_sent',
+            to: pmRecipient,
+            text: pmText,
+            timestamp: Date.now()
+          }));
+          
+          console.log(`[PM] ${client.username} → ${pmRecipient}: ${pmText.substring(0, 20)}`);
+        } else {
+          // User not found or offline
+          ws.send(JSON.stringify({
+            type: 'error',
+            message: `User "${pmRecipient}" is not online`
+          }));
+        }
         break;
     }
   });
