@@ -12,261 +12,250 @@
     "theme_color": "#e94560",
     "lang": "en-US",
     "dir": "ltr",
-    
     "icons": [
-      {
-        "src": "/icons/icon-16x16.png",
-        "sizes": "16x16",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-32x32.png",
-        "sizes": "32x32",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-48x48.png",
-        "sizes": "48x48",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-72x72.png",
-        "sizes": "72x72",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-96x96.png",
-        "sizes": "96x96",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-128x128.png",
-        "sizes": "128x128",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-144x144.png",
-        "sizes": "144x144",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-152x152.png",
-        "sizes": "152x152",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-256x256.png",
-        "sizes": "256x256",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-384x384.png",
-        "sizes": "384x384",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/icon-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "any"
-      },
-      {
-        "src": "/icons/maskable-icon-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "maskable"
-      },
-      {
-        "src": "/icons/maskable-icon-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "maskable"
-      }
-    ],
-    
-    "shortcuts": [
-      {
-        "name": "All Poems",
-        "short_name": "Poems",
-        "description": "Browse all poetry in the collection",
-        "url": "/#poems",
-        "icons": [
-          {
-            "src": "/icons/shortcut-poems.png",
+        {
+            "src": "/icons/icon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-48x48.png",
+            "sizes": "48x48",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-96x96.png",
             "sizes": "96x96",
-            "type": "image/png"
-          }
-        ]
-      },
-      {
-        "name": "Sonnets",
-        "short_name": "Sonnets",
-        "description": "Read beautiful sonnets",
-        "url": "/#poems?category=sonnets",
-        "icons": [
-          {
-            "src": "/icons/shortcut-sonnets.png",
-            "sizes": "96x96",
-            "type": "image/png"
-          }
-        ]
-      },
-      {
-        "name": "Heartbreak",
-        "short_name": "Heartbreak",
-        "description": "Explore heartbreak poetry",
-        "url": "/#poems?category=heartbreak",
-        "icons": [
-          {
-            "src": "/icons/shortcut-heartbreak.png",
-            "sizes": "96x96",
-            "type": "image/png"
-          }
-        ]
-      },
-      {
-        "name": "Submit Poetry",
-        "short_name": "Submit",
-        "description": "Submit your own poetry",
-        "url": "/#submit",
-        "icons": [
-          {
-            "src": "/icons/shortcut-submit.png",
-            "sizes": "96x96",
-            "type": "image/png"
-          }
-        ]
-      }
-    ],
-    
-    "categories": [
-      "books",
-      "education",
-      "entertainment",
-      "lifestyle",
-      "magazines"
-    ],
-    
-    "prefer_related_applications": false,
-    
-    "related_applications": [
-      {
-        "platform": "webapp",
-        "url": "https://poeverse.netlify.app/manifest.json"
-      }
-    ],
-    
-    "handle_links": "preferred",
-    
-    "launch_handler": {
-      "client_mode": ["navigate-existing", "auto"]
-    },
-    
-    "edge_side_panel": {
-      "preferred_width": 400
-    },
-    
-    "share_target": {
-      "action": "/#submit",
-      "method": "POST",
-      "enctype": "multipart/form-data",
-      "params": {
-        "title": "poemTitle",
-        "text": "poemContent",
-        "url": "poemUrl"
-      }
-    },
-    
-    "protocol_handlers": [
-      {
-        "protocol": "web+poem",
-        "url": "/#poem?id=%s"
-      }
-    ],
-    
-    "file_handlers": [
-      {
-        "action": "/#submit",
-        "accept": {
-          "text/plain": [".txt", ".poem", ".poetry"]
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/maskable-icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/icons/maskable-icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
         }
-      }
     ],
-    
+    "shortcuts": [
+        {
+            "name": "All Poems",
+            "short_name": "Poems",
+            "description": "Browse all poetry in the collection",
+            "url": "/#poems",
+            "icons": [
+                {
+                    "src": "/icons/shortcut-poems.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Sonnets",
+            "short_name": "Sonnets",
+            "description": "Read beautiful sonnets",
+            "url": "/#poems?category=sonnets",
+            "icons": [
+                {
+                    "src": "/icons/shortcut-sonnets.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Heartbreak",
+            "short_name": "Heartbreak",
+            "description": "Explore heartbreak poetry",
+            "url": "/#poems?category=heartbreak",
+            "icons": [
+                {
+                    "src": "/icons/shortcut-heartbreak.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Submit Poetry",
+            "short_name": "Submit",
+            "description": "Submit your own poetry",
+            "url": "/#submit",
+            "icons": [
+                {
+                    "src": "/icons/shortcut-submit.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        }
+    ],
+    "categories": [
+        "books",
+        "education",
+        "entertainment",
+        "lifestyle",
+        "magazines"
+    ],
+    "prefer_related_applications": false,
+    "related_applications": [
+        {
+            "platform": "webapp",
+            "url": "https://poeverse.netlify.app/manifest.json"
+        }
+    ],
+    "handle_links": "preferred",
+    "launch_handler": {
+        "client_mode": ["navigate-existing", "auto"]
+    },
+    "edge_side_panel": {
+        "preferred_width": 400
+    },
+    "share_target": {
+        "action": "/#submit",
+        "method": "POST",
+        "enctype": "multipart/form-data",
+        "params": {
+            "title": "poemTitle",
+            "text": "poemContent",
+            "url": "poemUrl"
+        }
+    },
+    "protocol_handlers": [
+        {
+            "protocol": "web+poem",
+            "url": "/#poem?id=%s"
+        }
+    ],
+    "file_handlers": [
+        {
+            "action": "/#submit",
+            "accept": {
+                "text/plain": [".txt", ".poem", ".poetry"]
+            }
+        }
+    ],
     "widgets": [
-      {
-        "name": "Poem of the Day",
-        "short_name": "Daily Poem",
-        "description": "Display today's featured poem on your home screen",
-        "tag": "poeverse-daily-poem",
-        "template": "poem-of-day",
-        "ms_ac_template": "widgets/poem-template.json",
-        "data": "api/poem-of-day.json",
-        "type": "application/vnd.microsoft.card.adaptive",
-        "screenshots": [
-          {
-            "src": "widgets/poem-widget-preview.png",
-            "sizes": "300x400",
-            "label": "Poem of the Day Widget Preview"
-          }
-        ],
-        "icons": [
-          {
-            "src": "icons/widget-icon.png",
-            "sizes": "64x64",
-            "type": "image/png"
-          }
-        ],
-        "backgrounds": [
-          {
-            "src": "widgets/widget-bg.png",
-            "sizes": "300x400",
-            "type": "image/png"
-          }
-        ],
-        "auth": false,
-        "update": 3600
-      },
-      {
-        "name": "Reading Stats",
-        "short_name": "Stats",
-        "description": "View your reading statistics",
-        "tag": "poeverse-stats",
-        "template": "reading-stats",
-        "ms_ac_template": "widgets/stats-template.json",
-        "data": "api/reading-stats.json",
-        "type": "application/vnd.microsoft.card.adaptive",
-        "screenshots": [
-          {
-            "src": "widgets/stats-widget-preview.png",
-            "sizes": "300x200",
-            "label": "Reading Stats Widget"
-          }
-        ],
-        "icons": [
-          {
-            "src": "icons/widget-icon.png",
-            "sizes": "64x64",
-            "type": "image/png"
-          }
-        ],
-        "update": 1800
-      }
+        {
+            "name": "Poem of the Day",
+            "short_name": "Daily Poem",
+            "description": "Display today's featured poem on your home screen",
+            "tag": "poeverse-daily-poem",
+            "template": "poem-of-day",
+            "ms_ac_template": "widgets/poem-template.json",
+            "data": "api/poem-of-day.json",
+            "type": "application/vnd.microsoft.card.adaptive",
+            "screenshots": [
+                {
+                    "src": "widgets/poem-widget-preview.png",
+                    "sizes": "300x400",
+                    "label": "Poem of the Day Widget Preview"
+                }
+            ],
+            "icons": [
+                {
+                    "src": "icons/widget-icon.png",
+                    "sizes": "64x64",
+                    "type": "image/png"
+                }
+            ],
+            "backgrounds": [
+                {
+                    "src": "widgets/widget-bg.png",
+                    "sizes": "300x400",
+                    "type": "image/png"
+                }
+            ],
+            "auth": false,
+            "update": 3600
+        },
+        {
+            "name": "Reading Stats",
+            "short_name": "Stats",
+            "description": "View your reading statistics",
+            "tag": "poeverse-stats",
+            "template": "reading-stats",
+            "ms_ac_template": "widgets/stats-template.json",
+            "data": "api/reading-stats.json",
+            "type": "application/vnd.microsoft.card.adaptive",
+            "screenshots": [
+                {
+                    "src": "widgets/stats-widget-preview.png",
+                    "sizes": "300x200",
+                    "label": "Reading Stats Widget"
+                }
+            ],
+            "icons": [
+                {
+                    "src": "icons/widget-icon.png",
+                    "sizes": "64x64",
+                    "type": "image/png"
+                }
+            ],
+            "update": 1800
+        }
     ]
-  }
+}
+

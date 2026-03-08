@@ -1,7 +1,7 @@
 /* ============================================
    POEVERSE - POETRY UNIVERSE
    Professional Stylesheet
-   Version: 2.0
+   Version: 2.1 - Enhanced Accessibility & Dynamic UI
    ============================================ */
 
 /* ============================================
@@ -38,6 +38,8 @@
    29. Media Queries (Responsive)
    30. Print Styles
    31. Theme Variations
+   32. Accessibility Enhancements (NEW)
+   33. Dynamic UI Enhancements (NEW)
    ============================================ */
 
 /* ============================================
@@ -104,18 +106,18 @@
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-poetry: 'Crimson Pro', 'Playfair Display', Georgia, serif;
   
-  /* Font Sizes */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-  --text-7xl: 4.5rem;
+  /* Dynamic Font Sizes - Fluid Typography */
+  --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --text-base: clamp(0.9rem, 0.875rem + 0.125vw, 1rem);
+  --text-lg: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-xl: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);
+  --text-2xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-3xl: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);
+  --text-4xl: clamp(1.75rem, 1.5rem + 1.25vw, 2.25rem);
+  --text-5xl: clamp(2rem, 1.75rem + 1.25vw, 3rem);
+  --text-6xl: clamp(2.5rem, 2rem + 2.5vw, 3.75rem);
+  --text-7xl: clamp(3rem, 2.25rem + 3.75vw, 4.5rem);
   
   /* Font Weights */
   --font-light: 300;
@@ -124,7 +126,7 @@
   --font-semibold: 600;
   --font-bold: 700;
   
-  /* Line Heights */
+  /* Dynamic Line Heights */
   --leading-none: 1;
   --leading-tight: 1.25;
   --leading-snug: 1.375;
@@ -140,20 +142,20 @@
   --tracking-wider: 0.05em;
   --tracking-widest: 0.1em;
   
-  /* Spacing */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-  --space-32: 8rem;
+  /* Dynamic Spacing */
+  --space-1: clamp(0.2rem, 0.15rem + 0.25vw, 0.25rem);
+  --space-2: clamp(0.35rem, 0.3rem + 0.25vw, 0.5rem);
+  --space-3: clamp(0.5rem, 0.45rem + 0.25vw, 0.75rem);
+  --space-4: clamp(0.65rem, 0.6rem + 0.25vw, 1rem);
+  --space-5: clamp(0.8rem, 0.75rem + 0.25vw, 1.25rem);
+  --space-6: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
+  --space-8: clamp(1.25rem, 1.1rem + 0.75vw, 2rem);
+  --space-10: clamp(1.5rem, 1.35rem + 0.75vw, 2.5rem);
+  --space-12: clamp(1.75rem, 1.55rem + 1vw, 3rem);
+  --space-16: clamp(2rem, 1.75rem + 1.25vw, 4rem);
+  --space-20: clamp(2.5rem, 2rem + 2.5vw, 5rem);
+  --space-24: clamp(3rem, 2.5rem + 2.5vw, 6rem);
+  --space-32: clamp(3.5rem, 3rem + 2.5vw, 8rem);
   
   /* Border Radius */
   --radius-sm: 0.25rem;
@@ -162,6 +164,10 @@
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
   --radius-full: 9999px;
+  
+  /* Touch Target Sizes (Accessibility) */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
   
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -192,6 +198,10 @@
   /* Navbar */
   --navbar-height: 70px;
   --navbar-height-mobile: 60px;
+  
+  /* Focus Ring */
+  --focus-ring: 0 0 0 3px rgba(233, 69, 96, 0.5);
+  --focus-ring-offset: 0 0 0 2px var(--color-bg-primary), 0 0 0 5px var(--color-accent-primary);
 }
 
 /* Light Theme Variables */
@@ -4230,6 +4240,374 @@ blockquote cite {
   --color-accent-tertiary: #7209b7;
   --color-accent-gradient: linear-gradient(135deg, #3a0ca3 0%, #4361ee 50%, #4cc9f0 100%);
   --shadow-glow: rgba(67, 97, 238, 0.3);
+}
+
+/* ============================================
+   32. ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Enhanced Focus Indicators */
+*:focus-visible {
+  outline: 3px solid var(--color-accent-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: rgba(255, 255, 255, 0.3);
+    --color-border-hover: rgba(255, 255, 255, 0.5);
+  }
+  
+  .poem-card,
+  .stat-card,
+  .testimonial-card,
+  .modal-content {
+    border-width: 2px;
+  }
+  
+  .nav-link,
+  .category-tab,
+  .hero-btn {
+    border: 1px solid var(--color-border);
+  }
+}
+
+/* Touch Target Accessibility - Minimum 44px */
+.nav-action-btn,
+.card-action-btn,
+.category-tab,
+.hero-btn,
+.submit-btn,
+.reset-btn,
+.cookie-btn,
+.action-btn,
+.modal-nav-btn,
+.testimonial-nav-btn,
+.view-btn,
+.search-hint-btn {
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+}
+
+/* Improved Form Accessibility */
+.form-group input,
+.form-group select,
+.form-group textarea,
+.search-input,
+.msg-input {
+  min-height: 44px;
+}
+
+/* Focus Trap Visual Indicator */
+.modal-content:focus-within {
+  box-shadow: var(--shadow-xl), 0 0 0 4px rgba(233, 69, 96, 0.3);
+}
+
+/* Skip Link Enhancement */
+.skip-link {
+  min-height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+}
+
+/* Screen Reader Only Text Enhancement */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Live Region Styling */
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Required Field Indicator */
+.required::after {
+  content: ' *';
+  color: var(--color-error);
+}
+
+/* Error State Accessibility */
+.form-error {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-error);
+}
+
+.form-group input[aria-invalid="true"],
+.form-group textarea[aria-invalid="true"] {
+  border-color: var(--color-error);
+  border-width: 2px;
+}
+
+/* Disabled State */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading State */
+[aria-busy="true"] {
+  position: relative;
+  pointer-events: none;
+}
+
+[aria-busy="true"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke="%23e94560" stroke-width="4"><circle cx="25" cy="25" r="15" fill="none" stroke="%23e94560" stroke-width="4" stroke-dasharray="70" stroke-dashoffset="70"><animate attributeName="stroke-dashoffset" from="70" to="0" dur="1s" repeatCount="indefinite"/></circle></circle></svg>') center no-repeat;
+  background-size: 40px;
+  z-index: 1;
+}
+
+/* ============================================
+   33. DYNAMIC UI ENHANCEMENTS
+   ============================================ */
+
+/* Fluid Container */
+.container {
+  width: 100%;
+  max-width: min(100% - 2rem, var(--container-xl));
+  margin-inline: auto;
+}
+
+/* Dynamic Grid for Poems */
+.poems-grid {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(100%, 320px), 1fr)
+  );
+}
+
+/* Responsive Gap */
+.poems-grid,
+.stats-grid,
+.footer-links {
+  gap: clamp(var(--space-4), 4vw, var(--space-6));
+}
+
+/* Smooth Transitions for Interactive Elements */
+.poem-card,
+.stat-card,
+.testimonial-card,
+.contact-btn,
+.footer-column a {
+  transition: transform var(--transition-base),
+              box-shadow var(--transition-base),
+              border-color var(--transition-base),
+              background-color var(--transition-base);
+}
+
+/* Hover Lift Effect */
+.poem-card:hover,
+.stat-card:hover {
+  transform: translateY(calc(-1 * var(--space-2)));
+}
+
+/* Active Press Effect */
+.poem-card:active,
+.stat-card:active,
+.hero-btn:active {
+  transform: scale(0.98);
+}
+
+/* Dynamic Border Radius */
+.card-action-btn,
+.modal-close,
+.nav-action-btn,
+.music-control-btn {
+  border-radius: var(--radius-lg);
+}
+
+/* Shadow on Focus for Interactive Elements */
+.poem-card:focus-visible,
+.nav-link:focus-visible,
+.category-tab:focus-visible {
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* Enhanced Modal Animation */
+.modal-content {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Enhanced Toast Animation */
+.toast {
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Dynamic Icon Sizing */
+.nav-icon,
+.action-icon,
+.track-icon,
+.stat-icon {
+  font-size: 1.25em;
+}
+
+/* Scrollable Container Enhancement */
+.poems-grid,
+.search-results,
+.msgs {
+  scrollbar-gutter: stable;
+}
+
+/* Touch-Friendly Spacing on Mobile */
+@media (pointer: coarse) {
+  .nav-link,
+  .category-tab,
+  .poem-card,
+  .action-btn {
+    padding: var(--space-4);
+  }
+  
+  .hero-btn {
+    padding: var(--space-4) var(--space-6);
+  }
+  
+  .modal-close {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Improved Small Screen Layouts */
+@media (max-width: 375px) {
+  .poems-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-btn {
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--text-base);
+  }
+  
+  .category-tab {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-xs);
+  }
+}
+
+/* Safe Area Insets for Notched Devices */
+@supports (padding: max(0px)) {
+  .container {
+    padding-inline: max(var(--space-4), env(safe-area-inset-right));
+  }
+  
+  .back-to-top {
+    bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    right: max(var(--space-4), env(safe-area-inset-right));
+  }
+  
+  .music-widget {
+    bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    left: max(var(--space-4), env(safe-area-inset-left));
+  }
+}
+
+/* Color Scheme Preference Support */
+@media (color-gamut: srgb) {
+  .hero-background {
+    background: 
+      radial-gradient(ellipse at 20% 80%, oklch(60% 0.15 360 / 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, oklch(60% 0.1 180 / 0.1) 0%, transparent 50%),
+      var(--color-bg-primary);
+  }
+}
+
+/* Container Queries for Modular Components */
+@container (min-width: 400px) {
+  .poem-card {
+    padding: var(--space-6);
+  }
+}
+
+/* Aspect Ratio Containers */
+.about-image-placeholder {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* Subgrid Support */
+@supports (grid-template-rows: subgrid) {
+  .poems-grid {
+    display: grid;
+    grid-template-rows: subgrid;
+  }
+}
+
+/* CSS Grid Auto-Placement Enhancement */
+.poems-grid {
+  grid-auto-flow: dense;
+}
+
+.poem-card[data-category="sonnets"] {
+  grid-column: span 1;
+}
+
+.poem-card[data-featured="true"] {
+  grid-column: span 2;
+}
+
+@media (max-width: 600px) {
+  .poem-card[data-featured="true"] {
+    grid-column: span 1;
+  }
+}
+
+/* Dynamic Min/Max Widths */
+.hero-content {
+  width: min(100% - 2rem, 800px);
+}
+
+.newsletter-container,
+.submit-form,
+.contact-form-wrapper {
+  width: min(100% - 2rem, 600px);
 }
 
 /* ============================================
