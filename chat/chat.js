@@ -184,7 +184,31 @@
     }
   }
 
-  // ===== GOOGLE DRIVE FUNCTIONS =====
+  // ===== SERVER STORAGE FUNCTIONS =====
+  // Load chat history from server
+  function loadChatHistory() {
+    const protocol = location.protocol === 'https:' ? 'https:' : 'http:';
+    const apiUrl = `${protocol}//${location.host}/api/chat-history`;
+    
+    fetch(apiUrl)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        if (data.messages && data.messages.length > 0) {
+          console.log('Loading ' + data.messages.length + ' messages from server');
+          
+          data.messages.forEach(function(msg) {
+            addMsg(msg, false);
+          });
+          
+          addSysMsg('📜 Loaded ' + data.messages.length + ' previous messages');
+        }
+      })
+      .catch(function(error) {
+        console.error('Failed to load chat history:', error);
+      });
+  }
   function updateDriveStatus(status, text) {
     if (!driveStatus) return;
     
@@ -292,9 +316,13 @@
     chat.classList.remove('hidden');
     myNameEl.textContent = myUsername;
 
-    // Initialize Google Drive if requested
+    // Load chat history from server
+    loadChatHistory();
+
+    // Initialize Google Drive if requested (legacy - no longer needed)
     if (wantsDrive) {
-      initializeDrive();
+      // Google Drive is deprecated - history now loads from server automatically
+      addSysMsg('💡 Chat history is now saved automatically on the server');
     }
 
     msgInput.focus();

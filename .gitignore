@@ -23,6 +23,9 @@ Thumbs.db
 *.log
 npm-debug.log*
 
+# Chat history (generated at runtime)
+chat-history.json
+
 # Temporary
 *.tmp
-.cache/"node_modules/" 
+.cache/"node_modules/"

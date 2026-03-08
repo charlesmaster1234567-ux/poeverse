@@ -12,6 +12,54 @@ try {
   process.exit(1);
 }
 
+// ===== CHAT HISTORY STORAGE =====
+const CHAT_HISTORY_FILE = path.join(__dirname, 'chat-history.json');
+const MAX_HISTORY_MESSAGES = 500;
+
+let chatHistory = [];
+
+// Load chat history from file
+function loadChatHistory() {
+  try {
+    if (fs.existsSync(CHAT_HISTORY_FILE)) {
+      const data = fs.readFileSync(CHAT_HISTORY_FILE, 'utf8');
+      chatHistory = JSON.parse(data);
+      console.log(`📂 Loaded ${chatHistory.length} messages from history`);
+    }
+  } catch (error) {
+    console.error('❌ Failed to load chat history:', error.message);
+    chatHistory = [];
+  }
+}
+
+// Save chat history to file
+function saveChatHistory() {
+  try {
+    fs.writeFileSync(CHAT_HISTORY_FILE, JSON.stringify(chatHistory, null, 2));
+  } catch (error) {
+    console.error('❌ Failed to save chat history:', error.message);
+  }
+}
+
+// Add message to history
+function addToHistory(message) {
+  chatHistory.push({
+    ...message,
+    timestamp: Date.now()
+  });
+  
+  // Keep only last MAX_HISTORY_MESSAGES
+  if (chatHistory.length > MAX_HISTORY_MESSAGES) {
+    chatHistory = chatHistory.slice(-MAX_HISTORY_MESSAGES);
+  }
+  
+  // Save to file
+  saveChatHistory();
+}
+
+// Load history on startup
+loadChatHistory();
+
 // ===== MIME TYPES =====
 const MIME_TYPES = {
   '.html': 'text/html',
@@ -55,6 +103,13 @@ const server = http.createServer((req, res) => {
       memory: process.memoryUsage().heapUsed / 1024 / 1024, // MB
       timestamp: Date.now()
     }));
+    return;
+  }
+  
+  // Chat history endpoint
+  if (filePath === '/api/chat-history') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ messages: chatHistory }));
     return;
   }
 
@@ -147,13 +202,25 @@ wss.on('connection', (ws, req) => {
         const text = (data.text || '').trim().slice(0, 500);
         if (!text) return;
         console.log(`[MSG] ${client.username}: ${text.substring(0, 30)}`);
-        broadcastAll({
+        
+        const messageData = {
           type: 'message',
           id: client.id,
           username: client.username,
           color: client.color,
           text,
           timestamp: Date.now()
+        };
+        
+        broadcastAll(messageData);
+        
+        // Save message to history
+        addToHistory({
+          id: client.id,
+          username: client.username,
+          color: client.color,
+          text,
+          timestamp: messageData.timestamp
         });
         break;
 
