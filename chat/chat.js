@@ -529,6 +529,45 @@
         delete typingUsers[data.id];
         updateTyping();
         break;
+        
+      // Private message received
+      case 'private_message':
+        addSysMsg('🔒 Private message from ' + escapeHtml(data.from.username));
+        addMsg(data, true, false);
+        messageCount++;
+        updateMessageCount();
+        // Show notification
+        showToast('Private message from ' + data.from.username, 'info');
+        break;
+        
+      // Private message sent confirmation
+      case 'private_sent':
+        addSysMsg('🔒 Private sent to ' + escapeHtml(data.to));
+        addMsg(data, true, true);
+        messageCount++;
+        updateMessageCount();
+        break;
+        
+      // Message deleted
+      case 'message_deleted':
+        // Remove message from UI
+        const msgEl = document.querySelector('[data-msg-id="' + data.id + '"]');
+        if (msgEl) {
+          msgEl.remove();
+          addSysMsg('🗑️ Message deleted by ' + escapeHtml(data.deletedBy));
+        }
+        break;
+        
+      // Mention notification
+      case 'mention':
+        addSysMsg('📢 ' + escapeHtml(data.from.username) + ' mentioned you!');
+        showToast(data.from.username + ' mentioned you: ' + data.text.substring(0, 50), 'info');
+        break;
+        
+      // Error message
+      case 'error':
+        showToast(data.message, 'error');
+        break;
 
       case 'typing':
         if (data.isTyping) {
@@ -542,6 +581,9 @@
   }
 
   // ===== UI FUNCTIONS =====
+  // Track messages for deletion
+  var myMessages = [];
+
   function addSysMsg(text) {
     const div = document.createElement('div');
     div.className = 'sys';
@@ -550,31 +592,50 @@
     scrollToBottom();
   }
 
-  function addMsg(data) {
+  function addMsg(data, isPrivate = false, isSent = false) {
     const own = data.id === myId;
     const div = document.createElement('div');
-    div.className = 'msg ' + (own ? 'own' : 'other') + ' new';
+    div.className = 'msg ' + (own || isSent ? 'own' : 'other') + ' new';
+    if (isPrivate) div.classList.add('private');
 
-    const time = new Date(data.timestamp);
+    const time = new Date(data.timestamp || Date.now());
     const timeStr = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const textHtml = formatMentions(escapeHtml(data.text));
+    const fromName = data.from ? data.from.username : data.username;
+    const fromColor = data.from ? data.from.color : data.color;
+    
+    // Generate unique message ID for deletion
+    const msgId = data.id + '_' + (data.timestamp || Date.now());
+    
+    div.dataset.msgId = msgId;
+    div.dataset.fromId = data.fromId || data.id;
+
+    // Delete button for own messages
+    const deleteBtn = (own || isSent) ? '<button class="delete-msg-btn" onclick="deleteMessage(\'' + msgId + '\')" title="Delete">🗑️</button>' : '';
 
     div.innerHTML = 
-      '<div class="avatar" style="background:' + (data.color || '#666') + '">' + (data.username[0] || '?').toUpperCase() + '</div>' +
+      '<div class="avatar" style="background:' + (fromColor || '#666') + '">' + ((fromName && fromName[0]) || '?').toUpperCase() + '</div>' +
       '<div class="msg-body">' +
         '<div class="msg-head">' +
-          '<span class="msg-name" style="color:' + (data.color || '#666') + '">' + escapeHtml(data.username) + '</span>' +
+          '<span class="msg-name" style="color:' + (fromColor || '#666') + '">' + escapeHtml(fromName) + '</span>' +
+          (isPrivate ? '<span class="private-badge">🔒 Private</span>' : '') +
           (data.authenticated ? '<span class="verified-badge">✓</span>' : '') +
           '<span class="msg-time">' + timeStr + '</span>' +
         '</div>' +
-        '<div class="bubble">' + textHtml + '</div>' +
+        '<div class="bubble">' + textHtml + deleteBtn + '</div>' +
       '</div>';
 
     msgs.appendChild(div);
     scrollToBottom();
     setTimeout(() => div.classList.remove('new'), 1000);
   }
+
+  // Delete message function (global for onclick)
+  window.deleteMessage = function(msgId) {
+    if (!confirm('Delete this message?')) return;
+    send({ type: 'message', text: '/delete ' + msgId });
+  };
 
   function escapeHtml(text) {
     if (!text) return '';

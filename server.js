@@ -430,25 +430,115 @@ wss.on('connection', (ws, req) => {
         const text = (data.text || '').trim().slice(0, 500);
         if (!text) return;
         
+        // Check for private message (format: /pm username: message)
+        if (text.startsWith('/pm ') || text.startsWith('/w ')) {
+          const parts = text.substring(4).split(':');
+          if (parts.length >= 2) {
+            const targetUsername = parts[0].trim().toLowerCase();
+            const privateMessage = parts.slice(1).join(':').trim();
+            
+            // Find target user
+            let targetClient = null;
+            clients.forEach((c, wsClient) => {
+              if (c.username.toLowerCase() === targetUsername) {
+                targetClient = { client: c, ws: wsClient };
+              }
+            });
+            
+            if (targetClient) {
+              // Send to recipient only
+              const pmData = {
+                type: 'private_message',
+                from: { id: client.id, username: client.username, color: client.color },
+                text: privateMessage,
+                timestamp: Date.now()
+              };
+              targetClient.ws.send(JSON.stringify(pmData));
+              
+              // Send confirmation to sender
+              ws.send(JSON.stringify({
+                type: 'private_sent',
+                to: targetClient.client.username,
+                text: privateMessage,
+                timestamp: Date.now()
+              }));
+              
+              console.log(`[PM] ${client.username} → ${targetClient.client.username}: ${privateMessage.substring(0, 20)}`);
+              return;
+            } else {
+              // User not found
+              ws.send(JSON.stringify({
+                type: 'error',
+                message: `User "${parts[0]}" not found or offline`
+              }));
+              return;
+            }
+          }
+        }
+        
+        // Check for message deletion (format: /delete messageId)
+        if (text.startsWith('/delete ')) {
+          const msgId = text.substring(8).trim();
+          
+          // Find and remove from history
+          const msgIndex = chatHistory.findIndex(m => m.id === msgId && m.fromId === client.id);
+          if (msgIndex !== -1) {
+            const deleted = chatHistory.splice(msgIndex, 1)[0];
+            saveChatHistory();
+            
+            // Broadcast deletion
+            broadcastAll({
+              type: 'message_deleted',
+              id: msgId,
+              deletedBy: client.username,
+              timestamp: Date.now()
+            });
+            console.log(`[DELETE] ${client.username} deleted message ${msgId}`);
+          }
+          return;
+        }
+        
         console.log(`[MSG] ${client.username}: ${text.substring(0, 30)}`);
+        
+        // Extract mentions for notification
+        const mentions = text.match(/@(\w+)/g) || [];
         
         const messageData = {
           type: 'message',
           id: client.id,
+          fromId: client.id,
           username: client.username,
           color: client.color,
           text,
+          mentions: mentions,
           authenticated: client.authenticated,
           timestamp: Date.now()
         };
         
         broadcastAll(messageData);
         
+        // Send mentions notifications
+        mentions.forEach(mention => {
+          const mentionedUser = mention.substring(1).toLowerCase();
+          clients.forEach((c, wsClient) => {
+            if (c.username.toLowerCase() === mentionedUser && c.id !== client.id) {
+              wsClient.send(JSON.stringify({
+                type: 'mention',
+                from: { id: client.id, username: client.username, color: client.color },
+                text: text,
+                timestamp: Date.now()
+              }));
+            }
+          });
+        });
+        
         addToHistory({
           id: client.id,
+          fromId: client.id,
           username: client.username,
           color: client.color,
           text,
+          mentions: mentions,
           authenticated: client.authenticated,
           timestamp: messageData.timestamp
         });
