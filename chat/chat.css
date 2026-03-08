@@ -316,18 +316,64 @@ body {
    ============================================ */
 
 .modal {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(10,10,15,0.98) 0%, rgba(18,18,26,0.98) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(10px);
+  position: fixed;
+  inset: 0;
 }
 
-.modal[hidden] {
-  display: none;
+/* Top stripe - moves RIGHT */
+.modal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  background-image: url("bg/trump.png");
+  background-size: 1662px 933px;
+  background-repeat: repeat-x;
+  animation: scroll-right 30s linear infinite;
+  z-index: -1;  /* <-- Behind everything */
+  pointer-events: none;
+}
+
+/* Bottom stripe - moves LEFT */
+.modal::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background-image: url("bg/paselipa.png");
+  background-size: 811px 507px;
+  background-repeat: repeat-x;
+  animation: scroll-left 25s linear infinite;
+  z-index: -1;  /* <-- Behind everything */
+  pointer-events: none;
+}
+
+/* Your content - no z-index needed now */
+.modal__content {
+  position: relative;
+}
+
+/* Login wrapper - make sure it's positioned */
+.login-wrapper {
+  position: relative;  /* <-- Important! */
+}
+
+@keyframes scroll-right {
+  from { background-position: 0 center; }
+  to   { background-position: 1662px center; }
+}
+
+@keyframes scroll-left {
+  from { background-position: 0 center; }
+  to   { background-position: -1000px center; }
 }
 
 .modal-backdrop {
@@ -337,14 +383,18 @@ body {
 
 .modal-box {
   position: relative;
-  background: var(--bg2);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-lg);
+  opacity: 1;
+  backdrop-filter: brightness(0.5) blur(0px);
   padding: var(--space-10);
   border-radius: var(--radius-2xl);
   text-align: center;
   width: 90%;
   max-width: 400px;
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--border);
+  box-shadow: 0 0 20px white;
+  border: 1px solid black;
 }
 
 .modal-box:focus-within {

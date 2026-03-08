@@ -495,6 +495,7 @@ When I learn to let go of every letter.`
     currentTrack: null,
     audioContext: null,
     speechSynthesis: null,
+    currentAudio: null,
     isSpeaking: false,
     focusMode: {
       fontSize: 18,
@@ -2167,7 +2168,8 @@ ${escapeHtml(poem.content)}
     musicTracks.forEach(track => {
       track.addEventListener('click', () => {
         const trackName = track.dataset.track;
-        selectTrack(trackName, track);
+        const trackFile = track.dataset.file;
+        selectTrack(trackName, trackFile, track);
       });
     });
 
@@ -2202,7 +2204,7 @@ ${escapeHtml(poem.content)}
     elements.musicToggle.setAttribute('aria-expanded', 'false');
   }
 
-  function selectTrack(trackName, trackElement) {
+  function selectTrack(trackName, trackFile, trackElement) {
     // Update UI
     document.querySelectorAll('.music-track').forEach(t => {
       t.setAttribute('aria-checked', 'false');
@@ -2215,53 +2217,55 @@ ${escapeHtml(poem.content)}
     const trackNameDisplay = trackElement.querySelector('.track-name')?.textContent || trackName;
     elements.nowPlayingText.textContent = trackNameDisplay;
     
-    // Start playback
-    startAmbientSound(trackName);
+    // Start playback with actual MP3 file
+    playMP3File(trackFile);
+  }
+
+  function playMP3File(trackFile) {
+    // Stop any currently playing audio
+    stopMusic();
+    
+    // Create new audio element with the actual MP3 file
+    const audio = new Audio(`music/${trackFile}`);
+    
+    // Set volume from slider
+    audio.volume = elements.musicVolume.value / 100;
+    
+    // Set loop for continuous playback
+    audio.loop = true;
+    
+    // Handle errors
+    audio.addEventListener('error', (e) => {
+      console.error('Error loading audio file:', e);
+      showToast('Error loading audio file. Please try another track.', 'error');
+      state.isPlaying = false;
+    });
+    
+    // Handle successful load
+    audio.addEventListener('canplay', () => {
+      showToast(`Now playing: ${elements.nowPlayingText.textContent}`, 'success');
+    });
+    
+    // Play the audio
+    audio.play().then(() => {
+      state.isPlaying = true;
+      state.currentAudio = audio;
+      
+      // Update UI
+      elements.nowPlaying.hidden = false;
+      elements.musicPlayPause.querySelector('.play-icon').hidden = true;
+      elements.musicPlayPause.querySelector('.pause-icon').hidden = false;
+    }).catch(err => {
+      console.error('Playback error:', err);
+      showToast('Could not play audio. Browser may have blocked autoplay.', 'error');
+    });
+    
+    state.currentAudio = audio;
   }
 
   function startAmbientSound(trackName) {
-    // Stop current audio if playing
-    stopMusic();
-
-    // Create audio context if not exists
-    if (!state.audioContext) {
-      state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    // Create oscillator for ambient sound (simplified)
-    // In production, you would load actual audio files
-    const oscillator = state.audioContext.createOscillator();
-    const gainNode = state.audioContext.createGain();
-    
-    // Different frequencies for different "tracks"
-    const frequencies = {
-      ocean: 100,
-      rain: 200,
-      forest: 150,
-      bells: 400,
-      flute: 350,
-      choir: 250
-    };
-
-    oscillator.frequency.value = frequencies[trackName] || 150;
-    oscillator.type = 'sine';
-    
-    const volume = elements.musicVolume.value / 100;
-    gainNode.gain.value = volume * 0.1; // Keep it quiet
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(state.audioContext.destination);
-    
-    oscillator.start();
-    
-    state.oscillator = oscillator;
-    state.gainNode = gainNode;
-    state.isPlaying = true;
-
-    // Update UI
-    elements.nowPlaying.hidden = false;
-    elements.musicPlayPause.querySelector('.play-icon').hidden = true;
-    elements.musicPlayPause.querySelector('.pause-icon').hidden = false;
+    // This function is kept for compatibility but now redirects to MP3 playback
+    // The actual file is now passed from selectTrack
   }
 
   function toggleMusicPlayback() {
@@ -2273,8 +2277,8 @@ ${escapeHtml(poem.content)}
   }
 
   function pauseMusic() {
-    if (state.audioContext) {
-      state.audioContext.suspend();
+    if (state.currentAudio) {
+      state.currentAudio.pause();
     }
     state.isPlaying = false;
     elements.musicPlayPause.querySelector('.play-icon').hidden = false;
@@ -2282,8 +2286,12 @@ ${escapeHtml(poem.content)}
   }
 
   function resumeMusic() {
-    if (state.audioContext) {
-      state.audioContext.resume();
+    if (state.currentAudio) {
+      state.currentAudio.play().then(() => {
+        state.isPlaying = true;
+      }).catch(err => {
+        console.error('Resume error:', err);
+      });
     }
     state.isPlaying = true;
     elements.musicPlayPause.querySelector('.play-icon').hidden = true;
@@ -2291,6 +2299,13 @@ ${escapeHtml(poem.content)}
   }
 
   function stopMusic() {
+    // Stop the HTML5 audio element
+    if (state.currentAudio) {
+      state.currentAudio.pause();
+      state.currentAudio.currentTime = 0;
+      state.currentAudio = null;
+    }
+    // Also stop oscillators if any
     if (state.oscillator) {
       state.oscillator.stop();
       state.oscillator.disconnect();
