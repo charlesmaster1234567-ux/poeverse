@@ -8,17 +8,43 @@
 </head>
 <body>
 
-  <!-- Join Modal -->
-  <div id="modal" class="modal">
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
     <div class="modal-backdrop"></div>
-    <div class="modal-box">
+    <div class="modal-box auth-box">
       <span class="modal-icon">💬</span>
       <h2>PoeVerse Chat</h2>
-      <p>Join the conversation with poetry lovers</p>
-      <form id="joinForm">
-        <input type="text" id="nameInput" placeholder="Enter your username..." maxlength="20" required autocomplete="off">
-        <button type="submit">Join Chat</button>
-      </form>
+      
+      <!-- Login Form -->
+      <div id="loginForm" class="auth-form">
+        <p>Welcome back! Sign in to continue</p>
+        <input type="text" id="loginEmail" placeholder="Email address" autocomplete="email">
+        <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+        <button type="button" id="loginBtn">Sign In</button>
+        <p class="auth-switch">
+          Don't have an account? <button type="button" id="showRegister">Create one</button>
+        </p>
+      </div>
+      
+      <!-- Register Form -->
+      <div id="registerForm" class="auth-form hidden">
+        <p>Create your account</p>
+        <input type="text" id="regUsername" placeholder="Username" maxlength="20">
+        <input type="email" id="regEmail" placeholder="Email address" autocomplete="email">
+        <input type="password" id="regPassword" placeholder="Password (min 6 chars)" minlength="6">
+        <input type="password" id="regConfirmPassword" placeholder="Confirm password">
+        <button type="button" id="registerBtn">Create Account</button>
+        <p class="auth-switch">
+          Already have an account? <button type="button" id="showLogin">Sign in</button>
+        </p>
+      </div>
+      
+      <!-- Guest Option -->
+      <div class="guest-option">
+        <p>or</p>
+        <button type="button" id="guestBtn" class="guest-btn">Continue as Guest</button>
+      </div>
+      
       <p class="modal-info">
         <span>💾</span> Chat history is saved automatically
       </p>
@@ -30,24 +56,38 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h3>
-          <span>💬</span> PoeVerse
-          <span class="online-dot"></span>
-        </h3>
+        <h3><span>💬</span> PoeVerse <span class="online-dot"></span></h3>
         <div class="sidebar-stats">
-          <div class="stat">
-            <span>👥</span>
-            <span class="stat-value" id="count">0</span> online
-          </div>
-          <div class="stat">
-            <span>💬</span>
-            <span class="stat-value" id="msgCount">0</span> messages
-          </div>
+          <div class="stat"><span>👥</span> <span class="stat-value" id="count">0</span> online</div>
+          <div class="stat"><span>💬</span> <span class="stat-value" id="msgCount">0</span> messages</div>
         </div>
       </div>
+      
+      <!-- User Panel -->
+      <div class="user-panel" id="userPanel">
+        <div class="user-avatar" id="userAvatar">?</div>
+        <div class="user-details">
+          <span class="user-display-name" id="displayName">Guest</span>
+          <span class="user-status-text" id="userStatus">Guest User</span>
+        </div>
+        <button class="logout-btn" id="logoutBtn" title="Logout">🚪</button>
+      </div>
+      
+      <!-- Search -->
+      <div class="sidebar-search">
+        <input type="text" id="searchInput" placeholder="Search messages...">
+      </div>
+      
+      <!-- Users -->
       <ul class="users" id="users">
         <p class="users-title">Online Now</p>
       </ul>
+      
+      <!-- Settings -->
+      <div class="sidebar-settings">
+        <button class="settings-btn" id="toggleTheme" title="Toggle theme"><span id="themeIcon">🌙</span></button>
+        <button class="settings-btn" id="toggleSound" title="Toggle sound"><span id="soundIcon">🔔</span></button>
+      </div>
     </aside>
 
     <!-- Main Chat -->
@@ -60,9 +100,11 @@
             <span id="onlineCount">0</span> users online
           </div>
         </div>
-        <div class="connection-status connected" id="connectionStatus">
-          <span>🟢</span>
-          <span>Connected</span>
+        <div class="header-actions">
+          <button class="header-btn" id="showUsersBtn">👥 Users</button>
+          <div class="connection-status connected" id="connectionStatus">
+            <span>🟢</span><span>Connected</span>
+          </div>
         </div>
       </header>
 
@@ -76,23 +118,40 @@
       <div class="input-area">
         <form class="input-wrapper" id="msgForm">
           <div class="input-container">
-            <textarea 
-              class="msg-input" 
-              id="msgInput" 
-              placeholder="Type a message..." 
-              maxlength="500"
-              rows="1"
-              autocomplete="off"
-            ></textarea>
+            <textarea class="msg-input" id="msgInput" placeholder="Type a message..." maxlength="500" rows="1" autocomplete="off"></textarea>
+            <div class="input-actions">
+              <button type="button" class="emoji-btn" id="emojiBtn" title="Add emoji">😊</button>
+            </div>
           </div>
-          <button class="send-btn" type="submit">
-            <span>Send</span>
-            <span>➤</span>
-          </button>
+          <button class="send-btn" type="submit"><span>Send</span><span>➤</span></button>
         </form>
+        
+        <!-- Emoji Picker -->
+        <div class="emoji-picker hidden" id="emojiPicker">
+          <div class="emoji-category">
+            <button class="emoji-cat active" data-cat="smileys">😀</button>
+            <button class="emoji-cat" data-cat="hearts">❤️</button>
+            <button class="emoji-cat" data-cat="gestures">👋</button>
+            <button class="emoji-cat" data-cat="objects">💡</button>
+          </div>
+          <div class="emoji-grid" id="emojiGrid"></div>
+        </div>
       </div>
     </main>
   </div>
+
+  <!-- All Users Modal -->
+  <div id="usersModal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-box users-modal">
+      <button class="close-btn" id="closeUsersModal">✕</button>
+      <h2>All Users</h2>
+      <ul class="all-users-list" id="allUsersList"></ul>
+    </div>
+  </div>
+
+  <!-- Auth Toast -->
+  <div class="auth-toast hidden" id="authToast"></div>
 
   <script src="chat.js"></script>
 </body>

@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 // Check if ws module exists
 let WebSocketServer;
@@ -18,7 +19,6 @@ const MAX_HISTORY_MESSAGES = 500;
 
 let chatHistory = [];
 
-// Load chat history from file
 function loadChatHistory() {
   try {
     if (fs.existsSync(CHAT_HISTORY_FILE)) {
@@ -32,7 +32,6 @@ function loadChatHistory() {
   }
 }
 
-// Save chat history to file
 function saveChatHistory() {
   try {
     fs.writeFileSync(CHAT_HISTORY_FILE, JSON.stringify(chatHistory, null, 2));
@@ -41,23 +40,107 @@ function saveChatHistory() {
   }
 }
 
-// Add message to history
 function addToHistory(message) {
   chatHistory.push({
     ...message,
     timestamp: Date.now()
   });
   
-  // Keep only last MAX_HISTORY_MESSAGES
   if (chatHistory.length > MAX_HISTORY_MESSAGES) {
     chatHistory = chatHistory.slice(-MAX_HISTORY_MESSAGES);
   }
   
-  // Save to file
   saveChatHistory();
 }
 
-// Load history on startup
+// ===== SIMPLE AUTH SYSTEM =====
+const USERS_FILE = path.join(__dirname, 'users.json');
+const SESSIONS_FILE = path.join(__dirname, 'sessions.json');
+const SECRET_KEY = crypto.randomBytes(64).toString('hex');
+
+let users = {};
+let sessions = {};
+
+// Simple hash function (for demo - use bcrypt in production)
+function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+  return salt + ':' + hash;
+}
+
+function verifyPassword(password, storedHash) {
+  try {
+    const [salt, hash] = storedHash.split(':');
+    const newHash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+    return hash === newHash;
+  } catch {
+    return false;
+  }
+}
+
+function generateToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+function loadUsers() {
+  try {
+    if (fs.existsSync(USERS_FILE)) {
+      users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+      console.log(`📂 Loaded ${Object.keys(users).length} users`);
+    }
+  } catch (error) {
+    users = {};
+  }
+}
+
+function saveUsers() {
+  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+}
+
+function loadSessions() {
+  try {
+    if (fs.existsSync(SESSIONS_FILE)) {
+      sessions = JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf8'));
+    }
+  } catch {
+    sessions = {};
+  }
+}
+
+function saveSessions() {
+  // Clean expired sessions
+  const now = Date.now();
+  Object.keys(sessions).forEach(token => {
+    if (sessions[token].expires < now) {
+      delete sessions[token];
+    }
+  });
+  fs.writeFileSync(SESSIONS_FILE, JSON.stringify(sessions, null, 2));
+}
+
+function createSession(userId, username) {
+  const token = generateToken();
+  const expires = Date.now() + (7 * 24 * 60 * 60 * 1000); // 7 days
+  sessions[token] = { userId, username, expires };
+  saveSessions();
+  return token;
+}
+
+function verifySession(token) {
+  if (sessions[token] && sessions[token].expires > Date.now()) {
+    return sessions[token];
+  }
+  return null;
+}
+
+function logout(token) {
+  delete sessions[token];
+  saveSessions();
+}
+
+// Load auth data on startup
+loadUsers();
+loadSessions();
 loadChatHistory();
 
 // ===== MIME TYPES =====
@@ -80,27 +163,40 @@ const MIME_TYPES = {
 
 // ===== HTTP SERVER =====
 const server = http.createServer((req, res) => {
-  let filePath = req.url.split('?')[0]; // Remove query params
+  let filePath = req.url.split('?')[0];
+  const queryParams = new URLSearchParams(req.url.split('?')[1]);
   
   // Default route
   if (filePath === '/') filePath = '/index.html';
   
-  // ✅ KEEP-ALIVE ENDPOINT (for GitHub Actions)
-  if (filePath === '/ping') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('pong');
+  // CORS headers for API
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200);
+    res.end();
     return;
   }
   
-  // Health check (more detailed)
+  // ✅ KEEP-ALIVE ENDPOINT
+  if (filePath === '/ping') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ status: 'ok', timestamp: Date.now() }));
+    return;
+  }
+  
+  // Health check
   if (filePath === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       status: 'ok',
       websocket: 'active',
       clients: clients.size,
+      users: Object.keys(users).length,
       uptime: Math.floor(process.uptime()),
-      memory: process.memoryUsage().heapUsed / 1024 / 1024, // MB
+      memory: process.memoryUsage().heapUsed / 1024 / 1024,
       timestamp: Date.now()
     }));
     return;
@@ -111,6 +207,132 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ messages: chatHistory }));
     return;
+  }
+  
+  // Auth endpoints
+  if (filePath.startsWith('/api/auth/')) {
+    const authPath = filePath.replace('/api/auth/', '');
+    
+    // Register
+    if (authPath === 'register' && req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => body += chunk);
+      req.on('end', () => {
+        try {
+          const { email, password, username } = JSON.parse(body);
+          
+          if (!email || !password || !username) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'All fields required' }));
+            return;
+          }
+          
+          if (users[email]) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Email already registered' }));
+            return;
+          }
+          
+          // Create user
+          users[email] = {
+            email,
+            username,
+            password: hashPassword(password),
+            created: Date.now()
+          };
+          saveUsers();
+          
+          // Create session
+          const token = createSession(email, username);
+          
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ 
+            success: true, 
+            token, 
+            user: { email, username } 
+          }));
+        } catch (e) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Invalid request' }));
+        }
+      });
+      return;
+    }
+    
+    // Login
+    if (authPath === 'login' && req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => body += chunk);
+      req.on('end', () => {
+        try {
+          const { email, password } = JSON.parse(body);
+          
+          const user = users[email];
+          if (!user || !verifyPassword(password, user.password)) {
+            res.writeHead(401, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Invalid credentials' }));
+            return;
+          }
+          
+          const token = createSession(email, user.username);
+          
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ 
+            success: true, 
+            token, 
+            user: { email: user.email, username: user.username } 
+          }));
+        } catch (e) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Invalid request' }));
+        }
+      });
+      return;
+    }
+    
+    // Logout
+    if (authPath === 'logout' && req.method === 'POST') {
+      const token = queryParams.get('token');
+      if (token) {
+        logout(token);
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true }));
+      return;
+    }
+    
+    // Verify token
+    if (authPath === 'verify' && req.method === 'GET') {
+      const token = queryParams.get('token');
+      const session = verifySession(token);
+      
+      if (session) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ valid: true, user: session }));
+      } else {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ valid: false }));
+      }
+      return;
+    }
+    
+    // Get user info
+    if (authPath === 'me' && req.method === 'GET') {
+      const token = queryParams.get('token');
+      const session = verifySession(token);
+      
+      if (session) {
+        const user = users[session.userId];
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ 
+          user: { email: user.email, username: user.username } 
+        }));
+      } else {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not authenticated' }));
+      }
+      return;
+    }
   }
 
   const fullPath = path.join(__dirname, filePath);
@@ -136,7 +358,7 @@ const server = http.createServer((req, res) => {
 // ===== WEBSOCKET SERVER =====
 const wss = new WebSocketServer({ 
   server,
-  path: '/',  // Accept connections on root path
+  path: '/',
   perMessageDeflate: false,
   clientTracking: true
 });
@@ -171,7 +393,7 @@ wss.on('connection', (ws, req) => {
   const id = ++userIdCounter;
   const color = getColor();
   
-  clients.set(ws, { id, username: `Guest_${id}`, color });
+  clients.set(ws, { id, username: `Guest_${id}`, color, authenticated: false });
   
   console.log(`[+] User ${id} connected (Total: ${clients.size})`);
 
@@ -186,13 +408,19 @@ wss.on('connection', (ws, req) => {
 
     switch (data.type) {
       case 'join':
+        // Support both guest and authenticated
         client.username = (data.username || '').trim().slice(0, 30) || `Guest_${id}`;
-        console.log(`[JOIN] ${client.username}`);
+        client.color = data.color || client.color;
+        client.authenticated = data.authenticated || false;
+        
+        console.log(`[JOIN] ${client.username} (auth: ${client.authenticated})`);
+        
         broadcastAll({
           type: 'user_joined',
           id: client.id,
           username: client.username,
           color: client.color,
+          authenticated: client.authenticated,
           users: getUsers(),
           timestamp: Date.now()
         });
@@ -201,6 +429,7 @@ wss.on('connection', (ws, req) => {
       case 'message':
         const text = (data.text || '').trim().slice(0, 500);
         if (!text) return;
+        
         console.log(`[MSG] ${client.username}: ${text.substring(0, 30)}`);
         
         const messageData = {
@@ -209,17 +438,18 @@ wss.on('connection', (ws, req) => {
           username: client.username,
           color: client.color,
           text,
+          authenticated: client.authenticated,
           timestamp: Date.now()
         };
         
         broadcastAll(messageData);
         
-        // Save message to history
         addToHistory({
           id: client.id,
           username: client.username,
           color: client.color,
           text,
+          authenticated: client.authenticated,
           timestamp: messageData.timestamp
         });
         break;
@@ -265,8 +495,8 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`📍 Port: ${PORT}`);
   console.log(`✅ HTTP Server: Ready`);
   console.log(`✅ WebSocket Server: Ready`);
-  console.log(`🏓 Keep-alive endpoint: /ping`);
-  console.log(`💚 Health check: /health`);
+  console.log(`✅ Auth System: Ready`);
+  console.log(`✅ Users: ${Object.keys(users).length} registered`);
   console.log('='.repeat(50));
 });
 
