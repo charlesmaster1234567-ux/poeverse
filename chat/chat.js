@@ -6,7 +6,6 @@
   const modal = $('modal');
   const joinForm = $('joinForm');
   const nameInput = $('nameInput');
-  const driveToggle = $('driveToggle');
   const chat = $('chat');
   const msgs = $('msgs');
   const msgsWrap = $('msgsWrap');
@@ -14,22 +13,32 @@
   const msgInput = $('msgInput');
   const usersList = $('users');
   const countEl = $('count');
+  const msgCountEl = $('msgCount');
+  const onlineCountEl = $('onlineCount');
   const myNameEl = $('myName');
   const typingEl = $('typing');
-  const driveStatus = $('driveStatus');
-  const driveIcon = $('driveIcon');
-  const driveText = $('driveText');
+  const connectionStatus = $('connectionStatus');
 
-  // ===== STATE (Must be defined before use!) =====
+  // ===== STATE =====
   var ws = null;
   var myId = null;
-  var myUsername = '';  // <-- This must exist here!
+  var myUsername = '';
   var myColor = '';
   var isTyping = false;
   var typingTimeout = null;
   var typingUsers = {};
-  var useDrive = false;
-  var messageHistory = [];
+  var messageCount = 0;
+  var isConnected = false;
+
+  // ===== COLORS =====
+  const userColors = [
+    '#e94560', '#7c3aed', '#06b6d4', '#10b981', '#f59e0b', 
+    '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'
+  ];
+
+  function getRandomColor() {
+    return userColors[Math.floor(Math.random() * userColors.length)];
+  }
 
   // ===== WEBSOCKET CONNECTION =====
   function connect() {
@@ -37,10 +46,13 @@
     const wsUrl = `${protocol}//${location.host}`;
     
     console.log('Connecting to:', wsUrl);
+    updateConnectionStatus('connecting');
     ws = new WebSocket(wsUrl);
 
     ws.onopen = function() {
       console.log('✅ Connected to server');
+      isConnected = true;
+      updateConnectionStatus('connected');
     };
 
     ws.onmessage = function(event) {
@@ -50,12 +62,31 @@
 
     ws.onclose = function() {
       console.log('❌ Disconnected from server');
-      addSysMsg('⚠️ Connection lost. Refresh to reconnect.');
+      isConnected = false;
+      updateConnectionStatus('disconnected');
+      addSysMsg('⚠️ Connection lost. Reconnecting in 3 seconds...');
+      setTimeout(connect, 3000);
     };
 
     ws.onerror = function(error) {
       console.error('WebSocket error:', error);
+      isConnected = false;
+      updateConnectionStatus('error');
     };
+  }
+
+  function updateConnectionStatus(status) {
+    if (!connectionStatus) return;
+    
+    connectionStatus.className = 'connection-status ' + status;
+    
+    if (status === 'connected') {
+      connectionStatus.innerHTML = '<span>🟢</span><span>Connected</span>';
+    } else if (status === 'disconnected' || status === 'error') {
+      connectionStatus.innerHTML = '<span>🔴</span><span>Disconnected</span>';
+    } else {
+      connectionStatus.innerHTML = '<span>🟡</span><span>Connecting...</span>';
+    }
   }
 
   // ===== SEND MESSAGE =====
@@ -70,26 +101,28 @@
     switch (data.type) {
       case 'welcome':
         myId = data.id;
-        myColor = data.color;
+        myColor = data.color || getRandomColor();
         console.log('My ID:', myId, 'Color:', myColor);
         break;
 
       case 'user_joined':
         if (data.id !== myId) {
-          addSysMsg(data.username + ' joined the chat');
+          addSysMsg('✨ ' + escapeHtml(data.username) + ' joined the chat');
         }
         updateUsers(data.users);
         break;
 
       case 'user_left':
-        addSysMsg(data.username + ' left the chat');
+        addSysMsg('👋 ' + escapeHtml(data.username) + ' left the chat');
         delete typingUsers[data.id];
         updateUsers(data.users);
         updateTyping();
         break;
 
       case 'message':
-        addMsg(data, true);
+        addMsg(data);
+        messageCount++;
+        updateMessageCount();
         delete typingUsers[data.id];
         updateTyping();
         break;
@@ -111,81 +144,89 @@
     div.className = 'sys';
     div.textContent = text;
     msgs.appendChild(div);
-    scroll();
+    scrollToBottom();
   }
 
-  function addMsg(data, shouldSave) {
+  function addMsg(data) {
     const own = data.id === myId;
     const div = document.createElement('div');
     div.className = 'msg ' + (own ? 'own' : 'other');
 
-    const time = new Date(data.timestamp).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    const time = new Date(data.timestamp);
+    const timeStr = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     div.innerHTML = 
-      '<div class="avatar" style="background:' + data.color + '">' + data.username[0].toUpperCase() + '</div>' +
+      '<div class="avatar" style="background:' + (data.color || '#666') + '">' + (data.username[0] || '?').toUpperCase() + '</div>' +
       '<div class="msg-body">' +
         '<div class="msg-head">' +
-          '<span class="msg-name" style="color:' + data.color + '">' + data.username + '</span>' +
-          '<span class="msg-time">' + time + '</span>' +
+          '<span class="msg-name">' + escapeHtml(data.username) + '</span>' +
+          '<span class="msg-time">' + timeStr + '</span>' +
         '</div>' +
         '<div class="bubble">' + escapeHtml(data.text) + '</div>' +
       '</div>';
 
     msgs.appendChild(div);
-    scroll();
-
-    // Save to message history
-    messageHistory.push(data);
-
-    // Save to Google Drive if enabled
-    if (shouldSave && useDrive) {
-      saveToDrive(data);
-    }
+    scrollToBottom();
   }
 
   function escapeHtml(text) {
+    if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
   }
 
-  function scroll() {
+  function scrollToBottom() {
     setTimeout(function() {
       msgsWrap.scrollTop = msgsWrap.scrollHeight;
-    }, 0);
+    }, 50);
   }
 
   function updateUsers(users) {
-    usersList.innerHTML = '';
+    // Keep the title
+    const titleHtml = '<p class="users-title">Online Now</p>';
+    
+    // Clear and rebuild users list
+    usersList.innerHTML = titleHtml;
     countEl.textContent = users.length;
+    onlineCountEl.textContent = users.length;
 
     users.forEach(function(user) {
       const isMe = user.id === myId;
       const li = document.createElement('li');
       li.className = 'user';
       li.innerHTML = 
-        '<div class="avatar" style="background:' + user.color + '">' + user.username[0].toUpperCase() + '</div>' +
-        '<span class="uname ' + (isMe ? 'you' : '') + '">' + user.username + (isMe ? ' (You)' : '') + '</span>';
+        '<span class="user-status"></span>' +
+        '<div class="avatar" style="background:' + (user.color || '#666') + '">' + (user.username[0] || '?').toUpperCase() + '</div>' +
+        '<div class="user-info">' +
+          '<div class="user-name' + (isMe ? ' you' : '') + '">' + escapeHtml(user.username) + (isMe ? ' (You)' : '') + '</div>' +
+          '<div class="user-status-text">' + (isMe ? 'That\'s you' : 'Online') + '</div>' +
+        '</div>';
       usersList.appendChild(li);
     });
   }
 
   function updateTyping() {
-    const names = Object.values(typingUsers);
+    const names = Object.keys(typingUsers).map(id => typingUsers[id]).filter(name => name !== myUsername);
+    
     if (names.length === 0) {
-      typingEl.textContent = '';
+      typingEl.innerHTML = '';
     } else if (names.length === 1) {
-      typingEl.textContent = names[0] + ' is typing...';
+      typingEl.innerHTML = escapeHtml(names[0]) + ' is typing<span class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
+    } else if (names.length === 2) {
+      typingEl.innerHTML = escapeHtml(names[0]) + ' and ' + escapeHtml(names[1]) + ' are typing<span class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
     } else {
-      typingEl.textContent = names.length + ' people are typing...';
+      typingEl.innerHTML = names.length + ' people are typing<span class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
     }
   }
 
-  // ===== SERVER STORAGE FUNCTIONS =====
-  // Load chat history from server
+  function updateMessageCount() {
+    if (msgCountEl) {
+      msgCountEl.textContent = messageCount;
+    }
+  }
+
+  // ===== SERVER STORAGE - Load chat history =====
   function loadChatHistory() {
     const protocol = location.protocol === 'https:' ? 'https:' : 'http:';
     const apiUrl = `${protocol}//${location.host}/api/chat-history`;
@@ -199,103 +240,19 @@
           console.log('Loading ' + data.messages.length + ' messages from server');
           
           data.messages.forEach(function(msg) {
-            addMsg(msg, false);
+            addMsg(msg);
+            messageCount++;
           });
           
-          addSysMsg('📜 Loaded ' + data.messages.length + ' previous messages');
+          updateMessageCount();
+          addSysMsg('📜 Welcome! Loaded ' + data.messages.length + ' previous messages');
+        } else {
+          addSysMsg('💬 Welcome to PoeVerse Chat! Start the conversation!');
         }
       })
       .catch(function(error) {
         console.error('Failed to load chat history:', error);
-      });
-  }
-  function updateDriveStatus(status, text) {
-    if (!driveStatus) return;
-    
-    driveStatus.classList.remove('hidden');
-    driveText.textContent = text;
-
-    if (status === 'syncing') {
-      driveIcon.textContent = '🔄';
-      driveStatus.classList.remove('connected');
-      driveStatus.classList.add('syncing');
-    } else if (status === 'connected') {
-      driveIcon.textContent = '✅';
-      driveStatus.classList.add('connected');
-      driveStatus.classList.remove('syncing');
-    } else if (status === 'error') {
-      driveIcon.textContent = '❌';
-      driveStatus.classList.remove('connected', 'syncing');
-    }
-  }
-
-  function saveToDrive(message) {
-    if (!useDrive || typeof DriveStorage === 'undefined' || !DriveStorage.isReady) return;
-
-    updateDriveStatus('syncing', 'Syncing...');
-    
-    DriveStorage.appendMessage(message)
-      .then(function() {
-        updateDriveStatus('connected', 'Drive: Saved');
-        setTimeout(function() {
-          updateDriveStatus('connected', 'Drive: Connected');
-        }, 2000);
-      })
-      .catch(function(error) {
-        console.error('Failed to save to Drive:', error);
-        updateDriveStatus('error', 'Drive: Error');
-      });
-  }
-
-  function loadFromDrive() {
-    if (!useDrive || typeof DriveStorage === 'undefined' || !DriveStorage.isReady) return;
-
-    updateDriveStatus('syncing', 'Loading history...');
-    
-    DriveStorage.loadMessages()
-      .then(function(messages) {
-        console.log('Loading ' + messages.length + ' messages from Drive');
-        
-        messages.forEach(function(msg) {
-          addMsg(msg, false);
-        });
-
-        if (messages.length > 0) {
-          addSysMsg('📁 Loaded ' + messages.length + ' messages from Drive');
-        }
-
-        updateDriveStatus('connected', 'Drive: Connected');
-      })
-      .catch(function(error) {
-        console.error('Failed to load from Drive:', error);
-        addSysMsg('⚠️ Failed to load Drive history');
-        updateDriveStatus('error', 'Drive: Error');
-      });
-  }
-
-  function initializeDrive() {
-    if (typeof DriveStorage === 'undefined') {
-      console.error('DriveStorage not found');
-      addSysMsg('⚠️ Google Drive not available');
-      return;
-    }
-
-    updateDriveStatus('syncing', 'Connecting to Drive...');
-    
-    DriveStorage.init()
-      .then(function() {
-        return DriveStorage.authenticate();
-      })
-      .then(function() {
-        useDrive = true;
-        loadFromDrive();
-        console.log('✅ Google Drive storage enabled');
-      })
-      .catch(function(error) {
-        console.error('Drive initialization failed:', error);
-        addSysMsg('❌ Failed to connect to Google Drive');
-        updateDriveStatus('error', 'Drive: Failed');
-        useDrive = false;
+        addSysMsg('💬 Welcome to PoeVerse Chat! Start the conversation!');
       });
   }
 
@@ -304,31 +261,26 @@
     e.preventDefault();
     
     const name = nameInput.value.trim();
-    if (!name) return;
+    if (!name || name.length < 2) {
+      alert('Please enter a username (at least 2 characters)');
+      return;
+    }
 
-    // Set username FIRST
     myUsername = name;
-    
-    const wantsDrive = driveToggle && driveToggle.checked;
+    myColor = getRandomColor();
 
     // Show chat interface
     modal.classList.add('hidden');
     chat.classList.remove('hidden');
-    myNameEl.textContent = myUsername;
 
     // Load chat history from server
     loadChatHistory();
 
-    // Initialize Google Drive if requested (legacy - no longer needed)
-    if (wantsDrive) {
-      // Google Drive is deprecated - history now loads from server automatically
-      addSysMsg('💡 Chat history is now saved automatically on the server');
-    }
-
+    // Focus on message input
     msgInput.focus();
 
     // Send join message to server
-    send({ type: 'join', username: myUsername });
+    send({ type: 'join', username: myUsername, color: myColor });
   };
 
   msgForm.onsubmit = function(e) {
@@ -337,9 +289,11 @@
     if (!text) return;
 
     // Send message to server
-    send({ type: 'message', text: text });
+    send({ type: 'message', text: text, color: myColor });
 
+    // Clear input
     msgInput.value = '';
+    msgInput.style.height = 'auto';
 
     // Stop typing indicator
     if (isTyping) {
@@ -349,7 +303,12 @@
     clearTimeout(typingTimeout);
   };
 
-  msgInput.oninput = function() {
+  // Auto-resize textarea
+  msgInput.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    
+    // Send typing indicator
     if (!isTyping) {
       isTyping = true;
       send({ type: 'typing', isTyping: true });
@@ -360,7 +319,15 @@
       isTyping = false;
       send({ type: 'typing', isTyping: false });
     }, 2000);
-  };
+  });
+
+  // Handle Enter key (shift+enter for new line)
+  msgInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      msgForm.dispatchEvent(new Event('submit'));
+    }
+  });
 
   // ===== INITIALIZE =====
   connect();

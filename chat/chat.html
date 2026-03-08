@@ -5,70 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PoeVerse Chat</title>
   <link rel="stylesheet" href="chat.css">
-  
-  <!-- Google API Libraries -->
-  <script src="https://apis.google.com/js/api.js"></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
   <!-- Join Modal -->
   <div id="modal" class="modal">
+    <div class="modal-backdrop"></div>
     <div class="modal-box">
-      <h2>🌙 PoeVerse Chat</h2>
-      <p>Enter your username to join</p>
+      <span class="modal-icon">💬</span>
+      <h2>PoeVerse Chat</h2>
+      <p>Join the conversation with poetry lovers</p>
       <form id="joinForm">
-        <input type="text" id="nameInput" placeholder="Your username..." maxlength="30" required>
-        
-        <!-- Google Drive Toggle -->
-        <label class="drive-toggle">
-          <input type="checkbox" id="driveToggle">
-          <span>📁 Save to Google Drive (FREE)</span>
-        </label>
-        
+        <input type="text" id="nameInput" placeholder="Enter your username..." maxlength="20" required autocomplete="off">
         <button type="submit">Join Chat</button>
       </form>
-      <p class="drive-info">💡 Enable to keep chat history across devices</p>
+      <p class="modal-info">
+        <span>💾</span> Chat history is saved automatically
+      </p>
     </div>
   </div>
 
-  <!-- Chat -->
+  <!-- Chat Room -->
   <div id="chat" class="chat hidden">
+    <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="sidebar-head">
-        <strong>Online</strong>
-        <span id="count">0</span>
+      <div class="sidebar-header">
+        <h3>
+          <span>💬</span> PoeVerse
+          <span class="online-dot"></span>
+        </h3>
+        <div class="sidebar-stats">
+          <div class="stat">
+            <span>👥</span>
+            <span class="stat-value" id="count">0</span> online
+          </div>
+          <div class="stat">
+            <span>💬</span>
+            <span class="stat-value" id="msgCount">0</span> messages
+          </div>
+        </div>
       </div>
-      <ul id="users" class="users"></ul>
-      
-      <!-- Drive Status -->
-      <div id="driveStatus" class="drive-status hidden">
-        <span id="driveIcon">💾</span>
-        <span id="driveText">Drive: Connected</span>
-      </div>
+      <ul class="users" id="users">
+        <p class="users-title">Online Now</p>
+      </ul>
     </aside>
 
+    <!-- Main Chat -->
     <main class="main">
       <header class="header">
-        <h2>💬 Chat Room</h2>
-        <span id="myName" class="my-name"></span>
+        <div class="header-info">
+          <h2>💬 Chat Room</h2>
+          <div class="header-status">
+            <span class="online-dot"></span>
+            <span id="onlineCount">0</span> users online
+          </div>
+        </div>
+        <div class="connection-status connected" id="connectionStatus">
+          <span>🟢</span>
+          <span>Connected</span>
+        </div>
       </header>
 
-      <div id="msgsWrap" class="msgs-wrap">
-        <div id="msgs" class="msgs"></div>
+      <div class="msgs-wrap" id="msgsWrap">
+        <div class="msgs" id="msgs"></div>
       </div>
 
-      <div id="typing" class="typing"></div>
+      <div class="typing" id="typing"></div>
 
-      <form id="msgForm" class="form">
-        <input type="text" id="msgInput" placeholder="Type a message..." maxlength="500" autocomplete="off">
-        <button type="submit">Send</button>
-      </form>
+      <!-- Message Input -->
+      <div class="input-area">
+        <form class="input-wrapper" id="msgForm">
+          <div class="input-container">
+            <textarea 
+              class="msg-input" 
+              id="msgInput" 
+              placeholder="Type a message..." 
+              maxlength="500"
+              rows="1"
+              autocomplete="off"
+            ></textarea>
+          </div>
+          <button class="send-btn" type="submit">
+            <span>Send</span>
+            <span>➤</span>
+          </button>
+        </form>
+      </div>
     </main>
   </div>
 
-  <!-- Scripts -->
-  <script src="googleDrive.js"></script>
   <script src="chat.js"></script>
 </body>
 </html>
+
