@@ -479,6 +479,7 @@ blockquote cite {
   justify-content: center;
   background: var(--color-bg-primary);
   transition: opacity var(--transition-slow), visibility var(--transition-slow);
+  overflow: hidden;
 }
 
 .loader.hidden {
@@ -489,6 +490,8 @@ blockquote cite {
 
 .loader-content {
   text-align: center;
+  max-width: 90%;
+  padding: var(--space-4);
 }
 
 .loader-heart {
@@ -574,9 +577,18 @@ blockquote cite {
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  max-width: var(--container-xl);
+  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--space-4);
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .nav-container {
+    max-width: var(--container-xl);
+    padding: 0 var(--space-6);
+  }
 }
 
 .nav-brand {
