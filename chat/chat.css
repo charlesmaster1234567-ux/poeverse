@@ -326,6 +326,7 @@ body {
 
 /* Top stripe - moves RIGHT */
 .modal::before {
+  opacity: 0.5;
   content: "";
   position: absolute;
   top: 0;
@@ -382,23 +383,25 @@ body {
 }
 
 .modal-box {
+  opacity: 2.9;
   position: relative;
   background: transparent;
   border: none;
   border-radius: var(--radius-lg);
   opacity: 1;
-  backdrop-filter: brightness(0.5) blur(0px);
+  backdrop-filter: brightness(0.4) blur(0px) contrast(0.8);
   padding: var(--space-10);
   border-radius: var(--radius-2xl);
   text-align: center;
   width: 90%;
-  max-width: 400px;
-  box-shadow: 0 0 20px white;
-  border: 1px solid black;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.575);
+  border: 1px solid rgb(255, 0, 0);
 }
 
 .modal-box:focus-within {
-  box-shadow: var(--shadow-xl), 0 0 0 4px rgba(233, 69, 96, 0.3);
+  background-color: #2b112c54; /* Subtle green overlay on focus */
+  box-shadow: var(--shadow-xl), 0 0 0 10px rgba(233, 69, 96, 0.3);
 }
 
 .close-btn {
@@ -436,7 +439,7 @@ body {
 
 .modal-box h2 {
   margin-bottom: var(--space-2);
-  font-size: var(--text-2xl);
+  font-size: 20px;
   font-family: var(--font-display);
 }
 
@@ -459,6 +462,7 @@ body {
 }
 
 .auth-form {
+  color: green;
   text-align: left;
 }
 
@@ -469,13 +473,15 @@ body {
 .auth-form input[type="text"],
 .auth-form input[type="email"],
 .auth-form input[type="password"] {
+  height: 60px;
   width: 100%;
   padding: var(--space-4);
   border: 2px solid var(--border);
   border-radius: var(--radius-xl);
-  background: var(--bg);
-  color: var(--text);
-  font-size: var(--text-base);
+  background: transparent;
+  color: red;
+  font-size: 17px;
+  font-weight: bold;
   margin-bottom: var(--space-3);
   outline: none;
   transition: all var(--transition-base);
@@ -483,6 +489,7 @@ body {
 }
 
 .auth-form input:focus {
+  background-color: #2b112c54;
   border-color: var(--accent);
   box-shadow: var(--shadow-glow);
 }
@@ -495,7 +502,7 @@ body {
   width: 100%;
   padding: var(--space-4);
   background: var(--accent-gradient);
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: var(--radius-xl);
   font-size: var(--text-base);
@@ -553,7 +560,7 @@ body {
 
 .guest-btn {
   width: 100%;
-  padding: var(--space-3);
+  padding: lime;
   background: var(--bg3);
   color: var(--text);
   border: 2px solid var(--border);
