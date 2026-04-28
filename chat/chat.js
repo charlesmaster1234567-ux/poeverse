@@ -49,9 +49,25 @@ let serverSettings = {
 // =====================================================
 // MIDDLEWARE
 // =====================================================
-app.use(helmet({ contentSecurityPolicy: false })); // Basic security headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'", "ws:", "wss:"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:", "blob:"],
+    },
+  },
+}));
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname)));
+
+// Prevent Chrome DevTools 404 noise
+app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => {
+  res.json({});
+});
 
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -142,6 +158,10 @@ const filterText = (text) => {
     return filtered;
 };
 
+function getDMKey(u1, u2) {
+    return `dm:${[u1, u2].sort().join(':')}`;
+}
+
 // =====================================================
 // WEBSOCKET LOGIC
 // =====================================================
@@ -150,6 +170,21 @@ const wss = new WebSocketServer({ server });
 wss.on('connection', (ws, req) => {
     let currentUsername = null;
     const clientIP = req.socket.remoteAddress;
+
+    function sendUsersList() {
+        const usersObj = {};
+        state.users.forEach((u, name) => {
+            usersObj[name] = { color: u.color };
+        });
+        broadcast({ type: 'users', users: usersObj });
+    }
+
+    function sendToUser(username, data) {
+        const user = state.users.get(username);
+        if (user && user.ws.readyState === WebSocket.OPEN) {
+            user.ws.send(JSON.stringify(data));
+        }
+    }
 
     ws.on('message', async (rawData) => {
         let data;
@@ -169,7 +204,39 @@ wss.on('connection', (ws, req) => {
                 break;
 
             case 'typing':
-                if (currentUsername) broadcast({ type: 'typing', username: currentUsername, channel: data.channel }, ws);
+                if (currentUsername) broadcast({ type: 'typing', username: currentUsername, channel: data.channel, dm: data.dm }, ws);
+                break;
+
+            case 'stop_typing':
+                if (currentUsername) broadcast({ type: 'stop_typing', username: currentUsername, channel: data.channel, dm: data.dm }, ws);
+                break;
+
+            case 'get_history':
+                handleGetHistory(ws, data);
+                break;
+
+            case 'get_dm_history':
+                handleGetDMHistory(ws, data);
+                break;
+
+            case 'dm':
+                handleDM(ws, data);
+                break;
+
+            case 'edit':
+                handleEdit(ws, data);
+                break;
+
+            case 'delete':
+                handleDelete(ws, data);
+                break;
+
+            case 'reaction':
+                handleReaction(ws, data);
+                break;
+
+            case 'create_channel':
+                handleCreateChannel(ws, data);
                 break;
         }
     });
@@ -193,6 +260,7 @@ wss.on('connection', (ws, req) => {
             messages: state.channels.general.slice(-50) 
         }));
 
+        sendUsersList();
         broadcast({ type: 'user_joined', username });
         addLog('connection', `${username} joined`);
     };
@@ -214,7 +282,11 @@ wss.on('connection', (ws, req) => {
             username: currentUsername,
             text: cleanText.substring(0, serverSettings.maxMessageLength),
             timestamp: Date.now(),
-            color: state.users.get(currentUsername).color
+            color: state.users.get(currentUsername).color,
+            replyTo: data.replyTo || null,
+            replyText: data.replyText || null,
+            replyUser: data.replyUser || null,
+            file: data.file || null
         };
 
         // Save to channel
@@ -226,9 +298,166 @@ wss.on('connection', (ws, req) => {
         broadcast(msg);
     };
 
+    const handleGetHistory = (ws, data) => {
+        const channel = data.channel || 'general';
+        const messages = state.channels[channel] ? state.channels[channel].slice(-serverSettings.maxHistory) : [];
+        ws.send(JSON.stringify({ type: 'history', channel, messages }));
+    };
+
+    const handleGetDMHistory = (ws, data) => {
+        const otherUser = data.user;
+        if (!otherUser || !currentUsername) return;
+        const dmKey = getDMKey(currentUsername, otherUser);
+        const messages = state.directMessages.get(dmKey) || [];
+        ws.send(JSON.stringify({ type: 'history', dm: otherUser, messages }));
+    };
+
+    const handleDM = (ws, data) => {
+        if (!currentUsername || state.mutedUsers.has(currentUsername)) return;
+
+        const to = data.to;
+        if (!to || to === currentUsername) return;
+
+        const cleanText = filterText(data.text || '');
+        if (!cleanText && !data.file) return;
+
+        const msg = {
+            id: uuidv4(),
+            type: 'dm',
+            from: currentUsername,
+            to: to,
+            text: cleanText.substring(0, serverSettings.maxMessageLength),
+            timestamp: Date.now(),
+            color: state.users.get(currentUsername)?.color || '#6C63FF',
+            replyTo: data.replyTo || null,
+            replyText: data.replyText || null,
+            replyUser: data.replyUser || null,
+            file: data.file || null
+        };
+
+        const dmKey = getDMKey(currentUsername, to);
+        if (!state.directMessages.has(dmKey)) state.directMessages.set(dmKey, []);
+        state.directMessages.get(dmKey).push(msg);
+        if (state.directMessages.get(dmKey).length > serverSettings.maxHistory) {
+            state.directMessages.get(dmKey).shift();
+        }
+
+        sendToUser(currentUsername, msg);
+        sendToUser(to, msg);
+    };
+
+    const handleEdit = (ws, data) => {
+        if (!currentUsername) return;
+        const cleanText = filterText(data.text || '');
+        if (!cleanText) return;
+
+        if (data.dm) {
+            const dmKey = getDMKey(currentUsername, data.dm);
+            const msgs = state.directMessages.get(dmKey);
+            if (msgs) {
+                const msg = msgs.find(m => m.id === data.id && m.from === currentUsername);
+                if (msg) {
+                    msg.text = cleanText.substring(0, serverSettings.maxMessageLength);
+                    msg.edited = true;
+                    sendToUser(currentUsername, { type: 'edit', id: data.id, text: msg.text, dm: data.dm });
+                    sendToUser(data.dm, { type: 'edit', id: data.id, text: msg.text, dm: data.dm });
+                }
+            }
+        } else {
+            const channel = data.channel || 'general';
+            const msgs = state.channels[channel];
+            if (msgs) {
+                const msg = msgs.find(m => m.id === data.id && m.username === currentUsername);
+                if (msg) {
+                    msg.text = cleanText.substring(0, serverSettings.maxMessageLength);
+                    msg.edited = true;
+                    broadcast({ type: 'edit', id: data.id, text: msg.text, channel });
+                }
+            }
+        }
+    };
+
+    const handleDelete = (ws, data) => {
+        if (!currentUsername) return;
+
+        if (data.dm) {
+            const dmKey = getDMKey(currentUsername, data.dm);
+            const msgs = state.directMessages.get(dmKey);
+            if (msgs) {
+                const idx = msgs.findIndex(m => m.id === data.id && m.from === currentUsername);
+                if (idx !== -1) {
+                    msgs.splice(idx, 1);
+                    sendToUser(currentUsername, { type: 'delete', id: data.id, dm: data.dm });
+                    sendToUser(data.dm, { type: 'delete', id: data.id, dm: data.dm });
+                }
+            }
+        } else {
+            const channel = data.channel || 'general';
+            const msgs = state.channels[channel];
+            if (msgs) {
+                const idx = msgs.findIndex(m => m.id === data.id && m.username === currentUsername);
+                if (idx !== -1) {
+                    msgs.splice(idx, 1);
+                    broadcast({ type: 'delete', id: data.id, channel });
+                }
+            }
+        }
+    };
+
+    const handleReaction = (ws, data) => {
+        if (!currentUsername) return;
+
+        const updateReactions = (msg) => {
+            if (!msg.reactions) msg.reactions = {};
+            if (!msg.reactions[data.emoji]) msg.reactions[data.emoji] = [];
+            const reactors = msg.reactions[data.emoji];
+            const idx = reactors.indexOf(currentUsername);
+            if (idx === -1) {
+                reactors.push(currentUsername);
+            } else {
+                reactors.splice(idx, 1);
+                if (reactors.length === 0) delete msg.reactions[data.emoji];
+            }
+            return msg.reactions;
+        };
+
+        if (data.dm) {
+            const dmKey = getDMKey(currentUsername, data.dm);
+            const msgs = state.directMessages.get(dmKey);
+            if (msgs) {
+                const msg = msgs.find(m => m.id === data.id);
+                if (msg) {
+                    const reactions = updateReactions(msg);
+                    sendToUser(currentUsername, { type: 'reaction', id: data.id, reactions, dm: data.dm });
+                    sendToUser(data.dm, { type: 'reaction', id: data.id, reactions, dm: data.dm });
+                }
+            }
+        } else {
+            const channel = data.channel || 'general';
+            const msgs = state.channels[channel];
+            if (msgs) {
+                const msg = msgs.find(m => m.id === data.id);
+                if (msg) {
+                    const reactions = updateReactions(msg);
+                    broadcast({ type: 'reaction', id: data.id, reactions, channel });
+                }
+            }
+        }
+    };
+
+    const handleCreateChannel = (ws, data) => {
+        if (!currentUsername) return;
+        const channel = data.channel?.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '');
+        if (!channel || state.channels[channel]) return;
+        state.channels[channel] = [];
+        broadcast({ type: 'channel_created', channel });
+        addLog('channel', `${currentUsername} created #${channel}`);
+    };
+
     ws.on('close', () => {
         if (currentUsername) {
             state.users.delete(currentUsername);
+            sendUsersList();
             broadcast({ type: 'user_left', username: currentUsername });
             addLog('connection', `${currentUsername} left`);
         }
@@ -238,3 +467,4 @@ wss.on('connection', (ws, req) => {
 server.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+

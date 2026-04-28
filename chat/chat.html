@@ -318,6 +318,10 @@
       });
     }
 
+    // --- Config ---
+    // Override for production: set to 'wss://poemetry.onrender.com'
+    const WS_URL = null; // e.g. 'wss://poemetry.onrender.com'
+
     // --- State ---
     let ws = null;
     let currentUser = null;
@@ -546,11 +550,37 @@
     }
 
     // --- WebSocket Connection ---
+    let reconnectAttempts = 0;
+    let reconnectTimeout = null;
+    const MAX_RECONNECT_DELAY = 30000;
+
     function connectWebSocket() {
-      const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-      ws = new WebSocket(`${protocol}//${location.host}`);
+      // Don't reconnect if already connected or connecting
+      if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
+        return;
+      }
+
+      // Don't reconnect if offline
+      if (!navigator.onLine) {
+        showToast('You are offline. Waiting for connection...', 'error');
+        return;
+      }
+
+      let wsUri;
+      if (WS_URL) {
+        wsUri = WS_URL;
+      } else {
+        const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsUri = `${protocol}//${location.host}`;
+      }
+      ws = new WebSocket(wsUri);
 
       ws.onopen = () => {
+        reconnectAttempts = 0;
+        if (reconnectTimeout) {
+          clearTimeout(reconnectTimeout);
+          reconnectTimeout = null;
+        }
         ws.send(JSON.stringify({
           type: 'join',
           username: currentUser,
@@ -571,15 +601,49 @@
 
       ws.onclose = () => {
         showToast('Disconnected from server', 'error');
-        setTimeout(() => {
-          if (currentUser) connectWebSocket();
-        }, 3000);
+        scheduleReconnect();
       };
 
       ws.onerror = () => {
         showToast('Connection error', 'error');
       };
     }
+
+    function scheduleReconnect() {
+      if (reconnectTimeout) return; // already scheduled
+      if (!currentUser) return; // logged out
+
+      reconnectAttempts++;
+      const delay = Math.min(1000 * Math.pow(2, reconnectAttempts - 1), MAX_RECONNECT_DELAY);
+      showToast(`Reconnecting in ${Math.round(delay / 1000)}s...`, 'error');
+
+      reconnectTimeout = setTimeout(() => {
+        reconnectTimeout = null;
+        if (navigator.onLine && currentUser) {
+          connectWebSocket();
+        } else if (!navigator.onLine) {
+          showToast('Still offline. Waiting for network...', 'error');
+          scheduleReconnect();
+        }
+      }, delay);
+    }
+
+    // Reconnect immediately when coming back online
+    window.addEventListener('online', () => {
+      showToast('Back online', 'success');
+      if (currentUser && (!ws || ws.readyState !== WebSocket.OPEN)) {
+        reconnectAttempts = 0;
+        if (reconnectTimeout) {
+          clearTimeout(reconnectTimeout);
+          reconnectTimeout = null;
+        }
+        connectWebSocket();
+      }
+    });
+
+    window.addEventListener('offline', () => {
+      showToast('You are offline', 'error');
+    });
 
     // --- Handle Server Messages ---
     function handleServerMessage(data) {
@@ -1473,6 +1537,11 @@
     }
 
     function handleLogout() {
+      if (reconnectTimeout) {
+        clearTimeout(reconnectTimeout);
+        reconnectTimeout = null;
+      }
+      reconnectAttempts = 0;
       if (ws) ws.close();
       currentUser = null;
       chatScreen.classList.remove('active');
