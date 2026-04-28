@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Apps | Explorer</title>
+    <link rel="stylesheet" href="apps.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-rocket"></i>
+            <span>My Apps</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#apps">Apps</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home">Home</a>
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content">
+            <h1>Explore My <span class="gradient-text">Apps</span></h1>
+            <p>Discover a collection of applications crafted with passion and purpose. Each app is designed to solve real problems and deliver great experiences.</p>
+            <a href="#apps" class="btn btn-primary">
+                <i class="fas fa-th-large"></i> Browse Apps
+            </a>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stat-item">
+            <span class="stat-number" data-target="12">0</span>
+            <span class="stat-label">Apps Built</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="5000">0</span>
+            <span class="stat-label">Users</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="4">0</span>
+            <span class="stat-label">Platforms</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="99">0</span>
+            <span class="stat-label">% Uptime</span>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <section class="filter-section" id="apps">
+        <h2 class="section-title">My Applications</h2>
+        <p class="section-subtitle">Click on any app to learn more about it</p>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search apps...">
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="productivity">Productivity</button>
+            <button class="filter-btn" data-filter="utility">Utility</button>
+            <button class="filter-btn" data-filter="entertainment">Entertainment</button>
+            <button class="filter-btn" data-filter="health">Health</button>
+            <button class="filter-btn" data-filter="finance">Finance</button>
+        </div>
+    </section>
+
+    <!-- Apps Grid -->
+    <section class="apps-grid-section">
+        <div class="apps-grid" id="appsGrid">
+            <!-- Apps will be injected by JavaScript -->
+        </div>
+        <div class="no-results" id="noResults">
+            <i class="fas fa-search"></i>
+            <p>No apps found matching your criteria.</p>
+        </div>
+    </section>
+
+    <!-- App Detail Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="appModal">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon"></div>
+                <div>
+                    <h2 id="modalTitle"></h2>
+                    <span class="modal-category" id="modalCategory"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p id="modalDescription"></p>
+                <div class="modal-features">
+                    <h3>Key Features</h3>
+                    <ul id="modalFeatures"></ul>
+                </div>
+                <div class="modal-tech">
+                    <h3>Technologies</h3>
+                    <div id="modalTech" class="tech-tags"></div>
+                </div>
+                <div class="modal-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-star"></i>
+                        <span id="modalRating"></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-download"></i>
+                        <span id="modalDownloads"></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="modalDate"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" id="modalLink">
+                    <i class="fas fa-external-link-alt"></i> Open App
+                </a>
+                <a href="#" class="btn btn-secondary" id="modalGithub">
+                    <i class="fab fa-github"></i> Source Code
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2 class="section-title">About Me</h2>
+                <p>I'm a passionate developer who loves building applications that make a difference. My journey started with a simple idea: create tools that people actually want to use.</p>
+                <p>Each app in this collection represents a problem I wanted to solve or an idea I wanted to bring to life. I focus on clean design, smooth performance, and intuitive user experiences.</p>
+                <div class="about-skills">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Flutter</span>
+                    <span class="skill-tag">Firebase</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">Docker</span>
+                </div>
+            </div>
+            <div class="about-image">
+                <div class="code-window">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <pre class="code-body"><code><span class="code-keyword">const</span> developer = {
+  <span class="code-key">name</span>: <span class="code-string">"Your Name"</span>,
+  <span class="code-key">passion</span>: <span class="code-string">"Building Apps"</span>,
+  <span class="code-key">coffee</span>: <span class="code-number">Infinity</span>,
+  <span class="code-key">motto</span>: <span class="code-string">"Ship it!"</span>
+};</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">Have feedback or want to collaborate? Reach out!</p>
+        <div class="contact-container">
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="5" placeholder="Your message..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>hello@myapps.com</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fab fa-github"></i>
+                    <h3>GitHub</h3>
+                    <p>github.com/yourusername</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fab fa-twitter"></i>
+                    <h3>Twitter</h3>
+                    <p>@yourusername</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-rocket"></i>
+                <span>My Apps</span>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#apps">Apps</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 My Apps. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Message sent successfully!</span>
+    </div>
+
+    <script src="apps.js"></script>
+</body>
+</html>
