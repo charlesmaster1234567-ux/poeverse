@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatWave — Admin Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* ============================================
+       ADMIN PANEL STYLES
+       ============================================ */
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-surface: #1c2333;
+      --bg-hover: #21283b;
+      --bg-input: #1c2333;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --text-muted: #656d76;
+      --accent: #6C63FF;
+      --accent-hover: #5a52e0;
+      --accent-light: rgba(108, 99, 255, 0.12);
+      --success: #3fb950;
+      --danger: #f85149;
+      --warning: #d29922;
+      --info: #58a6ff;
+      --border: #30363d;
+      --radius: 8px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.4);
+      --transition: 0.2s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ---- LOGIN ---- */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1c2333 100%);
+    }
+
+    .login-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: var(--shadow);
+    }
+
+    .login-box .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .login-box .logo i {
+      font-size: 40px;
+      color: var(--danger);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .login-box .logo h1 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .login-box .logo h1 span { color: var(--accent); }
+
+    .login-box .logo p {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      color: var(--text-primary);
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .login-error {
+      color: var(--danger);
+      font-size: 13px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: white;
+      width: 100%;
+    }
+
+    .btn-accent:hover { background: var(--accent-hover); }
+
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #da3633; }
+
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { opacity: 0.9; }
+
+    .btn-warning { background: var(--warning); color: #0d1117; }
+    .btn-warning:hover { opacity: 0.9; }
+
+    .btn-secondary {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: var(--border); }
+
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .btn-xs { padding: 4px 8px; font-size: 11px; border-radius: 4px; }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 4px;
+      transition: var(--transition);
+      font-size: 14px;
+    }
+
+    .btn-icon:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .btn-icon.danger:hover { color: var(--danger); }
+
+    /* ---- ADMIN LAYOUT ---- */
+    .admin-layout {
+      display: none;
+      height: 100vh;
+    }
+
+    .admin-layout.active { display: flex; flex-direction: column; }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 56px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-left .brand {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-left .brand i { color: var(--danger); }
+    .topbar-left .brand span { color: var(--accent); }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(63,185,80,0.4); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(63,185,80,0); }
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-right .admin-user {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topbar-right .admin-user i { color: var(--accent); }
+
+    /* Main area */
+    .admin-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Sidebar Nav */
+    .admin-nav {
+      width: 220px;
+      min-width: 220px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+
+    .nav-section {
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-section-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      padding: 8px 12px 4px;
+      font-weight: 700;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      margin-bottom: 2px;
+    }
+
+    .nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+    .nav-item.active {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .nav-item i { width: 18px; text-align: center; font-size: 14px; }
+
+    .nav-badge {
+      margin-left: auto;
+      background: var(--danger);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 8px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* Content */
+    .admin-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      background: var(--bg-primary);
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .panel-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-header h2 i { color: var(--accent); }
+
+    .panel-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .stat-card.blue::before { background: var(--info); }
+    .stat-card.green::before { background: var(--success); }
+    .stat-card.red::before { background: var(--danger); }
+    .stat-card.yellow::before { background: var(--warning); }
+    .stat-card.purple::before { background: var(--accent); }
+
+    .stat-card .stat-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+      opacity: 0.6;
+    }
+
+    .stat-card.blue .stat-icon { color: var(--info); }
+    .stat-card.green .stat-icon { color: var(--success); }
+    .stat-card.red .stat-icon { color: var(--danger); }
+    .stat-card.yellow .stat-icon { color: var(--warning); }
+    .stat-card.purple .stat-icon { color: var(--accent); }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      font-weight: 700;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 10px 16px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--bg-hover); }
+
+    .table-container {
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-cell .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .user-cell .name { font-weight: 600; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-badge.online { background: rgba(63,185,80,0.15); color: var(--success); }
+    .status-badge.offline { background: rgba(139,148,158,0.15); color: var(--text-muted); }
+    .status-badge.suspended { background: rgba(248,81,73,0.15); color: var(--danger); }
+    .status-badge.muted { background: rgba(210,153,34,0.15); color: var(--warning); }
+
+    .action-btns {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filter-bar .search-input {
+      flex: 1;
+      min-width: 200px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 14px 8px 36px;
+      color: var(--text-primary);
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+      position: relative;
+    }
+
+    .filter-bar .search-input:focus { border-color: var(--accent); }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .search-wrapper i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 14px 8px 36px;
+      color: var(--text-primary);
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .search-wrapper input:focus { border-color: var(--accent); }
+
+    .filter-select {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      color: var(--text-primary);
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-body { padding: 16px 20px; }
+
+    /* Log Entry */
+    .log-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .log-entry:last-child { border-bottom: none; }
+
+    .log-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .log-icon.auth { background: rgba(88,166,255,0.15); color: var(--info); }
+    .log-icon.moderation { background: rgba(248,81,73,0.15); color: var(--danger); }
+    .log-icon.connection { background: rgba(63,185,80,0.15); color: var(--success); }
+    .log-icon.system { background: rgba(108,99,255,0.15); color: var(--accent); }
+    .log-icon.admin { background: rgba(210,153,34,0.15); color: var(--warning); }
+    .log-icon.security { background: rgba(248,81,73,0.15); color: var(--danger); }
+    .log-icon.channel { background: rgba(108,99,255,0.15); color: var(--accent); }
+
+    .log-content { flex: 1; }
+    .log-message { color: var(--text-primary); }
+
+    .log-details {
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .log-time {
+      color: var(--text-muted);
+      font-size: 11px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Message Viewer */
+    .message-item {
+      display: flex;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 4px;
+      transition: var(--transition);
+    }
+
+    .message-item:hover { background: var(--bg-hover); }
+
+    .message-item .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .message-item .msg-content { flex: 1; min-width: 0; }
+
+    .message-item .msg-header {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    .message-item .msg-user { font-weight: 700; font-size: 13px; }
+    .message-item .msg-time { font-size: 11px; color: var(--text-muted); }
+
+    .message-item .msg-text {
+      font-size: 13px;
+      word-break: break-word;
+      color: var(--text-secondary);
+    }
+
+    .message-item .msg-actions {
+      display: flex;
+      gap: 4px;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .message-item:hover .msg-actions { opacity: 1; }
+
+    /* Settings Form */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .setting-item {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .setting-item label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .setting-item .desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .setting-item input[type="number"],
+    .setting-item input[type="text"],
+    .setting-item textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      color: var(--text-primary);
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .setting-item textarea { min-height: 80px; resize: vertical; }
+
+    .setting-item input:focus,
+    .setting-item textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .toggle-switch.active { background: var(--success); }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .toggle-switch.active::after { left: 23px; }
+
+    /* Modal */
+    .admin-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 5000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-modal.visible { display: flex; }
+
+    .admin-modal .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+    }
+
+    .admin-modal .modal-box {
+      position: relative;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 80vh;
+      overflow-y: auto;
+      z-index: 1;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .admin-modal .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .admin-modal .modal-header h3 { font-size: 16px; font-weight: 700; }
+    .admin-modal .modal-body { padding: 24px; }
+
+    .admin-modal .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    /* Toast */
+    .admin-toast-container {
+      position: fixed;
+      top: 68px;
+      right: 24px;
+      z-index: 9000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .admin-toast {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      font-size: 13px;
+      opacity: 0;
+      transform: translateX(100px);
+      transition: all 0.3s ease;
+      max-width: 360px;
+    }
+
+    .admin-toast.visible { opacity: 1; transform: translateX(0); }
+    .admin-toast.success { border-left: 4px solid var(--success); }
+    .admin-toast.success i { color: var(--success); }
+    .admin-toast.error { border-left: 4px solid var(--danger); }
+    .admin-toast.error i { color: var(--danger); }
+    .admin-toast.info { border-left: 4px solid var(--info); }
+    .admin-toast.info i { color: var(--info); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .admin-nav { width: 60px; min-width: 60px; }
+      .nav-item span, .nav-section-title, .nav-badge { display: none; }
+      .nav-item { justify-content: center; padding: 10px; }
+      .nav-item i { width: auto; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .topbar { padding: 0 12px; }
+      .admin-content { padding: 16px; }
+      .settings-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Empty State */
+    .empty { text-align: center; padding: 40px; color: var(--text-muted); }
+    .empty i { font-size: 40px; margin-bottom: 12px; display: block; opacity: 0.3; }
+    .empty p { font-size: 14px; }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in { animation: fadeIn 0.3s ease; }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== LOGIN ==================== -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-box">
+      <div class="logo">
+        <i class="fas fa-shield-halved"></i>
+        <h1>Chat<span>Wave</span> Admin</h1>
+        <p>Secure Administration Panel</p>
+      </div>
+      <div id="login-error" class="login-error"></div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="admin-username" class="form-input" placeholder="Admin username" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="admin-password" class="form-input" placeholder="••••••••">
+      </div>
+      <button id="login-btn" class="btn btn-accent">
+        <i class="fas fa-lock"></i> Sign In
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN LAYOUT ==================== -->
+  <div id="admin-layout" class="admin-layout">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="brand">
+          <i class="fas fa-shield-halved"></i>
+          Chat<span>Wave</span> Admin
+        </div>
+        <div class="live-dot" title="Connected"></div>
+      </div>
+      <div class="topbar-right">
+        <div class="admin-user"><i class="fas fa-user-shield"></i> admin</div>
+        <button id="refresh-btn" class="btn-icon" title="Refresh Data"><i class="fas fa-sync-alt"></i></button>
+        <button id="admin-logout-btn" class="btn btn-sm btn-secondary">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </header>
+
+    <div class="admin-body">
+      <!-- Sidebar Navigation -->
+      <nav class="admin-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Overview</div>
+          <div class="nav-item active" data-panel="dashboard">
+            <i class="fas fa-chart-line"></i><span>Dashboard</span>
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Management</div>
+          <div class="nav-item" data-panel="users">
+            <i class="fas fa-users"></i><span>Users</span>
+            <div class="nav-badge" id="nav-users-count">0</div>
+          </div>
+          <div class="nav-item" data-panel="messages">
+            <i class="fas fa-comments"></i><span>Messages</span>
+          </div>
+          <div class="nav-item" data-panel="channels">
+            <i class="fas fa-hashtag"></i><span>Channels</span>
+          </div>
+          <div class="nav-item" data-panel="dms">
+            <i class="fas fa-envelope"></i><span>DMs</span>
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">System</div>
+          <div class="nav-item" data-panel="broadcast">
+            <i class="fas fa-bullhorn"></i><span>Broadcast</span>
+          </div>
+          <div class="nav-item" data-panel="settings">
+            <i class="fas fa-cog"></i><span>Settings</span>
+          </div>
+          <div class="nav-item" data-panel="logs">
+            <i class="fas fa-scroll"></i><span>Logs</span>
+          </div>
+          <div class="nav-item" data-panel="security">
+            <i class="fas fa-lock"></i><span>Security</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Content Area -->
+      <div class="admin-content">
+
+        <!-- ===== DASHBOARD ===== -->
+        <div id="panel-dashboard" class="panel active fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-chart-line"></i> Dashboard</h2>
+          </div>
+          <div class="stats-grid" id="stats-grid"></div>
+          <div class="card">
+            <div class="card-header">
+              <span><i class="fas fa-clock"></i> Recent Activity</span>
+              <button class="btn btn-xs btn-secondary" onclick="loadLogs()">Refresh</button>
+            </div>
+            <div class="card-body" id="recent-activity"></div>
+          </div>
+        </div>
+
+        <!-- ===== USERS ===== -->
+        <div id="panel-users" class="panel fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-users"></i> User Management</h2>
+          </div>
+          <div class="filter-bar">
+            <div class="search-wrapper">
+              <i class="fas fa-search"></i>
+              <input type="text" id="user-search" placeholder="Search users...">
+            </div>
+            <select class="filter-select" id="user-filter">
+              <option value="all">All Users</option>
+              <option value="online">Online</option>
+              <option value="offline">Offline</option>
+              <option value="suspended">Suspended</option>
+              <option value="muted">Muted</option>
+            </select>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Status</th>
+                  <th>IP</th>
+                  <th>Messages</th>
+                  <th>Warnings</th>
+                  <th>Last Active</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== MESSAGES ===== -->
+        <div id="panel-messages" class="panel fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-comments"></i> Message Viewer</h2>
+          </div>
+          <div class="filter-bar">
+            <select class="filter-select" id="msg-channel-select">
+              <option value="">Select Channel</option>
+            </select>
+            <div class="search-wrapper">
+              <i class="fas fa-search"></i>
+              <input type="text" id="msg-search" placeholder="Search messages...">
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body" id="messages-viewer" style="max-height: 60vh; overflow-y: auto;">
+              <div class="empty"><i class="fas fa-comments"></i><p>Select a channel to view messages</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CHANNELS ===== -->
+        <div id="panel-channels" class="panel fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-hashtag"></i> Channel Management</h2>
+            <div class="panel-actions">
+              <button class="btn btn-sm btn-accent" onclick="showCreateChannelModal()">
+                <i class="fas fa-plus"></i> Create Channel
+              </button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Channel</th>
+                  <th>Messages</th>
+                  <th>Last Activity</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="channels-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== DMs ===== -->
+        <div id="panel-dms" class="panel fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-envelope"></i> Direct Messages</h2>
+          </div>
+          <div class="filter-bar">
+            <div class="search-wrapper">
+              <i class="fas fa-search"></i>
+              <input type="text" id="dm-search" placeholder="Search conversations...">
+            </div>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Participants</th>
+                  <th>Messages</th>
+                  <th>Last Message</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dms-table-body"></tbody>
+            </table>
+          </div>
+          <div class="card" id="dm-viewer-card" style="display:none">
+            <div class="card-header">
+              <span id="dm-viewer-title">Messages</span>
+              <button class="btn-icon" onclick="document.getElementById('dm-viewer-card').style.display='none'">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="card-body" id="dm-viewer" style="max-height: 50vh; overflow-y: auto;"></div>
+          </div>
+        </div>
+
+        <!-- ===== BROADCAST ===== -->
+        <div id="panel-broadcast" class="panel fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-bullhorn"></i> Broadcast Announcement</h2>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label>Announcement Message</label>
+                <textarea id="announce-text" class="form-input" placeholder="Type your announcement..." style="min-height: 100px; resize: vertical;"></textarea>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+                This message will be sent to ALL connected users as a system announcement.
+              </p>
+              <button class="btn btn-accent" onclick="sendAnnouncement()">
+                <i class="fas fa-bullhorn"></i> Send Announcement
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SETTINGS ===== -->
+        <div id="panel-settings" class="panel fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-cog"></i> Server Settings</h2>
+            <div class="panel-actions">
+              <button class="btn btn-sm btn-accent" onclick="saveSettings()">
+                <i class="fas fa-save"></i> Save Settings
+              </button>
+            </div>
+          </div>
+          <div class="settings-grid" id="settings-grid"></div>
+        </div>
+
+        <!-- ===== LOGS ===== -->
+        <div id="panel-logs" class="panel fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-scroll"></i> Server Logs</h2>
+            <div class="panel-actions">
+              <select class="filter-select" id="log-filter">
+                <option value="">All Types</option>
+                <option value="auth">Auth</option>
+                <option value="moderation">Moderation</option>
+                <option value="connection">Connection</option>
+                <option value="system">System</option>
+                <option value="admin">Admin</option>
+                <option value="security">Security</option>
+                <option value="channel">Channel</option>
+              </select>
+              <button class="btn btn-sm btn-danger" onclick="clearLogs()">
+                <i class="fas fa-trash"></i> Clear
+              </button>
+              <button class="btn btn-sm btn-secondary" onclick="loadLogs()">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body" id="logs-container" style="max-height: 65vh; overflow-y: auto;"></div>
+          </div>
+        </div>
+
+        <!-- ===== SECURITY ===== -->
+        <div id="panel-security" class="panel fade-in">
+          <div class="panel-header">
+            <h2><i class="fas fa-lock"></i> Security</h2>
+          </div>
+          <div class="card" style="margin-bottom: 16px;">
+            <div class="card-header"><span><i class="fas fa-ban"></i> Banned IPs</span></div>
+            <div class="card-body" id="banned-ips-list">
+              <div class="empty"><i class="fas fa-check-circle"></i><p>No banned IPs</p></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span><i class="fas fa-user-slash"></i> Suspended Users</span></div>
+            <div class="card-body" id="suspended-list">
+              <div class="empty"><i class="fas fa-check-circle"></i><p>No suspended users</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL ===== -->
+  <div id="admin-modal" class="admin-modal">
+    <div class="overlay" onclick="closeModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal</h3>
+        <button class="btn-icon" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="admin-toast-container" id="admin-toast-container"></div>
+
+<script>
+// =====================================================
+// ADMIN PANEL — Client-Side JavaScript
+// =====================================================
+(() => {
+  'use strict';
+
+  let adminToken = localStorage.getItem('admin_token') || null;
+  let adminWs = null;
+  let refreshInterval = null;
+
+  // ---- DOM ----
+  const loginScreen = document.getElementById('login-screen');
+  const adminLayout = document.getElementById('admin-layout');
+  const loginError = document.getElementById('login-error');
+  const loginBtn = document.getElementById('login-btn');
+  const adminLogoutBtn = document.getElementById('admin-logout-btn');
+  const refreshBtn = document.getElementById('refresh-btn');
+
+  // ---- Init ----
+  async function init() {
+    if (adminToken) {
+      const valid = await verifySession();
+      if (valid) {
+        showAdmin();
+        return;
+      }
+    }
+    showLogin();
+  }
+
+  // ---- Auth ----
+  loginBtn.addEventListener('click', login);
+  document.getElementById('admin-password').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+  adminLogoutBtn.addEventListener('click', logout);
+
+  async function login() {
+    const username = document.getElementById('admin-username').value.trim();
+    const password = document.getElementById('admin-password').value;
+
+    loginBtn.disabled = true;
+    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+
+    try {
+      const res = await fetch('/admin/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        adminToken = data.token;
+        localStorage.setItem('admin_token', adminToken);
+        showAdmin();
+      } else {
+        loginError.style.display = 'block';
+        loginError.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${data.error}${data.attemptsRemaining !== undefined ? ` (${data.attemptsRemaining} attempts left)` : ''}`;
+      }
+    } catch (e) {
+      loginError.style.display = 'block';
+      loginError.textContent = 'Connection error. Is the server running?';
+    }
+
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = '<i class="fas fa-lock"></i> Sign In';
+  }
+
+  async function logout() {
+    try {
+      await api('POST', '/admin/api/logout');
+    } catch(e) {}
+    adminToken = null;
+    localStorage.removeItem('admin_token');
+    if (adminWs) adminWs.close();
+    clearInterval(refreshInterval);
+    showLogin();
+  }
+
+  async function verifySession() {
+    try {
+      const res = await fetch('/admin/api/verify', {
+        headers: { 'X-Admin-Token': adminToken }
+      });
+      return res.ok;
+    } catch(e) {
+      return false;
+    }
+  }
+
+  function showLogin() {
+    loginScreen.style.display = 'flex';
+    adminLayout.classList.remove('active');
+  }
+
+  function showAdmin() {
+    loginScreen.style.display = 'none';
+    adminLayout.classList.add('active');
+    connectAdminWs();
+    loadDashboard();
+    refreshInterval = setInterval(loadDashboard, 15000);
+  }
+
+  // ---- API Helper ----
+  async function api(method, url, body = null) {
+    const opts = {
+      method,
+      headers: {
+        'X-Admin-Token': adminToken,
+        'Content-Type': 'application/json'
+      }
+    };
+    if (body) opts.body = JSON.stringify(body);
+    const res = await fetch(url, opts);
+    if (res.status === 401) {
+      logout();
+      throw new Error('Session expired');
+    }
+    return res.json();
+  }
+
+  // ---- Admin WebSocket ----
+  function connectAdminWs() {
+    if (adminWs) adminWs.close();
+    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    adminWs = new WebSocket(`${protocol}//${location.host}?admin_token=${adminToken}`);
+
+    adminWs.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === 'users_update') {
+        document.getElementById('nav-users-count').textContent = data.count;
+      }
+      if (data.type === 'log') {
+        // Real-time log if on logs panel
+        const logsContainer = document.getElementById('logs-container');
+        if (logsContainer && document.getElementById('panel-logs').classList.contains('active')) {
+          prependLog(data.log);
+        }
+      }
+      if (data.type === 'new_message' || data.type === 'new_dm') {
+        // Could add real-time message indicators here
+      }
+    };
+
+    adminWs.onclose = () => {
+      setTimeout(() => { if (adminToken) connectAdminWs(); }, 5000);
+    };
+  }
+
+  // ---- Navigation ----
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      const panel = document.getElementById(`panel-${item.dataset.panel}`);
+      if (panel) panel.classList.add('active');
+
+      // Load panel data
+      switch (item.dataset.panel) {
+        case 'dashboard': loadDashboard(); break;
+        case 'users': loadUsers(); break;
+        case 'messages': loadChannelsForMessages(); break;
+        case 'channels': loadChannels(); break;
+        case 'dms': loadDMs(); break;
+        case 'settings': loadSettings(); break;
+        case 'logs': loadLogs(); break;
+        case 'security': loadSecurity(); break;
+      }
+    });
+  });
+
+  refreshBtn.addEventListener('click', () => {
+    const activePanel = document.querySelector('.nav-item.active');
+    if (activePanel) activePanel.click();
+    toast('Data refreshed', 'info');
+  });
+
+  // ---- DASHBOARD ----
+  async function loadDashboard() {
+    try {
+      const stats = await api('GET', '/admin/api/stats');
+      const logs = await api('GET', '/admin/api/logs?limit=10');
+
+      document.getElementById('nav-users-count').textContent = stats.onlineUsers;
+
+      const upHours = Math.floor(stats.uptime / 3600);
+      const upMins = Math.floor((stats.uptime % 3600) / 60);
+      const memMB = (stats.memoryUsage.heapUsed / 1048576).toFixed(1);
+
+      document.getElementById('stats-grid').innerHTML = `
+        <div class="stat-card blue">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-value">${stats.onlineUsers}</div>
+          <div class="stat-label">Online Users</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon"><i class="fas fa-comments"></i></div>
+          <div class="stat-value">${stats.totalMessages.toLocaleString()}</div>
+          <div class="stat-label">Total Messages</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-icon"><i class="fas fa-hashtag"></i></div>
+          <div class="stat-value">${stats.totalChannels}</div>
+          <div class="stat-label">Channels</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-icon"><i class="fas fa-user-slash"></i></div>
+          <div class="stat-value">${stats.suspendedCount}</div>
+          <div class="stat-label">Suspended</div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-icon"><i class="fas fa-volume-mute"></i></div>
+          <div class="stat-value">${stats.mutedCount}</div>
+          <div class="stat-label">Muted</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <div class="stat-value">${upHours}h ${upMins}m</div>
+          <div class="stat-label">Uptime</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon"><i class="fas fa-memory"></i></div>
+          <div class="stat-value">${memMB}</div>
+          <div class="stat-label">Memory (MB)</div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-icon"><i class="fas fa-tachometer-alt"></i></div>
+          <div class="stat-value">${stats.serverSettings.slowMode}s</div>
+          <div class="stat-label">Slow Mode</div>
+        </div>`;
+
+      const actDiv = document.getElementById('recent-activity');
+      if (logs.length === 0) {
+        actDiv.innerHTML = '<div class="empty"><i class="fas fa-scroll"></i><p>No recent activity</p></div>';
+      } else {
+        actDiv.innerHTML = logs.reverse().map(renderLog).join('');
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  // ---- USERS ----
+  async function loadUsers() {
+    try {
+      const users = await api('GET', '/admin/api/users');
+      renderUsersTable(users);
+
+      document.getElementById('user-search').oninput = () => filterUsersTable(users);
+      document.getElementById('user-filter').onchange = () => filterUsersTable(users);
+    } catch(e) { console.error(e); }
+  }
+
+  function filterUsersTable(users) {
+    const search = document.getElementById('user-search').value.toLowerCase();
+    const filter = document.getElementById('user-filter').value;
+
+    let filtered = users;
+    if (search) filtered = filtered.filter(u => u.username.toLowerCase().includes(search) || (u.ip || '').includes(search));
+    if (filter === 'online') filtered = filtered.filter(u => u.online);
+    if (filter === 'offline') filtered = filtered.filter(u => !u.online);
+    if (filter === 'suspended') filtered = filtered.filter(u => u.suspended);
+    if (filter === 'muted') filtered = filtered.filter(u => u.muted);
+
+    renderUsersTable(filtered);
+  }
+
+  function renderUsersTable(users) {
+    const tbody = document.getElementById('users-table-body');
+    if (users.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><p>No users found</p></div></td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = users.map(u => {
+      let status = u.online ? '<span class="status-badge online"><i class="fas fa-circle" style="font-size:6px"></i> Online</span>' :
+                              '<span class="status-badge offline"><i class="fas fa-circle" style="font-size:6px"></i> Offline</span>';
+      if (u.suspended) status += ' <span class="status-badge suspended">Suspended</span>';
+      if (u.muted) status += ' <span class="status-badge muted">Muted</span>';
+
+      const lastActive = u.stats && u.stats.lastActive ? timeAgo(u.stats.lastActive) : 'Never';
+
+      return `<tr>
+        <td>
+          <div class="user-cell">
+            <div class="avatar" style="background:${esc(u.color)}">${esc(u.username[0].toUpperCase())}</div>
+            <div class="name">${esc(u.username)}</div>
+          </div>
+        </td>
+        <td>${status}</td>
+        <td><code style="font-size:11px;color:var(--text-muted)">${esc(u.ip || '—')}</code></td>
+        <td>${u.stats ? u.stats.messageCount : 0}</td>
+        <td>${(u.warnings || []).length}</td>
+        <td style="font-size:12px;color:var(--text-muted)">${lastActive}</td>
+        <td>
+          <div class="action-btns">
+            ${u.online ? `<button class="btn btn-xs btn-warning" onclick="kickUser('${esc(u.username)}')"><i class="fas fa-boot"></i> Kick</button>` : ''}
+            <button class="btn btn-xs btn-secondary" onclick="warnUser('${esc(u.username)}')"><i class="fas fa-exclamation-triangle"></i></button>
+            ${u.muted ? 
+              `<button class="btn btn-xs btn-success" onclick="unmuteUser('${esc(u.username)}')"><i class="fas fa-volume-up"></i></button>` :
+              `<button class="btn btn-xs btn-secondary" onclick="muteUser('${esc(u.username)}')"><i class="fas fa-volume-mute"></i></button>`
+            }
+            ${u.suspended ? 
+              `<button class="btn btn-xs btn-success" onclick="unsuspendUser('${esc(u.username)}')"><i class="fas fa-unlock"></i></button>` :
+              `<button class="btn btn-xs btn-danger" onclick="suspendUser('${esc(u.username)}')"><i class="fas fa-ban"></i></button>`
+            }
+            <button class="btn btn-xs btn-danger" onclick="banIP('${esc(u.username)}')" title="Ban IP"><i class="fas fa-skull-crossbones"></i></button>
+            <button class="btn btn-xs btn-danger" onclick="purgeUserMsgs('${esc(u.username)}')" title="Purge Messages"><i class="fas fa-broom"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ---- User Actions ----
+  window.kickUser = (username) => {
+    showActionModal('Kick User', `Kick <strong>${esc(username)}</strong> from the chat?`, 'Reason (optional)', async (reason) => {
+      await api('POST', `/admin/api/users/${username}/kick`, { reason });
+      toast(`Kicked ${username}`, 'success');
+      loadUsers();
+    });
+  };
+
+  window.warnUser = (username) => {
+    showActionModal('Warn User', `Send a warning to <strong>${esc(username)}</strong>`, 'Warning reason', async (reason) => {
+      await api('POST', `/admin/api/users/${username}/warn`, { reason });
+      toast(`Warned ${username}`, 'success');
+      loadUsers();
+    });
+  };
+
+  window.muteUser = (username) => {
+    showActionModal('Mute User', `Mute <strong>${esc(username)}</strong>`, 'Reason', async (reason) => {
+      const duration = prompt('Duration in minutes (leave empty for permanent):');
+      await api('POST', `/admin/api/users/${username}/mute`, { reason, duration: duration ? parseInt(duration) : null });
+      toast(`Muted ${username}`, 'success');
+      loadUsers();
+    });
+  };
+
+  window.unmuteUser = async (username) => {
+    await api('POST', `/admin/api/users/${username}/unmute`);
+    toast(`Unmuted ${username}`, 'success');
+    loadUsers();
+  };
+
+  window.suspendUser = (username) => {
+    showActionModal('Suspend User', `Suspend <strong>${esc(username)}</strong> from the chat`, 'Reason', async (reason) => {
+      const duration = prompt('Duration in minutes (leave empty for permanent):');
+      await api('POST', `/admin/api/users/${username}/suspend`, { reason, duration: duration ? parseInt(duration) : null });
+      toast(`Suspended ${username}`, 'success');
+      loadUsers();
+    });
+  };
+
+  window.unsuspendUser = async (username) => {
+    await api('POST', `/admin/api/users/${username}/unsuspend`);
+    toast(`Unsuspended ${username}`, 'success');
+    loadUsers();
+  };
+
+  window.banIP = (username) => {
+    showActionModal('Ban IP', `Permanently ban <strong>${esc(username)}</strong> and their IP address? This is a severe action.`, 'Reason', async (reason) => {
+      await api('POST', `/admin/api/users/${username}/ban-ip`, { reason });
+      toast(`IP banned ${username}`, 'success');
+      loadUsers();
+    }, 'btn-danger');
+  };
+
+  window.purgeUserMsgs = async (username) => {
+    if (!confirm(`Delete ALL messages from ${username}? This cannot be undone.`)) return;
+    const data = await api('POST', `/admin/api/users/${username}/purge`);
+    toast(`Purged ${data.purged} messages from ${username}`, 'success');
+  };
+
+  // ---- MESSAGES ----
+  async function loadChannelsForMessages() {
+    const channels = await api('GET', '/admin/api/channels');
+    const select = document.getElementById('msg-channel-select');
+    select.innerHTML = '<option value="">Select Channel</option>' +
+      Object.keys(channels).map(ch => `<option value="${esc(ch)}">#${esc(ch)} (${channels[ch].messageCount})</option>`).join('');
+
+    select.onchange = async () => {
+      if (!select.value) return;
+      const msgs = await api('GET', `/admin/api/messages/${select.value}`);
+      renderMessagesViewer(msgs, select.value);
+    };
+
+    document.getElementById('msg-search').oninput = (e) => {
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll('#messages-viewer .message-item').forEach(el => {
+        el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    };
+  }
+
+  function renderMessagesViewer(messages, channel) {
+    const viewer = document.getElementById('messages-viewer');
+    if (messages.length === 0) {
+      viewer.innerHTML = '<div class="empty"><i class="fas fa-comments"></i><p>No messages in this channel</p></div>';
+      return;
+    }
+
+    viewer.innerHTML = messages.map(m => `
+      <div class="message-item" data-id="${m.id}">
+        <div class="msg-avatar" style="background:${m.color || '#888'}">${(m.username || '?')[0].toUpperCase()}</div>
+        <div class="msg-content">
+          <div class="msg-header">
+            <span class="msg-user" style="color:${m.color || '#888'}">${esc(m.username || 'System')}</span>
+            <span class="msg-time">${formatTime(m.timestamp)}</span>
+            ${m.edited ? '<span style="font-size:10px;color:var(--text-muted)">(edited)</span>' : ''}
+            ${m.system ? '<span class="status-badge" style="background:rgba(108,99,255,0.15);color:var(--accent);font-size:10px">system</span>' : ''}
+          </div>
+          <div class="msg-text">${esc(m.text || '')}</div>
+          ${m.file ? '<span style="font-size:11px;color:var(--info)"><i class="fas fa-paperclip"></i> ' + esc(m.file.name || 'file') + '</span>' : ''}
+        </div>
+        <div class="msg-actions">
+          <button class="btn-icon danger" onclick="deleteMessage('${m.id}', '${esc(channel)}')" title="Delete">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>`).join('');
+
+    viewer.scrollTop = viewer.scrollHeight;
+  }
+
+  window.deleteMessage = async (id, channel) => {
+    if (!confirm('Delete this message?')) return;
+    await api('DELETE', `/admin/api/messages/${id}?channel=${channel}`);
+    toast('Message deleted', 'success');
+    // Reload
+    document.getElementById('msg-channel-select').dispatchEvent(new Event('change'));
+  };
+
+  // ---- CHANNELS ----
+  async function loadChannels() {
+    const channels = await api('GET', '/admin/api/channels');
+    const tbody = document.getElementById('channels-table-body');
+
+    tbody.innerHTML = Object.entries(channels).map(([name, info]) => `
+      <tr>
+        <td><strong style="color:var(--accent)"><i class="fas fa-hashtag" style="opacity:0.5"></i> ${esc(name)}</strong></td>
+        <td>${info.messageCount}</td>
+        <td style="font-size:12px;color:var(--text-muted)">${info.lastActivity ? timeAgo(info.lastActivity) : 'No activity'}</td>
+        <td>
+          <div class="action-btns">
+            <button class="btn btn-xs btn-warning" onclick="clearChannel('${esc(name)}')"><i class="fas fa-eraser"></i> Clear</button>
+            ${name !== 'general' ? `<button class="btn btn-xs btn-danger" onclick="deleteChannel('${esc(name)}')"><i class="fas fa-trash"></i> Delete</button>` : ''}
+          </div>
+        </td>
+      </tr>`).join('');
+  }
+
+  window.clearChannel = async (channel) => {
+    if (!confirm(`Clear ALL messages in #${channel}?`)) return;
+    const data = await api('POST', `/admin/api/channels/${channel}/clear`);
+    toast(`Cleared ${data.cleared} messages from #${channel}`, 'success');
+    loadChannels();
+  };
+
+  window.deleteChannel = async (channel) => {
+    if (!confirm(`Delete channel #${channel}? This cannot be undone.`)) return;
+    await api('DELETE', `/admin/api/channels/${channel}`);
+    toast(`Deleted channel #${channel}`, 'success');
+    loadChannels();
+  };
+
+  window.showCreateChannelModal = () => {
+    showModal('Create Channel',
+      `<div class="form-group">
+        <label>Channel Name</label>
+        <input type="text" id="new-channel-name" class="form-input" placeholder="channel-name" maxlength="20">
+      </div>`,
+      `<button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+       <button class="btn btn-accent" onclick="createChannel()">Create</button>`
+    );
+  };
+
+  window.createChannel = async () => {
+    const name = document.getElementById('new-channel-name').value.trim();
+    if (!name) return;
+    await api('POST', '/admin/api/channels', { name });
+    toast(`Created #${name}`, 'success');
+    closeModal();
+    loadChannels();
+  };
+
+  // ---- DMs ----
+  async function loadDMs() {
+    const dms = await api('GET', '/admin/api/dms');
+    const tbody = document.getElementById('dms-table-body');
+
+    const entries = Object.entries(dms);
+    if (entries.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4"><div class="empty"><p>No direct messages</p></div></td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = entries.map(([key, info]) => `
+      <tr>
+        <td>${info.participants.map(p => `<span style="color:var(--accent);font-weight:600">${esc(p)}</span>`).join(' ↔ ')}</td>
+        <td>${info.messageCount}</td>
+        <td style="font-size:12px;color:var(--text-muted)">${info.lastMessage ? timeAgo(info.lastMessage.timestamp) : '—'}</td>
+        <td>
+          <div class="action-btns">
+            <button class="btn btn-xs btn-secondary" onclick="viewDM('${esc(key)}')"><i class="fas fa-eye"></i> View</button>
+          </div>
+        </td>
+      </tr>`).join('');
+
+    document.getElementById('dm-search').oninput = (e) => {
+      const q = e.target.value.toLowerCase();
+      tbody.querySelectorAll('tr').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    };
+  }
+
+  window.viewDM = async (key) => {
+    const msgs = await api('GET', `/admin/api/dms/${key}`);
+    const card = document.getElementById('dm-viewer-card');
+    const viewer = document.getElementById('dm-viewer');
+    const title = document.getElementById('dm-viewer-title');
+
+    card.style.display = 'block';
+    title.textContent = `DM: ${key.split(':').join(' ↔ ')} (${msgs.length} messages)`;
+
+    viewer.innerHTML = msgs.map(m => `
+      <div class="message-item" data-id="${m.id}">
+        <div class="msg-avatar" style="background:${m.color || '#888'}">${(m.from || '?')[0].toUpperCase()}</div>
+        <div class="msg-content">
+          <div class="msg-header">
+            <span class="msg-user" style="color:${m.color || '#888'}">${esc(m.from || '?')}</span>
+            <span style="font-size:11px;color:var(--text-muted)">→ ${esc(m.to || '?')}</span>
+            <span class="msg-time">${formatTime(m.timestamp)}</span>
+          </div>
+          <div class="msg-text">${esc(m.text || '')}</div>
+        </div>
+        <div class="msg-actions">
+          <button class="btn-icon danger" onclick="deleteDMMessage('${m.id}', '${esc(key)}')" title="Delete">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>`).join('');
+
+    viewer.scrollTop = viewer.scrollHeight;
+  };
+
+  window.deleteDMMessage = async (id, dmKey) => {
+    if (!confirm('Delete this DM message?')) return;
+    await api('DELETE', `/admin/api/messages/${id}?dmKey=${dmKey}`);
+    toast('DM message deleted', 'success');
+    viewDM(dmKey);
+  };
+
+  // ---- BROADCAST ----
+  window.sendAnnouncement = async () => {
+    const text = document.getElementById('announce-text').value.trim();
+    if (!text) return toast('Enter announcement text', 'error');
+    await api('POST', '/admin/api/announce', { text });
+    document.getElementById('announce-text').value = '';
+    toast('Announcement sent!', 'success');
+  };
+
+  // ---- SETTINGS ----
+  async function loadSettings() {
+    const settings = await api('GET', '/admin/api/settings');
+    const grid = document.getElementById('settings-grid');
+
+    grid.innerHTML = `
+      <div class="setting-item">
+        <label>Max Message Length</label>
+        <div class="desc">Maximum characters per message</div>
+        <input type="number" id="set-maxMsgLen" value="${settings.maxMessageLength}" min="1" max="10000">
+      </div>
+      <div class="setting-item">
+        <label>Slow Mode (seconds)</label>
+        <div class="desc">Delay between messages per user. 0 = off</div>
+        <input type="number" id="set-slowMode" value="${settings.slowMode}" min="0" max="300">
+      </div>
+      <div class="setting-item">
+        <label>Max File Size (bytes)</label>
+        <div class="desc">Maximum upload file size</div>
+        <input type="number" id="set-maxFileSize" value="${settings.maxFileSize}" min="0">
+      </div>
+      <div class="setting-item">
+        <label>Welcome Message</label>
+        <div class="desc">Shown to users when they join</div>
+        <textarea id="set-welcomeMsg">${esc(settings.welcomeMessage)}</textarea>
+      </div>
+      <div class="setting-item">
+        <label>Registration Open</label>
+        <div class="desc">Allow new users to join</div>
+        <div class="toggle-switch ${settings.registrationOpen ? 'active' : ''}" id="set-regOpen"
+          onclick="this.classList.toggle('active')"></div>
+      </div>
+      <div class="setting-item">
+        <label>Maintenance Mode</label>
+        <div class="desc">Block all users from accessing chat</div>
+        <div class="toggle-switch ${settings.maintenanceMode ? 'active' : ''}" id="set-maintenance"
+          onclick="this.classList.toggle('active')"></div>
+      </div>
+      <div class="setting-item" style="grid-column: span 2;">
+        <label>Word Filter</label>
+        <div class="desc">Comma-separated list of words to filter</div>
+        <textarea id="set-wordFilter">${settings.wordFilter.join(', ')}</textarea>
+      </div>`;
+  }
+
+  window.saveSettings = async () => {
+    const updates = {
+      maxMessageLength: parseInt(document.getElementById('set-maxMsgLen').value) || 2000,
+      slowMode: parseInt(document.getElementById('set-slowMode').value) || 0,
+      maxFileSize: parseInt(document.getElementById('set-maxFileSize').value) || 5242880,
+      welcomeMessage: document.getElementById('set-welcomeMsg').value,
+      registrationOpen: document.getElementById('set-regOpen').classList.contains('active'),
+      maintenanceMode: document.getElementById('set-maintenance').classList.contains('active'),
+      wordFilter: document.getElementById('set-wordFilter').value.split(',').map(w => w.trim()).filter(Boolean)
+    };
+    await api('PUT', '/admin/api/settings', updates);
+    toast('Settings saved!', 'success');
+  };
+
+  // ---- LOGS ----
+  async function loadLogs() {
+    const filter = document.getElementById('log-filter') ? document.getElementById('log-filter').value : '';
+    const logs = await api('GET', `/admin/api/logs?limit=200${filter ? `&type=${filter}` : ''}`);
+    const container = document.getElementById('logs-container');
+
+    if (logs.length === 0) {
+      container.innerHTML = '<div class="empty"><i class="fas fa-scroll"></i><p>No logs</p></div>';
+      return;
+    }
+
+    container.innerHTML = logs.reverse().map(renderLog).join('');
+
+    if (document.getElementById('log-filter')) {
+      document.getElementById('log-filter').onchange = loadLogs;
+    }
+  }
+
+  function prependLog(log) {
+    const container = document.getElementById('logs-container');
+    const empty = container.querySelector('.empty');
+    if (empty) empty.remove();
+    container.insertAdjacentHTML('afterbegin', renderLog(log));
+  }
+
+  function renderLog(log) {
+    const icons = {
+      auth: 'fa-key', moderation: 'fa-gavel', connection: 'fa-plug',
+      system: 'fa-server', admin: 'fa-crown', security: 'fa-shield-alt', channel: 'fa-hashtag'
+    };
+    return `
+      <div class="log-entry">
+        <div class="log-icon ${log.type}"><i class="fas ${icons[log.type] || 'fa-info'}"></i></div>
+        <div class="log-content">
+          <div class="log-message">${esc(log.message)}</div>
+          ${log.details ? `<div class="log-details">${esc(JSON.stringify(log.details))}</div>` : ''}
+        </div>
+        <div class="log-time">${formatTime(log.timestamp)}</div>
+      </div>`;
+  }
+
+  window.clearLogs = async () => {
+    if (!confirm('Clear all server logs?')) return;
+    await api('DELETE', '/admin/api/logs');
+    loadLogs();
+    toast('Logs cleared', 'success');
+  };
+
+  // ---- SECURITY ----
+  async function loadSecurity() {
+    const bannedIPs = await api('GET', '/admin/api/banned-ips');
+    const users = await api('GET', '/admin/api/users');
+    const suspended = users.filter(u => u.suspended);
+
+    const bannedDiv = document.getElementById('banned-ips-list');
+    if (bannedIPs.length === 0) {
+      bannedDiv.innerHTML = '<div class="empty"><i class="fas fa-check-circle"></i><p>No banned IPs</p></div>';
+    } else {
+      bannedDiv.innerHTML = bannedIPs.map(ip => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+          <code style="color:var(--text-primary)">${esc(ip)}</code>
+          <button class="btn btn-xs btn-secondary" onclick="unbanIP('${esc(ip)}')"><i class="fas fa-unlock"></i> Unban</button>
+        </div>`).join('');
+    }
+
+    const suspDiv = document.getElementById('suspended-list');
+    if (suspended.length === 0) {
+      suspDiv.innerHTML = '<div class="empty"><i class="fas fa-check-circle"></i><p>No suspended users</p></div>';
+    } else {
+      suspDiv.innerHTML = suspended.map(u => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+          <div>
+            <strong>${esc(u.username)}</strong>
+            <span style="font-size:12px;color:var(--text-muted);margin-left:8px">${esc(u.suspended.reason || '')}</span>
+            ${u.suspended.until ? `<span style="font-size:11px;color:var(--warning);margin-left:8px">Until ${new Date(u.suspended.until).toLocaleString()}</span>` : '<span style="font-size:11px;color:var(--danger);margin-left:8px">Permanent</span>'}
+          </div>
+          <button class="btn btn-xs btn-success" onclick="unsuspendUser('${esc(u.username)}'); setTimeout(loadSecurity, 500);">
+            <i class="fas fa-unlock"></i> Unsuspend
+          </button>
+        </div>`).join('');
+    }
+  }
+
+  window.unbanIP = async (ip) => {
+    await api('DELETE', `/admin/api/banned-ips/${encodeURIComponent(ip)}`);
+    toast(`Unbanned IP: ${ip}`, 'success');
+    loadSecurity();
+  };
+
+  // ---- MODAL ----
+  function showModal(title, bodyHTML, footerHTML) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-body').innerHTML = bodyHTML;
+    document.getElementById('modal-footer').innerHTML = footerHTML;
+    document.getElementById('admin-modal').classList.add('visible');
+  }
+
+  window.closeModal = () => {
+    document.getElementById('admin-modal').classList.remove('visible');
+  };
+
+  function showActionModal(title, description, inputLabel, onConfirm, btnClass = 'btn-accent') {
+    showModal(title,
+      `<p style="margin-bottom:16px;color:var(--text-secondary)">${description}</p>
+       <div class="form-group">
+         <label>${inputLabel}</label>
+         <input type="text" id="action-reason" class="form-input" placeholder="Enter reason...">
+       </div>`,
+      `<button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+       <button class="btn ${btnClass}" id="action-confirm-btn">Confirm</button>`
+    );
+
+    document.getElementById('action-confirm-btn').onclick = async () => {
+      const reason = document.getElementById('action-reason').value.trim();
+      try {
+        await onConfirm(reason);
+        closeModal();
+      } catch(e) {
+        toast(e.message || 'Error', 'error');
+      }
+    };
+  }
+
+  // ---- TOAST ----
+  function toast(message, type = 'info') {
+    const container = document.getElementById('admin-toast-container');
+    const icons = { info: 'info-circle', success: 'check-circle', error: 'exclamation-circle' };
+    const t = document.createElement('div');
+    t.className = `admin-toast ${type}`;
+    t.innerHTML = `<i class="fas fa-${icons[type]}"></i><span>${message}</span>`;
+    container.appendChild(t);
+    requestAnimationFrame(() => t.classList.add('visible'));
+    setTimeout(() => { t.classList.remove('visible'); setTimeout(() => t.remove(), 300); }, 3500);
+  }
+
+  // ---- UTILS ----
+  function esc(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function formatTime(ts) {
+    return new Date(ts).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function timeAgo(ts) {
+    const diff = Date.now() - ts;
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    return `${days}d ago`;
+  }
+
+  // ---- Start ----
+  init();
+})();
+</script>
+</body>
+</html>
