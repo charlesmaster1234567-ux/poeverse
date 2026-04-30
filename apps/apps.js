@@ -2,8 +2,8 @@
 const appsData = [
     {
         id: 1,
-        name: "TaskFlow",
-        category: "productivity",
+        name: "REDSOUL",
+        category: "Entertainment",
         icon: "fas fa-check-circle",
         color: "#6c5ce7",
         shortDesc: "Smart task management with AI-powered prioritization and team collaboration features.",
@@ -19,7 +19,7 @@ const appsData = [
         rating: 4.8,
         downloads: "2.3K",
         date: "Jan 2024",
-        link: "#",
+        link: "https://poemetry.onrender.com",
         github: "#"
     },
     {
