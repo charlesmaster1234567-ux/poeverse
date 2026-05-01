@@ -3,6 +3,19 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+// ===== BAD WORDS FILTER =====
+let badWordsFilter;
+try {
+  const BadWords = require('bad-words');
+  badWordsFilter = new BadWords();
+  // Add extra custom words here:
+  // badWordsFilter.addWords('word1', 'word2');
+  console.log('✅ Bad words filter loaded');
+} catch(e) {
+  console.warn('⚠️ bad-words package not found, using manual filter');
+  badWordsFilter = null;
+}
+
 // Check if ws module exists
 let WebSocketServer;
 try {
@@ -201,12 +214,26 @@ function cwBroadcastSystemMessage(text, channel = 'general') {
 }
 
 function checkWordFilter(text) {
-  if (!serverSettings.wordFilter || serverSettings.wordFilter.length === 0) return text;
+  if (!text) return text;
   let filtered = text;
-  serverSettings.wordFilter.forEach(word => {
-    const regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-    filtered = filtered.replace(regex, '*'.repeat(word.length));
-  });
+
+  // ---- Use bad-words package if available ----
+  if (badWordsFilter) {
+    try {
+      filtered = badWordsFilter.clean(filtered);
+    } catch(e) {
+      // If cleaning fails (e.g. word too short), keep original
+    }
+  }
+
+  // ---- Also apply manual word filter from admin settings ----
+  if (serverSettings.wordFilter && serverSettings.wordFilter.length > 0) {
+    serverSettings.wordFilter.forEach(word => {
+      const regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      filtered = filtered.replace(regex, '*'.repeat(word.length));
+    });
+  }
+
   return filtered;
 }
 
