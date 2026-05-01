@@ -1,8 +1,3 @@
-// =====================================================
-// SERVER-SIDE CODE — Node.js + Express + WebSocket
-// Run: node chat.js
-// =====================================================
-
 const http = require('http');
 const express = require('express');
 const { WebSocketServer } = require('ws');
@@ -18,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 // =====================================================
 const ADMIN_CONFIG = {
   username: 'admin',
-  passwordHash: crypto.createHash('sha256').update('Unique1!').digest('hex'),
+  passwordHash: crypto.createHash('sha256').update('ChatWaveAdmin2024!').digest('hex'),
   sessionExpiry: 24 * 60 * 60 * 1000,
   maxLoginAttempts: 5,
   lockoutDuration: 15 * 60 * 1000
@@ -56,20 +51,6 @@ const directMessages = {};
 // ---- Express Setup ----
 app.use(express.static(path.join(__dirname)));
 app.use(express.json({ limit: '10mb' }));
-
-// ---- Routes ----
-app.get('/', (req, res) => {
-  if (serverSettings.maintenanceMode) {
-    return res.send(`<!DOCTYPE html><html><head><title>Maintenance</title></head>
-      <body style="display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#1a1a2e;color:#e0e0e0;font-family:system-ui;text-align:center">
-      <div><h1>🔧</h1><h2>Under Maintenance</h2><p>Please check back later.</p></div></body></html>`);
-  }
-  res.sendFile(path.join(__dirname, 'chat.html'));
-});
-
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin.html'));
-});
 
 // ---- Helper Functions ----
 function addLog(type, message, details = null) {
@@ -142,6 +123,20 @@ function isUserMuted(username) {
   if (m.until && Date.now() > m.until) { mutedUsers.delete(username); return false; }
   return true;
 }
+
+// ---- Routes ----
+app.get('/', (req, res) => {
+  if (serverSettings.maintenanceMode) {
+    return res.send(`<!DOCTYPE html><html><head><title>Maintenance</title></head>
+      <body style="display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#1a1a2e;color:#e0e0e0;font-family:system-ui;text-align:center">
+      <div><h1>🔧</h1><h2>Under Maintenance</h2><p>Please check back later.</p></div></body></html>`);
+  }
+  res.sendFile(path.join(__dirname, 'chat.html'));
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
 
 // ---- Admin Auth Middleware ----
 function authenticateAdmin(req, res, next) {
@@ -455,7 +450,6 @@ wss.on('connection', (ws, req) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const adminToken = url.searchParams.get('admin_token');
 
-  // Admin WebSocket
   if (adminToken && adminSessions.has(adminToken)) {
     ws.__isAdmin = true;
     adminWsClients.add(ws);
@@ -464,7 +458,6 @@ wss.on('connection', (ws, req) => {
     return;
   }
 
-  // Check IP ban
   if (bannedIPs.has(clientIP)) {
     ws.send(JSON.stringify({ type: 'error', message: 'You have been banned from this server.' }));
     ws.close(1000, 'Banned');
@@ -708,11 +701,10 @@ server.listen(PORT, () => {
 ╠══════════════════════════════════════════╣
 ║  🚀 Chat:  http://localhost:${PORT}          ║
 ║  🔐 Admin: http://localhost:${PORT}/admin     ║
-║  📱 Open multiple tabs to test           ║
 ╠══════════════════════════════════════════╣
 ║  Admin Login:                            ║
 ║  Username: admin                         ║
-║  Password: Unique1!            ║
+║  Password: ChatWaveAdmin2024!            ║
 ╚══════════════════════════════════════════╝
   `);
 });
