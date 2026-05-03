@@ -1,7 +1,7 @@
 {
-    "name": "READSOUL",
-    "short_name": "WREATE",
-    "description": "Discover and share BEAUTIFUL poetry. Explore sonnets, heartbreak verses, and Chichewa poems from Black Broken Heart's collection.",
+    "name": "RedSOUL",
+    "short_name": "RedS",
+    "description": "Free flow of emotions in ink | tears Awaiting, Explore sonnets, heartbreak verses, and Chichewa poems and mystical stories from RedSOUL's collection.",
     "version": "2.0.0",
     "start_url": "/",
     "scope": "/",
@@ -12,69 +12,94 @@
     "theme_color": "#e94560",
     "lang": "en-US",
     "dir": "ltr",
-    "icons": [
 
-        {
-            "src": "/icons/icon-96x96.png",
-            "sizes": "96x96",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-128x128.png",
-            "sizes": "128x128",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-144x144.png",
-            "sizes": "144x144",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-152x152.png",
-            "sizes": "152x152",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-256x256.png",
-            "sizes": "256x256",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/maskable-icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "/icons/maskable-icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
-        }
-    ],
+    "icons": [
+    {
+        "src": "/icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/maskable-icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+    },
+    {
+        "src": "/icons/icon-384x384.png",
+        "sizes": "384x384",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-256x256.png",
+        "sizes": "256x256",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/maskable-icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
+    },
+    {
+        "src": "/icons/icon-152x152.png",
+        "sizes": "152x152",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-128x128.png",
+        "sizes": "128x128",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-72x72.png",
+        "sizes": "72x72",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-48x48.png",
+        "sizes": "48x48",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-32x32.png",
+        "sizes": "32x32",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/icons/icon-16x16.png",
+        "sizes": "16x16",
+        "type": "image/png",
+        "purpose": "any"
+    }
+],
+
     "shortcuts": [
         {
             "name": "All Poems",
@@ -129,6 +154,24 @@
             ]
         }
     ],
+
+    "screenshots": [
+        {
+            "src": "/pmcoverpg.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "READSOUL Desktop View"
+        },
+        {
+            "src": "/pmcoverpg.png",
+            "sizes": "750x1334",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "READSOUL Mobile View"
+        }
+    ],
+
     "categories": [
         "books",
         "education",
@@ -136,6 +179,7 @@
         "lifestyle",
         "magazines"
     ],
+
     "prefer_related_applications": false,
     "related_applications": [
         {
@@ -143,6 +187,7 @@
             "url": "https://poemetry.onrender.com/manifest.json"
         }
     ],
+
     "handle_links": "preferred",
     "launch_handler": {
         "client_mode": ["navigate-existing", "auto"]
@@ -150,6 +195,7 @@
     "edge_side_panel": {
         "preferred_width": 400
     },
+
     "share_target": {
         "action": "/#submit",
         "method": "POST",
@@ -160,12 +206,14 @@
             "url": "poemUrl"
         }
     },
+
     "protocol_handlers": [
         {
             "protocol": "web+poem",
             "url": "/#poem?id=%s"
         }
     ],
+
     "file_handlers": [
         {
             "action": "/#submit",
@@ -174,6 +222,7 @@
             }
         }
     ],
+
     "widgets": [
         {
             "name": "Poem of the Day",
@@ -235,4 +284,3 @@
         }
     ]
 }
-
