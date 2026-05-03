@@ -31,3 +31,20 @@ sessions.json
 # Temporary
 *.tmp
 .cache/
+
+# Environment
+.env
+.env.*
+
+# Sessions
+sessions.json
+
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
