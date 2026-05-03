@@ -1,11 +1,11 @@
-# PoeVerse - Poetry Universe
-# https://poeverse.netlify.app
+# REDSOUL - Emotions Universe
+# https://poemetry.onrender.com
 
 User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://poeverse.netlify.app/sitemap.xml
+Sitemap: https://poemetry.onrender.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

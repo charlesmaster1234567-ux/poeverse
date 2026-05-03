@@ -13,30 +13,7 @@
     "lang": "en-US",
     "dir": "ltr",
     "icons": [
-        {
-            "src": "/icons/icon-16x16.png",
-            "sizes": "16x16",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-32x32.png",
-            "sizes": "32x32",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-48x48.png",
-            "sizes": "48x48",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/icons/icon-72x72.png",
-            "sizes": "72x72",
-            "type": "image/png",
-            "purpose": "any"
-        },
+
         {
             "src": "/icons/icon-96x96.png",
             "sizes": "96x96",
@@ -163,7 +140,7 @@
     "related_applications": [
         {
             "platform": "webapp",
-            "url": "https://poeverse.netlify.app/manifest.json"
+            "url": "https://poemetry.onrender.com/manifest.json"
         }
     ],
     "handle_links": "preferred",

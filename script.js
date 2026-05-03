@@ -1809,7 +1809,7 @@ ${escapeHtml(poem.content)}
         </div>
         <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
           <p style="color: #888; font-size: 12px;">Poetry Universe - Black Broken Heart</p>
-          <p style="color: #888; font-size: 12px;">https://poeverse.netlify.app</p>
+          <p style="color: #888; font-size: 12px;">https://poemetry.onrender.com</p>
         </div>
       </div>
     `;

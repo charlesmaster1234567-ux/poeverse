@@ -15,7 +15,7 @@ const PRECACHE_ASSETS = [
   '/manifest.json',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
-  '/me.jpg',
+  '/charles.png',
   '/preview.png',
   // Fonts
   'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap',

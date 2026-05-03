@@ -96,8 +96,8 @@ async function createDataFiles() {
     title: "My Beloved",
     category: "Sonnet #72",
     excerpt: "Go there in a dark room,\nIs a yellow bag and...\nHolding me when I was once a broom.",
-    backgroundUrl: "https://poeverse.netlify.app/widgets/widget-bg.png",
-    readUrl: "https://poeverse.netlify.app/#poem-poem1",
+    backgroundUrl: "https://poemetry.onrender.com/widgets/widget-bg.png",
+    readUrl: "https://poemetry.onrender.com/#poem-poem1",
     date: new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
     timestamp: new Date().toISOString()
   };
@@ -107,7 +107,7 @@ async function createDataFiles() {
     readingTime: "18m",
     favorites: "5",
     visits: "24",
-    statsUrl: "https://poeverse.netlify.app/#stats"
+    statsUrl: "https://poemetry.onrender.com/#stats"
   };
 
   await fs.writeFile('api/poem-of-day.json', JSON.stringify(poemData, null, 2));

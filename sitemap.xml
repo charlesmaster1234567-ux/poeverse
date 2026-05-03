@@ -6,64 +6,64 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://poeverse.netlify.app/</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://poemetry.onrender.com/</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Poems Section -->
   <url>
-    <loc>https://poeverse.netlify.app/#poems</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://poemetry.onrender.com/#poems</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <!-- Sonnets Category -->
   <url>
-    <loc>https://poeverse.netlify.app/#poems?category=sonnets</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://poemetry.onrender.com/#poems?category=sonnets</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Heartbreak Category -->
   <url>
-    <loc>https://poeverse.netlify.app/#poems?category=heartbreak</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://poemetry.onrender.com/#poems?category=heartbreak</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Chichewa Category -->
   <url>
-    <loc>https://poeverse.netlify.app/#poems?category=chichewa</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://poemetry.onrender.com/#poems?category=chichewa</loc>
+   <lastmod>2026-05-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Submit Poetry -->
   <url>
-    <loc>https://poeverse.netlify.app/#submit</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://poemetry.onrender.com/#submit</loc>
+   <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <!-- About -->
   <url>
-    <loc>https://poeverse.netlify.app/#about</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://poemetry.onrender.com/#about</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <!-- Contact -->
   <url>
-    <loc>https://poeverse.netlify.app/#contact</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://poemetry.onrender.com/#contact</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
