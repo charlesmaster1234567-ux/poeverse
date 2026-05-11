@@ -1,111 +1,112 @@
 {
-    "name": "RedSOUL",
-    "short_name": "RedS",
-    "description": "Free flow of emotions in ink | tears Awaiting, Explore sonnets, heartbreak verses, and Chichewa poems and mystical stories from RedSOUL's collection.",
-    "version": "2.0.0",
+    "name": "TheLongAfter",
+    "short_name": "TLA",
+    "description": "She Came Back Wearing Someone Else's Face | Horror. Love. Mystical. Dreamy. Strange. Stories, poems, novels and more — written from the space after everything ends.",
+    "version": "3.0.0",
     "start_url": "/",
     "scope": "/",
+    "id": "/",
     "display": "standalone",
     "display_override": ["window-controls-overlay", "standalone", "browser"],
     "orientation": "any",
-    "background_color": "#0a0a0f",
-    "theme_color": "#e94560",
+    "background_color": "#0A0A0A",
+    "theme_color": "#8B0000",
     "lang": "en-US",
     "dir": "ltr",
 
     "icons": [
-    {
-        "src": "/icons/icon-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/maskable-icon-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "maskable"
-    },
-    {
-        "src": "/icons/icon-384x384.png",
-        "sizes": "384x384",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-256x256.png",
-        "sizes": "256x256",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/maskable-icon-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "maskable"
-    },
-    {
-        "src": "/icons/icon-152x152.png",
-        "sizes": "152x152",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-144x144.png",
-        "sizes": "144x144",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-128x128.png",
-        "sizes": "128x128",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-96x96.png",
-        "sizes": "96x96",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-72x72.png",
-        "sizes": "72x72",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-48x48.png",
-        "sizes": "48x48",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-32x32.png",
-        "sizes": "32x32",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "/icons/icon-16x16.png",
-        "sizes": "16x16",
-        "type": "image/png",
-        "purpose": "any"
-    }
-],
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/maskable-icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/maskable-icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-48x48.png",
+            "sizes": "48x48",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
 
     "shortcuts": [
         {
-            "name": "All Poems",
-            "short_name": "Poems",
-            "description": "Browse all poetry in the collection",
-            "url": "/#poems",
+            "name": "All Works",
+            "short_name": "Works",
+            "description": "Browse all writings in TheLongAfter collection — stories, poems, novels and more",
+            "url": "/#works",
             "icons": [
                 {
                     "src": "/icons/shortcut-poems.png",
@@ -115,10 +116,10 @@
             ]
         },
         {
-            "name": "Sonnets",
-            "short_name": "Sonnets",
-            "description": "Read beautiful sonnets",
-            "url": "/#poems?category=sonnets",
+            "name": "Stories",
+            "short_name": "Stories",
+            "description": "What haunts you in TheLongAfter? Enter the stories.",
+            "url": "/#works?category=stories",
             "icons": [
                 {
                     "src": "/icons/shortcut-sonnets.png",
@@ -128,10 +129,10 @@
             ]
         },
         {
-            "name": "Heartbreak",
-            "short_name": "Heartbreak",
-            "description": "Explore heartbreak poetry",
-            "url": "/#poems?category=heartbreak",
+            "name": "Poems",
+            "short_name": "Poems",
+            "description": "Words that bleed — dark poetry from TheLongAfter",
+            "url": "/#works?category=poems",
             "icons": [
                 {
                     "src": "/icons/shortcut-heartbreak.png",
@@ -141,9 +142,22 @@
             ]
         },
         {
-            "name": "Submit Poetry",
+            "name": "Novels",
+            "short_name": "Novels",
+            "description": "Full-length dark fiction — novels from TheLongAfter",
+            "url": "/#works?category=novels",
+            "icons": [
+                {
+                    "src": "/icons/shortcut-submit.png",
+                    "sizes": "96x96",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Submit Writing",
             "short_name": "Submit",
-            "description": "Submit your own poetry",
+            "description": "Submit your own stories, poems or novels to TheLongAfter",
             "url": "/#submit",
             "icons": [
                 {
@@ -161,14 +175,14 @@
             "sizes": "1280x720",
             "type": "image/png",
             "form_factor": "wide",
-            "label": "READSOUL Desktop View"
+            "label": "TheLongAfter — Desktop View | She Came Back Wearing Someone Else's Face"
         },
         {
             "src": "/pmcoverpg.png",
             "sizes": "750x1334",
             "type": "image/png",
             "form_factor": "narrow",
-            "label": "READSOUL Mobile View"
+            "label": "TheLongAfter — Mobile View | She Came Back Wearing Someone Else's Face"
         }
     ],
 
@@ -184,14 +198,16 @@
     "related_applications": [
         {
             "platform": "webapp",
-            "url": "https://poemetry.onrender.com/manifest.json"
+            "url": "https://thelongafter.onrender.com/manifest.json"
         }
     ],
 
     "handle_links": "preferred",
+
     "launch_handler": {
         "client_mode": ["navigate-existing", "auto"]
     },
+
     "edge_side_panel": {
         "preferred_width": 400
     },
@@ -201,16 +217,16 @@
         "method": "POST",
         "enctype": "multipart/form-data",
         "params": {
-            "title": "poemTitle",
-            "text": "poemContent",
-            "url": "poemUrl"
+            "title": "workTitle",
+            "text": "workContent",
+            "url": "workUrl"
         }
     },
 
     "protocol_handlers": [
         {
-            "protocol": "web+poem",
-            "url": "/#poem?id=%s"
+            "protocol": "web+thelongafter",
+            "url": "/#work?id=%s"
         }
     ],
 
@@ -218,26 +234,33 @@
         {
             "action": "/#submit",
             "accept": {
-                "text/plain": [".txt", ".poem", ".poetry"]
+                "text/plain": [
+                    ".txt",
+                    ".poem",
+                    ".story",
+                    ".novel",
+                    ".dark",
+                    ".md"
+                ]
             }
         }
     ],
 
     "widgets": [
         {
-            "name": "Poem of the Day",
-            "short_name": "Daily Poem",
-            "description": "Display today's featured poem on your home screen",
-            "tag": "poeverse-daily-poem",
-            "template": "poem-of-day",
-            "ms_ac_template": "widgets/poem-template.json",
-            "data": "api/poem-of-day.json",
+            "name": "Read of the Day",
+            "short_name": "Daily Read",
+            "description": "Display today's featured story, poem or novel from TheLongAfter on your home screen",
+            "tag": "thelongafter-daily-read",
+            "template": "read-of-day",
+            "ms_ac_template": "widgets/read-template.json",
+            "data": "api/read-of-day.json",
             "type": "application/vnd.microsoft.card.adaptive",
             "screenshots": [
                 {
-                    "src": "widgets/poem-widget-preview.png",
+                    "src": "widgets/read-widget-preview.png",
                     "sizes": "300x400",
-                    "label": "Poem of the Day Widget Preview"
+                    "label": "TheLongAfter — Read of the Day Widget"
                 }
             ],
             "icons": [
@@ -260,8 +283,8 @@
         {
             "name": "Reading Stats",
             "short_name": "Stats",
-            "description": "View your reading statistics",
-            "tag": "poeverse-stats",
+            "description": "View your reading statistics on TheLongAfter",
+            "tag": "thelongafter-stats",
             "template": "reading-stats",
             "ms_ac_template": "widgets/stats-template.json",
             "data": "api/reading-stats.json",
@@ -270,7 +293,7 @@
                 {
                     "src": "widgets/stats-widget-preview.png",
                     "sizes": "300x200",
-                    "label": "Reading Stats Widget"
+                    "label": "TheLongAfter — Reading Stats Widget"
                 }
             ],
             "icons": [
@@ -281,6 +304,72 @@
                 }
             ],
             "update": 1800
+        },
+        {
+            "name": "Poem of the Day",
+            "short_name": "Daily Poem",
+            "description": "A dark poem from TheLongAfter delivered to your home screen daily",
+            "tag": "thelongafter-daily-poem",
+            "template": "poem-of-day",
+            "ms_ac_template": "widgets/poem-template.json",
+            "data": "api/poem-of-day.json",
+            "type": "application/vnd.microsoft.card.adaptive",
+            "screenshots": [
+                {
+                    "src": "widgets/poem-widget-preview.png",
+                    "sizes": "300x400",
+                    "label": "TheLongAfter — Poem of the Day Widget"
+                }
+            ],
+            "icons": [
+                {
+                    "src": "icons/widget-icon.png",
+                    "sizes": "64x64",
+                    "type": "image/png"
+                }
+            ],
+            "backgrounds": [
+                {
+                    "src": "widgets/widget-bg.png",
+                    "sizes": "300x400",
+                    "type": "image/png"
+                }
+            ],
+            "auth": false,
+            "update": 86400
+        },
+        {
+            "name": "Novel Chapter",
+            "short_name": "Chapter",
+            "description": "Read the latest chapter from TheLongAfter novels on your home screen",
+            "tag": "thelongafter-novel-chapter",
+            "template": "novel-chapter",
+            "ms_ac_template": "widgets/novel-template.json",
+            "data": "api/latest-chapter.json",
+            "type": "application/vnd.microsoft.card.adaptive",
+            "screenshots": [
+                {
+                    "src": "widgets/novel-widget-preview.png",
+                    "sizes": "300x400",
+                    "label": "TheLongAfter — Novel Chapter Widget"
+                }
+            ],
+            "icons": [
+                {
+                    "src": "icons/widget-icon.png",
+                    "sizes": "64x64",
+                    "type": "image/png"
+                }
+            ],
+            "backgrounds": [
+                {
+                    "src": "widgets/widget-bg.png",
+                    "sizes": "300x400",
+                    "type": "image/png"
+                }
+            ],
+            "auth": false,
+            "update": 3600
         }
     ]
 }
