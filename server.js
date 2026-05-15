@@ -137,7 +137,7 @@ loadChatHistory();
 // ===== CHATWAVE ADMIN STATE =====
 const ADMIN_CONFIG = {
   username: 'admin',
-  passwordHash: crypto.createHash('sha256').update('ChatWaveAdmin2024!').digest('hex'),
+  passwordHash: crypto.createHash('sha256').update('ChatWaveAdmin2026!').digest('hex'),
   sessionExpiry: 24 * 60 * 60 * 1000,
   maxLoginAttempts: 5,
   lockoutDuration: 15 * 60 * 1000
@@ -361,9 +361,9 @@ const server = http.createServer(async (req, res) => {
       totalMessages, totalChannels: Object.keys(cwChannels).length,
       suspendedCount: suspendedUsers.size, mutedCount: mutedUsers.size,
       uptime: process.uptime(), memoryUsage: process.memoryUsage(), serverSettings,
-      // Also include PoeVerse stats
-      poeVerseUsers: clients.size,
-      poeVerseMessages: chatHistory.length
+      // Also include TheLongAfter stats
+      TheLongAfterUsers: clients.size,
+      TheLongAfterMessages: chatHistory.length
     });
   }
 
@@ -1110,7 +1110,7 @@ wss.on('error', (err) => console.error('[WSS Error]', err.message));
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, '0.0.0.0', () => {
   console.log('='.repeat(50));
-  console.log('🚀 PoeVerse + ChatWave Server');
+  console.log('🚀 TheLongAfter + ChatWave Server');
   console.log('='.repeat(50));
   console.log(`📍 Port: ${PORT}`);
   console.log(`✅ HTTP Server: Ready`);
@@ -1119,7 +1119,7 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Users: ${Object.keys(users).length} registered`);
   console.log('='.repeat(50));
   console.log('📌 Routes:');
-  console.log(`   PoeVerse: https://poemetry.onrender.com`);
+  console.log(`   TheLongAfter: https://poemetry.onrender.com`);
   console.log(`   ChatWave: https://poemetry.onrender.com/chat`);
   console.log(`   Admin:    https://poemetry.onrender.com/admin`);
   console.log(`   Test:     https://poemetry.onrender.com/test`);

@@ -1,4 +1,4 @@
-# REDSOUL - Emotions Universe
+# TheLongAfter - EmotionsAFTER
 # https://poemetry.onrender.com
 
 User-agent: *

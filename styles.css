@@ -1,5 +1,5 @@
 /* ============================================
-   POEVERSE - POETRY UNIVERSE
+   TheLongAfter - TheLongAFTER
    Professional Stylesheet
    Version: 2.1 - Enhanced Accessibility & Dynamic UI
    ============================================ */
@@ -29,7 +29,7 @@
    20. Contact Section
    21. Modals (Poem, Favorites, Shortcuts)
    22. Focus Mode
-   23. Music Player
+
    24. Back to Top
    25. Toast Notifications
    26. Cookie Banner
@@ -48,26 +48,26 @@
 
 :root {
   /* Color Palette - Dark Theme (Default) */
-  --color-bg-primary: #0a0a0f;
-  --color-bg-secondary: #12121a;
-  --color-bg-tertiary: #1a1a2e;
-  --color-bg-card: #16162a;
-  --color-bg-card-hover: #1e1e3a;
+  --color-bg-primary: #0f0a0a;
+  --color-bg-secondary: #1a1212;
+  --color-bg-tertiary: #2e1a1a;
+  --color-bg-card: #2a1622;
+  --color-bg-card-hover: #571b1b;
   --color-bg-overlay: rgba(0, 0, 0, 0.85);
-  --color-bg-glass: rgba(22, 22, 42, 0.8);
+  --color-bg-glass: rgba(42, 22, 29, 0.8);
   
   /* Text Colors */
   --color-text-primary: #ffffff;
-  --color-text-secondary: #b8b8d1;
-  --color-text-tertiary: #8888a8;
-  --color-text-muted: #6a6a8a;
+  --color-text-secondary: #d1b8ce;
+  --color-text-tertiary: #a8a188;
+  --color-text-muted: #8a6a86;
   
   /* Accent Colors */
-  --color-accent-primary: #e94560;
+  --color-accent-primary: #e945e1;
   --color-accent-secondary: #ff6b6b;
-  --color-accent-tertiary: #4ecdc4;
-  --color-accent-gradient: linear-gradient(135deg, #e94560 0%, #ff6b6b 50%, #4ecdc4 100%);
-  --color-accent-gradient-hover: linear-gradient(135deg, #ff6b6b 0%, #e94560 50%, #4ecdc4 100%);
+  --color-accent-tertiary: #4eafcd;
+  --color-accent-gradient: linear-gradient(135deg, #e94560 0%, #ff6b6b 50%, #bacd4e 100%);
+  --color-accent-gradient-hover: linear-gradient(135deg, #ff6b6b 0%, #e94560 50%, #cdc04e 100%);
   
   /* Category Colors */
   --color-sonnets: #9b59b6;
@@ -206,18 +206,18 @@
 
 /* Light Theme Variables */
 [data-theme="light"] {
-  --color-bg-primary: #f8f9fa;
+  --color-bg-primary: #f8faf8;
   --color-bg-secondary: #ffffff;
-  --color-bg-tertiary: #f0f0f5;
+  --color-bg-tertiary: #f4f5f0;
   --color-bg-card: #ffffff;
   --color-bg-card-hover: #f5f5fa;
   --color-bg-overlay: rgba(255, 255, 255, 0.95);
   --color-bg-glass: rgba(255, 255, 255, 0.9);
   
-  --color-text-primary: #1a1a2e;
-  --color-text-secondary: #4a4a6a;
-  --color-text-tertiary: #6a6a8a;
-  --color-text-muted: #8a8aa8;
+  --color-text-primary: #2e1f1a;
+  --color-text-secondary: #6a4a56;
+  --color-text-tertiary: #8a746a;
+  --color-text-muted: #a88d8a;
   
   --color-border: rgba(0, 0, 0, 0.1);
   --color-border-hover: rgba(0, 0, 0, 0.2);
@@ -2980,208 +2980,6 @@ height: auto;
   white-space: pre-wrap;
 }
 
-/* ============================================
-   23. MUSIC PLAYER
-   ============================================ */
-
-.music-widget {
-  position: fixed;
-  bottom: var(--space-6);
-  left: var(--space-6);
-  z-index: var(--z-fixed);
-}
-
-.music-toggle {
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-2xl);
-  color: var(--color-text-primary);
-  background: var(--color-accent-gradient);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-lg);
-  transition: all var(--transition-base);
-}
-
-.music-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: var(--shadow-glow-md);
-}
-
-.music-toggle[aria-expanded="true"] {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-}
-
-.music-panel {
-  position: absolute;
-  bottom: calc(100% + var(--space-4));
-  left: 0;
-  width: 280px;
-  padding: var(--space-4);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-xl);
-  transform: translateY(10px);
-  opacity: 0;
-  visibility: hidden;
-  transition: all var(--transition-base);
-}
-
-.music-panel:not([hidden]) {
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-}
-
-.music-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-4);
-}
-
-.music-header h3 {
-  font-size: var(--text-base);
-  font-weight: var(--font-semibold);
-  color: var(--color-text-primary);
-}
-
-.music-close {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-base);
-  color: var(--color-text-tertiary);
-  background: var(--color-bg-tertiary);
-  border-radius: var(--radius-full);
-  transition: all var(--transition-base);
-}
-
-.music-close:hover {
-  color: var(--color-text-primary);
-  background: var(--color-accent-primary);
-}
-
-.music-tracks {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.music-track {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  background: var(--color-bg-tertiary);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
-}
-
-.music-track:hover {
-  color: var(--color-text-primary);
-  background: var(--color-bg-card-hover);
-}
-
-.music-track[aria-checked="true"] {
-  color: var(--color-text-primary);
-  background: var(--color-accent-primary);
-}
-
-.track-icon {
-  font-size: var(--text-lg);
-}
-
-.music-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3);
-  background: var(--color-bg-tertiary);
-  border-radius: var(--radius-lg);
-}
-
-.music-control-btn {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-lg);
-  color: var(--color-text-secondary);
-  background: var(--color-bg-card);
-  border-radius: var(--radius-full);
-  transition: all var(--transition-base);
-}
-
-.music-control-btn:hover {
-  color: var(--color-text-primary);
-  background: var(--color-accent-primary);
-}
-
-.volume-control {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  flex: 1;
-}
-
-.volume-icon {
-  font-size: var(--text-sm);
-}
-
-.music-volume {
-  flex: 1;
-  height: 4px;
-  background: var(--color-bg-card);
-  border-radius: var(--radius-full);
-  appearance: none;
-  cursor: pointer;
-}
-
-.music-volume::-webkit-slider-thumb {
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  background: var(--color-accent-primary);
-  border-radius: var(--radius-full);
-  cursor: pointer;
-}
-
-.volume-label {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  min-width: 30px;
-}
-
-.music-now-playing {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
-  padding: var(--space-2);
-  font-size: var(--text-sm);
-  color: var(--color-success);
-  background: rgba(78, 205, 196, 0.1);
-  border-radius: var(--radius-md);
-}
-
-.music-now-playing[hidden] {
-  display: none;
-}
-
-.now-playing-icon {
-  animation: pulse 1s ease-in-out infinite;
-}
 
 /* ============================================
    24. BACK TO TOP
@@ -3971,21 +3769,7 @@ height: auto;
     text-align: center;
   }
 
-  /* Music Widget Mobile */
-  .music-widget {
-    bottom: var(--space-4);
-    left: var(--space-4);
-  }
 
-  .music-panel {
-    width: calc(100vw - var(--space-8));
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-  }
-
-  .music-panel:not([hidden]) {
-    transform: translateX(-50%) translateY(0);
-  }
 
   /* Back to Top Mobile */
   .back-to-top {
@@ -4139,7 +3923,6 @@ height: auto;
   .loader,
   .scroll-progress,
   .hero-scroll-indicator,
-  .music-widget,
   .back-to-top,
   .toast-container,
   .cookie-banner,
@@ -4468,9 +4251,6 @@ textarea:disabled {
 .card-action-btn,
 .modal-close,
 .nav-action-btn,
-.music-control-btn {
-  border-radius: var(--radius-lg);
-}
 
 /* Shadow on Focus for Interactive Elements */
 .poem-card:focus-visible,
@@ -4573,11 +4353,6 @@ textarea:disabled {
     right: max(var(--space-4), env(safe-area-inset-right));
   }
   
-  .music-widget {
-    bottom: max(var(--space-4), env(safe-area-inset-bottom));
-    left: max(var(--space-4), env(safe-area-inset-left));
-  }
-}
 
 /* Color Scheme Preference Support */
 @media (color-gamut: srgb) {

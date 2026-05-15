@@ -1,5 +1,5 @@
 /* ============================================
-   POEVERSE - POETRY UNIVERSE
+   TheLongAfter - TheLongAFTER
    Complete JavaScript Application
    Version: 2.0
    ============================================ */
@@ -19,23 +19,20 @@
       category: 'sonnets',
       time: 1,
       preview: 'Go there in a dark room, Is a yellow bag and...',
-      content: `Go there in a dark room,
-Is a yellow bag and,
-Holding me when I was once a broom,
-I loved, believed, and scanned,
-When days went ruin at the tomb,
-In the dust-bin lives the fan,
-Yes I shall see what was groomed,
-They once called me handsome and a loving man.
-
-But look at me, where am I?
-Deep in thoughts, surrounded by cold voices,
-Asking me why, telling me to fly,
-But my soul is chained by choices,
-For you, my love, I'd rather die,
-Than live without your tender voices,
-Under the same moon, same sky,
-Forever bound by invisible forces.`
+      content: `“My Beloved 
+Go there in a dark room 
+Is a yellow bag and 
+In it there is 
+Yet in my heart I said: 
+Your eyes are now different 
+There are ice blocks, love Sparkling 
+Looking at me without hesitation 
+And a mild smile I know you love me 
+But my mouth continued to say: 
+“…There is a fruit for you” 
+Ignited, while smiling, while rushing there 
+Didn’t you say that I’m your best friend? 
+As a rat free from a cat was my heart feeling. `
     },
     poem2: {
       id: 'poem2',
@@ -44,23 +41,20 @@ Forever bound by invisible forces.`
       category: 'sonnets',
       time: 1,
       preview: 'In the darkness, when asleep, your image persuaded all nightmares...',
-      content: `In the darkness, when asleep,
-Your image persuaded all nightmares,
-To flee and leave my dreams in peace so deep,
-Your love, it heals, it repairs.
-
-But when dawn breaks and light appears,
-Reality crashes like a wave,
-I wake to find you're not here,
-Just memories I desperately save.
-
-Escaped from nightmares, trapped in day,
-Where shadows of your love remain,
-I close my eyes and fade away,
-To where we meet in dreams again.
-
-For in that realm, you're still with me,
-Escaped from pain, forever free.`
+      content: `In the darkness, when asleep, your image 
+Persuaded all nightmares, and you made my heart cool 
+When I was angry, and my brain was almost without a thought 
+When you held my hand and called my name 
+Your smile penetrated-penetrated deep in me 
+Deeper, very deep and I hoped, a good life, ever 
+For I was in a cage as a hen, silently imprisoned 
+And my memories of whole scene, all prove 
+That I have been fooled by snow like eyes 
+Names, looks you gave me, promises all I hoped 
+Were traps so I would fall, and I fell  
+But now I rise again, your pace, smile and voice 
+Are now dances and songs of birds which are blank 
+For you trapped me, now I have escaped!`
     },
     poem3: {
       id: 'poem3',
@@ -70,19 +64,19 @@ Escaped from pain, forever free.`
       time: 1,
       preview: 'I can, yes, I can, I can be a time-traveler...',
       content: `I can, yes, I can, I can be a time-traveler 
-      I can deteriorate all memories, and skip to 
-      Past days when we never met, to reckless life 
-      When they said I was careless, women just flowers 
-      I can live again, in future or old days and hours 
-      And if you continue trying to talk with me, 
-      With a time-traveler you will find your time going 
-      While talking with flowers in your garden 
-      Then stand before a mirror, talk to sad image 
-      And come near me and look at my far away face 
-      And widen your ears thinking I have called you 
-      But I am not there, I am traveling in time, far away 
-      Far from present I can go never seen again 
-      And sorry for you are wasting your time weeping! `
+I can deteriorate all memories, and skip to 
+Past days when we never met, to reckless life 
+When they said I was careless, women just flowers 
+I can live again, in future or old days and hours 
+And if you continue trying to talk with me, 
+With a time-traveler you will find your time going 
+While talking with flowers in your garden 
+Then stand before a mirror, talk to sad image 
+And come near me and look at my far away face 
+And widen your ears thinking I have called you 
+But I am not there, I am traveling in time, far away 
+Far from present I can go never seen again 
+And sorry for you are wasting your time weeping! `
     },
     poem4: {
       id: 'poem4',
@@ -91,23 +85,20 @@ Escaped from pain, forever free.`
       category: 'sonnets',
       time: 1,
       preview: 'So funny so sweet so interesting that you have got...',
-      content: `So funny, so sweet, so interesting,
-That you have got the key to my heart,
-Every moment with you is blessing,
-A masterpiece, a work of art.
-
-The way you laugh, the way you smile,
-Makes every second worth the while,
-You turn my tears to joy, meanwhile,
-My love for you stretches mile by mile.
-
-So funny how love can change a man,
-From broken pieces to something whole,
-You are the answer to my plan,
-The missing part that makes me full.
-
-In this funny game called love,
-You're the angel from above.`
+      content: `so funny so sweet so interesting 
+that you have got a handsome than me 
+his hands on your breasts are resting 
+for you say he loves you than me 
+walking together and two taking one seat 
+he holds your hand then you smile 
+foolish lad is congratulating you, all the best 
+enjoy, enjoy your embraces loving handsome 
+who loves your looks and shadow 
+with his fresh soft well-dressed body 
+but remember that love is in heart, face is for confusion 
+and this model does not mean love but confusing 
+you will learn when you will learn 
+you will see if your rudeness will earn `
     },
     poem5: {
       id: 'poem5',
@@ -141,25 +132,20 @@ Where evaporated love never ends.`
       category: 'sonnets',
       time: 1,
       preview: 'In this darkroom God, where are you? Here is the holly room...',
-      content: `In this dark room, God, where are you?
-Here is the hollow room of my soul,
-I'm searching for something true,
-Something to make me whole.
-
-Not well, my heart is screaming,
-Not well, my mind is lost,
-I wake from restless dreaming,
-Counting love's heavy cost.
-
-Are you there in the silence?
-In the corners of my pain?
-I'm tired of this violence,
-These tears that fall like rain.
-
-Not well, but still I'm breathing,
-Not well, but hope remains,
-In this dark room, I'm believing,
-That light will break these chains.`
+      content: `Not well? 
+In this darkroom God, where are you? 
+Here is the holly room Can’t you heal this nymph 
+Oh no! she’s in pain, backache 
+Better to give me her disease; She to be fine 
+Awake hold my hand My sick heart 
+Let me escort you to your hat 
+Leave this dirty mat 
+Walk with me, my hearts nut 
+I will never leave you, Trust 
+In troubles you I will lift 
+Surely, our dandles will never wilt 
+Come on…... let me carry you 
+“No, I will walk with my mother” `
     },
     poem7: {
       id: 'poem7',
@@ -168,23 +154,20 @@ That light will break these chains.`
       category: 'sonnets',
       time: 1,
       preview: 'I wonder, something is wrong. It seems like blood in bones is freezing...',
-      content: `I wonder, something is wrong,
-It seems like blood in bones is freezing,
-The days are short, the nights too long,
-And every breath is seizing.
-
-Something wrong within my chest,
-A weight that won't be lifted,
-I cannot find my peace or rest,
-Since the day we drifted.
-
-My hands are cold, my eyes are dim,
-Something wrong, I know it's true,
-Life without you is so grim,
-Everything wrong since losing you.
-
-Something wrong, the world can tell,
-Without your love, I'm not well.`
+      content: `I wonder, something is wrong 
+It seems like blood in bones is freezing 
+Sick not weak not, but something sad me 
+This ’snot my full heart, something out of me 
+World is not ordinary, ’snew and dull day 
+I wonder if now I’ve not headed the heaven 
+Was it yesterday or today which was that day? 
+My heart was overloaded with thoughts; a burden 
+I felt a burden inside when speaking, all the day 
+I witnessed, yes, it really a heavy burden  
+For a second, for a minute, for an hour, for a day 
+He had no single smile at me nor a look even  
+I feel like sleepy, I fear like puppy, today 
+He’s shown me his back, I’ve seen…….. `
     },
     poem8: {
       id: 'poem8',
@@ -193,25 +176,52 @@ Without your love, I'm not well.`
       category: 'heartbreak',
       time: 2,
       preview: '500 years ago, I went to see my husband, finding him with...',
-      content: `500 years ago, I went to see my husband,
-Finding him with another woman,
-In a different world, I understand,
-Pain was the same, broken and common.
+      content: `“…500 years ago, I went  
+To see my husband, finding him with… with… 
+…it was the worst thing to think of, for 
+At last he married her before people found 
+My body hanging on a tree…”
 
-500 years forward, I see the same,
-Different faces, same old story,
-Love turns to ash, hearts go in flame,
-Endings stripped of glory.
+She was alone on a well, washing her hair 
+Her voice very soft, full youthful  
+Her story making tears in my eyes 
+But she never showed any pain 
+And she starred at me, very beautiful face 
+She smiled, I smiled, she wiped off my tears while 
+Slowly vanishing, and I saw her heart 
+Full of joy and love before she completely disappeared… 
 
-In every world, in every time,
-The heart knows how to break,
-Love commits its perfect crime,
-Leaving souls to ache.
+“…here is a new boy, but a being 
+Strange thing, he is alive, he feels pity, he weeps, loves 
+How can he fly when enemies come?” 
+“on my shoulders” “I will hold him” “he is mine” 
 
-Different world, same old pain,
-Different tears, same old rain,
-History repeating, again and again,
-In the different world, love goes insane.`
+Four girls argued, quarreled though never fought 
+Until they all disappeared full of joy and love 
+‘go or come?’ I proceeded asking, go on 
+
+“yes, I am Juliet and this is my beloved Romeo” 
+Their voices were as sounds of two strings on a guitar 
+And when they spoke together, they made a song 
+A song which one day. I had once sung with… with… 
+It was the worst thing to think of, for 
+They made my cracked heart to fall into pieces 
+Remembering what I lost… (drops… hot drops) 
+
+“day comes, day comes, days of tears go” 
+Bass string plucked, or rather Romeo comforted me 
+“and today might be our waited day, your time to wait…” 
+
+But suddenly I found myself in air, embraced 
+On chest of one of four girls, flied while whispering 
+“if your world hates you, tis not yours 
+This is your world, it will love you 
+If someone make you cry, she is not yours 
+Here your joy, I will give you” 
+
+Then she begun disappearing, or rather 
+We all melted into the different world 
+And no one will find us, forever!!! `
     },
     poem9: {
       id: 'poem9',
@@ -220,25 +230,22 @@ In the different world, love goes insane.`
       category: 'heartbreak',
       time: 1,
       preview: 'How does a man feel, or act? When he sees a shining damsel...',
-      content: `How does a man feel, or act?
-When he sees a shining damsel,
-Beautiful, divine, in fact,
-Yet love remains a puzzle.
-
-Helpless in the face of beauty,
-Helpless when the heart decides,
-Love becomes our only duty,
-Though it tears us up inside.
-
-I stand before you, helpless, weak,
-A servant to this feeling,
-The words I try so hard to speak,
-Leave my heart reeling.
-
-Helpless, I fall into your eyes,
-Helpless, as my spirit flies,
-Helpless, beneath these endless skies,
-A prisoner of love's sweet lies.`
+      content: `How does a man feel, or act? 
+When he sees a shining damsel 
+Smiling and sit, greet him with a fresh hand 
+Without showing that she broke his heart 
+Without being reluctant to talk, so pale 
+Her hand on his arm, beckoning and stand 
+From here to there, step, then back, talking the fact 
+Her little edged lips shining as if an angel 
+At last saying, “goodbye… no I forgot”. 
+But what she forgets, just boisterousness  
+When she is joyous, cooling his seriousness? 
+What then? Putting his heart on a stone? 
+Then pound it with another lying stone? 
+Break it again? Ah its painful, no no no 
+But his heart still grows, fonder and fonder 
+Still he saying, “it’s painful, but…”. `
     },
     poem10: {
       id: 'poem10',
@@ -247,25 +254,21 @@ A prisoner of love's sweet lies.`
       category: 'heartbreak',
       time: 1,
       preview: "Again'nd 'gain broken heart, though 'Ndagain dead...",
-      content: `Again and again, broken heart,
-Though again, dead inside,
-Every ending, a new start,
-On this painful ride.
-
-Again, the tears come falling,
-Again, the nights grow cold,
-Again, I hear love calling,
-A story too often told.
-
-Broken heart, you know the way,
-Through the thorns and pain,
-Again and again, day by day,
-You break and heal again.
-
-'Gain and 'gain, I pick up pieces,
-'Gain and 'gain, the hurting ceases,
-Until the next love releases,
-The cycle that never decreases.`
+      content: `Again’nd ’gain broken heart, though 
+’Ndagain dead, when I close my eyes thinking 
+Saying ‘though’ but I am not free as walk 
+Though you stand with a voice rising slowly as the last trumpet 
+“Char… ChaR… CHAR… CHARLES!” and I can see 
+You bent down, though my eyes closed and sigh 
+“He is…” who am I inside the heart of the bee 
+Bold? Brave? No, tears draw a thunder in my heart 
+And zigzag lightening before honey rains from your mouth  
+Because; now here, then there, so my heart wanders 
+Fall apart, and flies to the skies, I can not 
+Keep on crying, I know you like it yet not 
+Yes, you are innocent, can walk, play and leave 
+And can fool me, use me and do as you do always 
+I am here, again’nd ’gain broken heart though! `
     },
     poem11: {
       id: 'poem11',
@@ -273,32 +276,37 @@ The cycle that never decreases.`
       title: 'The Interview',
       category: 'heartbreak',
       time: 2,
-      preview: 'Hello, I think your name is Lone Philip, a journalist from Grief...',
-      content: `"Hello, I think your name is Lone Philip,
-A journalist from Grief Magazine?"
+      preview: 'Hello, I think Charles Master is Lone Philip, a journalist from Grief...',
+      content: `“Hello, I think your is Lone 
+Philip, a journalist from Grief Announcement TV 
+Hearing that a thinker, a poet, is always alone 
+Rumors spread, you wish to die, and you drunk poison at the party 
+Yet you dream reality, and call each a colorful thorn” 
 
-"Yes, that's me. May I have a seat?
-I'm here to document the scene."
+trust not what you hear, but trust yourself 
+That you have heard the truth, raw truth 
+My loneliness is still even if you are here 
+I wish not to die, but I am so attractive to death 
+And I dream what I hate, but all is beautiful 
 
-"Of what? My broken heart's defeat?
-The way love turned so mean?"
+“Is all what we hear the truth” 
 
-"Tell me, when did love retreat?
-When did the skies turn from serene?"
-
-"It started slow, a subtle crack,
-Then everything came tumbling down,
-I gave my all, got nothing back,
-In sorrow, I learned to drown."
-
-"And now? What wisdom do you speak?"
-
-"That broken hearts still learn to beat,
-That even when the future's bleak,
-The story's never quite complete."
-
-Interview ends, the journalist leaves,
-A broken heart still believes.`
+There no truth in love but love and lies 
+From one heart to another, mouth to ears it flies 
+What if something set you apart, someone tries 
+To hypnotize your beloved, he has won 
+She has changed too, and she begins to fool you 
+Can you drink tea or poison at the party? 
+She is the challenge, ‘someone love me than you’ 
+Between food and death what can be more delicious? 
+I know you can hang your neck, and people say 
+‘A good journalist wished to die and he is dead now’ 
+But see, I am alive and different yet alone 
+Since I will find a way in this jungle of sadness 
+And will change the mind of my beloved, and she will change 
+And my dream will be fulfilled soon, when 
+These thorns will grow in my heart, 
+At last bear colorful flowers! `
     },
     poem12: {
       id: 'poem12',
@@ -307,25 +315,49 @@ A broken heart still believes.`
       category: 'heartbreak',
       time: 2,
       preview: 'One thing, Ever my God put on my tongue when I sing...',
-      content: `One thing, ever my God put on my tongue when I sing,
-Is the melody of a broken heart,
-Every verse, every string,
-Tells the story from the start.
+      content: `One thing, 
+Ever my God put on my tongue when I sing 
+Ever swim in my tears, such thing 
+In my nerves it hangs and flood in my blood and hang 
+I fear to mention, but it does stay 
+Cause this is my soul, and it is you 
+Still, I love you 
+And this is my soul.
 
-This is my soul, laid bare and bleeding,
-Words flowing like a river wide,
-This is my soul, constantly needing,
-A place where love can reside.
+Two things, 
+You do in your minds, aimless minds 
+Calling me a friend, then walk with fiends 
+Here and there by your random moves 
+Taking my words noises of winds 
+So, my sadness wishes to forget all, but 
+Still, I love you 
+And this is my soul
 
-My soul speaks in poetry and verse,
-In metaphors of pain and light,
-For better or for worse,
-My soul writes into the night.
+How painful is my truth! 
+Withal my heart I always say 
+But even if I put my heart on this letter 
+Or ask God to open for you and prove 
+That this is true as says my soul 
+But you look down on me as all are lies 
+Still, I love you 
+My soul is witness 
 
-This is my soul, take it or leave,
-This is my soul, it still believes,
-This is my soul, it continues to weave,
-The tapestry of love it grieves.`
+My soul which walks in my words 
+Tries to teach you; the time will pass 
+And time comes, time goes, never pause 
+And the truth comes, what makes you 
+Will go with time, I understand and withstand 
+That won’t stay on you those precious people, but me 
+Still loving you 
+And this is my soul  
+
+You are the one who make me cry then make me hope 
+Ever swim in my tears, but make me no happy 
+In my nerves you hang and flood in my blood then hang 
+I fear to stay saying, but you make my life 
+Cause you are my soul, but not my wife 
+But still, I love you 
+And this is my soul `
     },
     poem13: {
       id: 'poem13',
@@ -334,85 +366,95 @@ The tapestry of love it grieves.`
       category: 'heartbreak',
       time: 2,
       preview: "Don't you see? Can use goggles and look at me clearly...",
-      content: `Don't you see? Can use goggles,
-And look at me clearly,
-These bitter days leave me in struggles,
-Paying for love so dearly.
-
-Bitter days turn to bitter nights,
-The taste of loss upon my tongue,
-Lost are the stars, gone are the lights,
-These bitter songs that must be sung.
-
-Can you see the pain I carry?
-The weight upon my chest?
-These bitter days make me weary,
-Denying me any rest.
-
-But even in this bitter time,
-I search for something sweet,
-A reason, a rhythm, a rhyme,
-To lift me to my feet.
-
-Bitter days will turn to better,
-When I learn to let go of every letter.`
+      content: `Don’t you see? Can use googles 
+And look at me clearly, wash your eyes 
+See me day and close your eyes night 
+Think if I have given you a sparkling eye 
+You can smile, or get sad or think again 
+But I will never change, as I feel pain 
+And even if you plead, bow and weep 
+And never fool again, and make your heart 
+Sea of love as deep as the sky in the mirror 
+And get serious as sudden death and again kneel 
+And your tears turn to blood for hundredth to say ‘sorry’ 
+But I will never change, my heart will be harder and harder 
+And even if come in my dreams, if  
+No chance I give you to say ‘sorry’ once a minute 
+And give me billion letters saying ‘please’… tonight 
+And take me to Oxford libraries for more books, ‘dear’ 
+And give me gifts, feed me, call me a golden diamond 
+And make it a delicious dream in bitter nights 
+But I will wake before my response, make it harder 
+Still boldly say, “I don’t dream about you 
+I don’t care, never about you, girl! 
+No kind of love stays in me, you see?” 
+And I will everything, and forget too 
+Even forget to regret about it later! `
     },
     poem14: {
       id: 'poem14',
       number: '🇲🇼',
-      title: 'Mapeto a zam\'tima',
+      title: 'Mapeto a zamtima',
       category: 'chichewa',
       time: 3,
       preview: 'Kumbuka, ukazipatula suli wekha, Koma ndi wako mbuye...',
       content: `
-      Mapeto a zam’tima💔 
-      “kumbuka, ukazipatula suli wekha 
-      Koma ndi wako mbuye wangodekha 
-      Pondikumbukiranso dziwa uli nane 
-      Momwemonso ngati pa udzu mame” 
-      Ankakhala mawu otsiriza amenewa. 
-      Tsono moyo watha, khumbo ndi mwayi 
-      Chiyembekezo n’dataya, khumbo iyayi 
-      Zinalidi zochedwa, koma zonse n’mthayi 
-      Kodi sindinapereke ochuluka mwayi? 
-      Ankakhalanso mawu otsiriza amenewa. 
-      Sev, Jim, Vit, Asa, Dis, amzako aja 
-      Iwebe unali ngati wanga mtima, tsogoro lija 
-      Posadziwa wamzako n’tsidya lina, hmm! 
-      Pikitipikiti kumbaliko kundiswera mtim’ 
-      Tsono tubwa poti mphaka wachoka. 
-      Tidzaonananso ukazayamba kupenya 
-      Ukazakhazika mtima wako m’thiti, mwina 
-      Uzakumbuka mawu anga aja, “palibenso” 
-      Koma monga ukondera, tseka nkutu usamvenso 
-      Kulira kwa chiseko chosekedwa mtimamu. 
-      Momwemonso ngati pa udzu mame 
-      Paliwombo dzuwa liri n’saname 
-      Ngati duwa malingaliro anga afota. 
-      Zonse zatha, palibenso zolota 
-      Tidzaonananso ukazayamba kupenya. 
-      Lonjezo wa Yohane linadulitsa 
-      Lomwelonso wathu ubale lathetsa 
-      Poti sindizakukakamira ndinalonjeza 
-      Indedi, pakadafunda galu padajiwiza 
-      Tsono tubwa poti mphaka wachoka. 
-      Ndinkaona zonse, mu ako oyera masowo 
-      Ukamawamwemwetera, nkumanyada nawo 
-      Ukaona ine ndeye ngati n’dwangan’dwadi 
-      Koma pandekha misonzi ndimakhetsadi 
-      Tsono tubwa poti mphaka wachoka. 
-      Ukamandinyadira ntimasayato maso 
-      Sumadziwa umawawa kachasokachaso 
-      Dzulo lake utandinyoza, ine nditsiluke 
-      Koma ikaopa imayenera mbalame iwuluke 
-      Monga moyo, mthawinso ndi mpamba. 
-      Tsono ano ndi mathero, mapeto ndithu 
-      Sindikuganizanso zokagula mapoto athu 
-      Izo nzakale; tsogoro la mdima bii 
-      Ndeno usazandiyang’anenso, apobii 
-      Monga ine nawenso udzalira, udzalira 
-      Kulilira pa chitseko chotsekedwa mtimamu 
-      Ngatinso mthawi, chiyembekezo wanditayitsa!   
+“kumbuka, ukazipatula suli wekha
+Koma ndi wako mbuye wangodekha
+Pondikumbukiranso dziwa uli nane
+Momwemonso ngati pa udzu mame”
+Ankakhala mawu otsiriza amenewa.
+
+Tsono moyo watha, khumbo ndi mwayi
+Chiyembekezo n’dataya, khumbo iyayi
+Zinalidi zochedwa, koma zonse n’mthayi
+Kodi sindinapereke ochuluka mwayi?
+Ankakhalanso mawu otsiriza amenewa.
+
+Sev, Jim, Vit, Asa, Dis, amzako aja
+Iwebe unali ngati wanga mtima, tsogoro lija
+Posadziwa wamzako n’tsidya lina, hmm!
+Pikitipikiti kumbaliko kundiswera mtim’
+Tsono tubwa poti mphaka wachoka.
+
+Tidzaonananso ukazayamba kupenya
+Ukazakhazika mtima wako m’thiti, mwina
+Uzakumbuka mawu anga aja, “palibenso”
+Koma monga ukondera, tseka nkutu usamvenso
+Kulira kwa chiseko chosekedwa mtimamu.
+
+Momwemonso ngati pa udzu mame
+Paliwombo dzuwa liri n’saname
+Ngati duwa malingaliro anga afota.
+Zonse zatha, palibenso zolota
+Tidzaonananso ukazayamba kupenya.
+
+Lonjezo wa Yohane linadulitsa
+Lomwelonso wathu ubale lathetsa
+Poti sindizakukakamira ndinalonjeza
+Indedi, pakadafunda galu padajiwiza
+Tsono tubwa poti mphaka wachoka.
+
+Ndinkaona zonse, mu ako oyera masowo
+Ukamawamwemwetera, nkumanyada nawo
+Ukaona ine ndeye ngati n’dwangan’dwadi
+Koma pandekha misonzi ndimakhetsadi
+Tsono tubwa poti mphaka wachoka.
+
+Ukamandinyadira ntimasayato maso
+Sumadziwa umawawa kachasokachaso
+Dzulo lake utandinyoza, ine nditsiluke
+Koma ikaopa imayenera mbalame iwuluke
+Monga moyo, mthawinso ndi mpamba.
+
+Tsono ano ndi mathero, mapeto ndithu
+Sindikuganizanso zokagula mapoto athu
+Izo nzakale; tsogoro la mdima bii
+Ndeno usazandiyang’anenso, apobii
+Monga ine nawenso udzalira, udzalira
+Kulilira pa chitseko chotsekedwa mtimamu
+Ngatinso mthawi, chiyembekezo wanditayitsa!
+  
       `
     },
     poem15: {
@@ -457,12 +499,12 @@ When I learn to let go of every letter.`
 
   const CONFIG = {
     STORAGE_KEYS: {
-      THEME: 'poeverse_theme',
-      THEME_COLOR: 'poeverse_theme_color',
-      FAVORITES: 'poeverse_favorites',
-      STATS: 'poeverse_stats',
-      COOKIES_ACCEPTED: 'poeverse_cookies',
-      READING_HISTORY: 'poeverse_history'
+      THEME: 'TheLongAfter_theme',
+      THEME_COLOR: 'TheLongAfter_theme_color',
+      FAVORITES: 'TheLongAfter_favorites',
+      STATS: 'TheLongAfter_stats',
+      COOKIES_ACCEPTED: 'TheLongAfter_cookies',
+      READING_HISTORY: 'TheLongAfter_history'
     },
     THEME_COLORS: ['default', 'ocean', 'forest', 'sunset', 'purple', 'gold', 'rose', 'teal', 'crimson', 'midnight'],
     TOAST_DURATION: 3000,
@@ -613,17 +655,6 @@ When I learn to let go of every letter.`
     elements.favoritesList = document.getElementById('favoritesList');
     elements.favoritesEmpty = document.getElementById('favoritesEmpty');
     
-    // Music
-    elements.musicWidget = document.getElementById('musicWidget');
-    elements.musicToggle = document.getElementById('musicToggle');
-    elements.musicPanel = document.getElementById('musicPanel');
-    elements.musicClose = document.getElementById('musicClose');
-    elements.musicPlayPause = document.getElementById('musicPlayPause');
-    elements.musicStop = document.getElementById('musicStop');
-    elements.musicVolume = document.getElementById('musicVolume');
-    elements.volumeLabel = document.getElementById('volumeLabel');
-    elements.nowPlaying = document.getElementById('nowPlaying');
-    elements.nowPlayingText = document.getElementById('nowPlayingText');
     
     // Shortcuts
     elements.shortcutsModal = document.getElementById('shortcutsModal');
@@ -1757,8 +1788,8 @@ When I learn to let go of every letter.`
 
     const poem = state.currentPoem;
     const url = `${window.location.origin}${window.location.pathname}#poem-${poem.id}`;
-    const text = `"${poem.title}" - A beautiful poem from Poetry Universe\n\n${poem.preview}`;
-    const title = `${poem.title} - Poetry Universe`;
+    const text = `"${poem.title}" - A beautiful poem from TheLongAFTER\n\n${poem.preview}`;
+    const title = `${poem.title} - TheLongAFTER`;
 
     switch (platform) {
       case 'twitter':
@@ -1808,7 +1839,7 @@ When I learn to let go of every letter.`
 ${escapeHtml(poem.content)}
         </div>
         <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
-          <p style="color: #888; font-size: 12px;">Poetry Universe - Black Broken Heart</p>
+          <p style="color: #888; font-size: 12px;">TheLongAFTER - TheLongAfter</p>
           <p style="color: #888; font-size: 12px;">https://poemetry.onrender.com</p>
         </div>
       </div>
@@ -1816,7 +1847,7 @@ ${escapeHtml(poem.content)}
 
     const options = {
       margin: 10,
-      filename: `${poem.title.replace(/[^a-z0-9]/gi, '_')}_PoeVerse.pdf`,
+      filename: `${poem.title.replace(/[^a-z0-9]/gi, '_')}_TheLongAfter.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -2150,183 +2181,6 @@ ${escapeHtml(poem.content)}
   }
 
   /* ============================================
-     MUSIC PLAYER
-     ============================================ */
-
-  function initMusicPlayer() {
-    // Toggle music panel
-    if (elements.musicToggle) {
-      elements.musicToggle.addEventListener('click', toggleMusicPanel);
-    }
-
-    if (elements.musicClose) {
-      elements.musicClose.addEventListener('click', closeMusicPanel);
-    }
-
-    // Track selection
-    const musicTracks = document.querySelectorAll('.music-track');
-    musicTracks.forEach(track => {
-      track.addEventListener('click', () => {
-        const trackName = track.dataset.track;
-        const trackFile = track.dataset.file;
-        selectTrack(trackName, trackFile, track);
-      });
-    });
-
-    // Controls
-    if (elements.musicPlayPause) {
-      elements.musicPlayPause.addEventListener('click', toggleMusicPlayback);
-    }
-
-    if (elements.musicStop) {
-      elements.musicStop.addEventListener('click', stopMusic);
-    }
-
-    if (elements.musicVolume) {
-      elements.musicVolume.addEventListener('input', (e) => {
-        const volume = e.target.value;
-        elements.volumeLabel.textContent = `${volume}%`;
-        if (state.audioContext && state.gainNode) {
-          state.gainNode.gain.value = volume / 100;
-        }
-      });
-    }
-  }
-
-  function toggleMusicPanel() {
-    const isHidden = elements.musicPanel.hidden;
-    elements.musicPanel.hidden = !isHidden;
-    elements.musicToggle.setAttribute('aria-expanded', !isHidden);
-  }
-
-  function closeMusicPanel() {
-    elements.musicPanel.hidden = true;
-    elements.musicToggle.setAttribute('aria-expanded', 'false');
-  }
-
-  function selectTrack(trackName, trackFile, trackElement) {
-    // Update UI
-    document.querySelectorAll('.music-track').forEach(t => {
-      t.setAttribute('aria-checked', 'false');
-    });
-    trackElement.setAttribute('aria-checked', 'true');
-
-    state.currentTrack = trackName;
-    
-    // Update now playing
-    const trackNameDisplay = trackElement.querySelector('.track-name')?.textContent || trackName;
-    elements.nowPlayingText.textContent = trackNameDisplay;
-    
-    // Start playback with actual MP3 file
-    playMP3File(trackFile);
-  }
-
-  function playMP3File(trackFile) {
-    // Stop any currently playing audio
-    stopMusic();
-    
-    // Create new audio element with the actual MP3 file
-    const audio = new Audio(`music/${trackFile}`);
-    
-    // Set volume from slider
-    audio.volume = elements.musicVolume.value / 100;
-    
-    // Set loop for continuous playback
-    audio.loop = true;
-    
-    // Handle errors
-    audio.addEventListener('error', (e) => {
-      console.error('Error loading audio file:', e);
-      showToast('Error loading audio file. Please try another track.', 'error');
-      state.isPlaying = false;
-    });
-    
-    // Handle successful load
-    audio.addEventListener('canplay', () => {
-      showToast(`Now playing: ${elements.nowPlayingText.textContent}`, 'success');
-    });
-    
-    // Play the audio
-    audio.play().then(() => {
-      state.isPlaying = true;
-      state.currentAudio = audio;
-      
-      // Update UI
-      elements.nowPlaying.hidden = false;
-      elements.musicPlayPause.querySelector('.play-icon').hidden = true;
-      elements.musicPlayPause.querySelector('.pause-icon').hidden = false;
-    }).catch(err => {
-      console.error('Playback error:', err);
-      showToast('Could not play audio. Browser may have blocked autoplay.', 'error');
-    });
-    
-    state.currentAudio = audio;
-  }
-
-  function startAmbientSound(trackName) {
-    // This function is kept for compatibility but now redirects to MP3 playback
-    // The actual file is now passed from selectTrack
-  }
-
-  function toggleMusicPlayback() {
-    if (state.isPlaying) {
-      pauseMusic();
-    } else if (state.currentTrack) {
-      resumeMusic();
-    }
-  }
-
-  function pauseMusic() {
-    if (state.currentAudio) {
-      state.currentAudio.pause();
-    }
-    state.isPlaying = false;
-    elements.musicPlayPause.querySelector('.play-icon').hidden = false;
-    elements.musicPlayPause.querySelector('.pause-icon').hidden = true;
-  }
-
-  function resumeMusic() {
-    if (state.currentAudio) {
-      state.currentAudio.play().then(() => {
-        state.isPlaying = true;
-      }).catch(err => {
-        console.error('Resume error:', err);
-      });
-    }
-    state.isPlaying = true;
-    elements.musicPlayPause.querySelector('.play-icon').hidden = true;
-    elements.musicPlayPause.querySelector('.pause-icon').hidden = false;
-  }
-
-  function stopMusic() {
-    // Stop the HTML5 audio element
-    if (state.currentAudio) {
-      state.currentAudio.pause();
-      state.currentAudio.currentTime = 0;
-      state.currentAudio = null;
-    }
-    // Also stop oscillators if any
-    if (state.oscillator) {
-      state.oscillator.stop();
-      state.oscillator.disconnect();
-      state.oscillator = null;
-    }
-    if (state.gainNode) {
-      state.gainNode.disconnect();
-      state.gainNode = null;
-    }
-    state.isPlaying = false;
-    elements.nowPlaying.hidden = true;
-    elements.musicPlayPause.querySelector('.play-icon').hidden = false;
-    elements.musicPlayPause.querySelector('.pause-icon').hidden = true;
-    
-    // Reset track selection
-    document.querySelectorAll('.music-track').forEach(t => {
-      t.setAttribute('aria-checked', 'false');
-    });
-  }
-
-  /* ============================================
      BACK TO TOP
      ============================================ */
 
@@ -2441,7 +2295,6 @@ ${escapeHtml(poem.content)}
       case 'm':
         if (!e.ctrlKey && !e.metaKey) {
           e.preventDefault();
-          toggleMusicPanel();
         }
         break;
       case 'f':
@@ -2518,7 +2371,6 @@ ${escapeHtml(poem.content)}
     closeFocusMode();
     closeSearch();
     closeMobileMenu();
-    closeMusicPanel();
     
     // Hide share menu
     if (elements.shareMenu) {
@@ -2612,7 +2464,6 @@ ${escapeHtml(poem.content)}
     initStats();
     initTestimonials();
     initForms();
-    initMusicPlayer();
     initBackToTop();
     initCookieConsent();
     initKeyboardShortcuts();
@@ -2626,7 +2477,7 @@ ${escapeHtml(poem.content)}
     // Initial filter
     filterAndDisplayPoems();
 
-    console.log('🎭 PoeVerse initialized successfully!');
+    console.log('🎭 TheLongAfter initialized successfully!');
   }
 
   // Initialize when DOM is ready

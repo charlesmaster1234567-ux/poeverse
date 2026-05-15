@@ -1,710 +1,845 @@
-const http = require('http');
-const express = require('express');
-const { WebSocketServer } = require('ws');
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
-const crypto = require('crypto');
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
 // =====================================================
-// ADMIN CONFIGURATION
+// TheLongAfter CLIENT
 // =====================================================
-const ADMIN_CONFIG = {
-  username: 'admin',
-  passwordHash: crypto.createHash('sha256').update('ChatWaveAdmin2024!').digest('hex'),
-  sessionExpiry: 24 * 60 * 60 * 1000,
-  maxLoginAttempts: 5,
-  lockoutDuration: 15 * 60 * 1000
-};
 
-// ---- State ----
-const adminSessions = new Map();
-const loginAttempts = new Map();
-const bannedIPs = new Set();
-const suspendedUsers = new Map();
-const mutedUsers = new Map();
-const ipAddressMap = new Map();
-const userStats = new Map();
-const serverLogs = [];
-const announcements = [];
-const slowModeTimers = new Map();
-const userWarnings = new Map();
-const adminWsClients = new Set();
+let ws = null;
+let myUsername = '';
+let myColor = '#6C63FF';
+let currentChannel = 'general';
+let currentDM = null;
+let onlineUsers = {};
+let typingUsers = {};
+let typingTimeout = null;
+let isTyping = false;
+let replyTo = null;
+let selectedFile = null;
+let contextTarget = null;
+let messageElements = {};
+let unreadCounts = {};
+let lastMessageDate = '';
 
-let serverSettings = {
-  maxMessageLength: 2000,
-  slowMode: 0,
-  registrationOpen: true,
-  maintenanceMode: false,
-  wordFilter: [],
-  welcomeMessage: 'Welcome to ChatWave! Be respectful and have fun.',
-  maxFileSize: 5 * 1024 * 1024
-};
+const EMOJIS = ['😀','😂','🥹','😍','🥳','🤔','😎','🤩','😢','😡','👍','👎','❤️','🔥','⭐','🎉','💯','🙏','👀','💀','🤝','✅','❌','⚡','🌊','🎶','💬','📌','🚀','💡','☕','🌙','🫡','😤','🥲','😈','💜','🧡','💚','🤍'];
 
-// ---- In-Memory Data ----
-const users = {};
-const channels = { general: [], random: [], tech: [] };
-const directMessages = {};
+// ---- Helpers ----
+function escapeHtml(s) { return s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') : ''; }
 
-// ---- Express Setup ----
-app.use(express.static(path.join(__dirname)));
-app.use(express.json({ limit: '10mb' }));
-
-// ---- Helper Functions ----
-function addLog(type, message, details = null) {
-  const log = { id: uuidv4(), timestamp: Date.now(), type, message, details };
-  serverLogs.push(log);
-  if (serverLogs.length > 1000) serverLogs.splice(0, serverLogs.length - 1000);
-  broadcastToAdmins({ type: 'log', log });
+function formatTime(ts) {
+  if (!ts) return '';
+  return new Date(ts).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
 }
 
-function broadcastToAdmins(data) {
-  const msg = JSON.stringify(data);
-  adminWsClients.forEach(ws => { if (ws.readyState === 1) ws.send(msg); });
+function formatDate(ts) {
+  const d = new Date(ts);
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  if (d.toDateString() === today.toDateString()) return 'Today';
+  if (d.toDateString() === yesterday.toDateString()) return 'Yesterday';
+  return d.toLocaleDateString(undefined, { weekday:'long', month:'long', day:'numeric' });
 }
 
-function broadcast(data, excludeWs = null) {
-  const msg = JSON.stringify(data);
-  wss.clients.forEach(client => {
-    if (client.readyState === 1 && client !== excludeWs && !client.__isAdmin) {
-      client.send(msg);
+function formatText(text) {
+  let t = escapeHtml(text);
+  // Code blocks
+  t = t.replace(/```([\s\S]*?)```/g, '<pre>$1</pre>');
+  // Inline code
+  t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Bold
+  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Italic
+  t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Links
+  t = t.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  // Mentions
+  t = t.replace(/@(\w+)/g, '<span style="color:var(--accent);font-weight:600;cursor:pointer">@$1</span>');
+  return t;
+}
+
+function showToast(type, msg) {
+  const c = document.getElementById('toastContainer');
+  const icons = { error:'❌', success:'✅', info:'ℹ️' };
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span>${escapeHtml(msg)}</span>`;
+  c.appendChild(t);
+  setTimeout(() => { t.classList.add('removing'); setTimeout(() => t.remove(), 300); }, 4000);
+}
+
+function showAnnouncement(text) {
+  // Remove existing announcement if any
+  const existing = document.getElementById('announcementBanner');
+  if (existing) existing.remove();
+
+  const banner = document.createElement('div');
+  banner.id = 'announcementBanner';
+  banner.className = 'announcement';
+  banner.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9998;
+    min-width: 400px;
+    max-width: 700px;
+    width: 90%;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(108,99,255,0.15), rgba(139,92,246,0.1));
+    border: 1px solid rgba(108,99,255,0.4);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    animation: annIn 0.4s ease;
+  `;
+
+  // Countdown bar
+  banner.innerHTML = `
+    <style>
+      @keyframes annIn {
+        from { opacity:0; transform:translateX(-50%) translateY(-20px); }
+        to   { opacity:1; transform:translateX(-50%) translateY(0); }
+      }
+      @keyframes annOut {
+        from { opacity:1; transform:translateX(-50%) translateY(0); }
+        to   { opacity:0; transform:translateX(-50%) translateY(-20px); }
+      }
+      @keyframes countdown {
+        from { width: 100%; }
+        to   { width: 0%; }
+      }
+      #announcementBanner .ann-progress {
+        position: absolute;
+        bottom: 0; left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        border-radius: 0 0 12px 12px;
+        animation: countdown 120s linear forwards;
+      }
+    </style>
+    <span style="font-size:24px;flex-shrink:0">📢</span>
+    <div style="flex:1">
+      <div style="font-weight:700;font-size:13px;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">
+        📣 Announcement
+      </div>
+      <div style="font-size:14px;color:var(--text);line-height:1.5">
+        ${escapeHtml(text)}
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px">
+        ⏱️ Disappears in <span id="annCountdown">2:00</span>
+      </div>
+    </div>
+    <button onclick="document.getElementById('announcementBanner').remove();clearInterval(window._annTimer);clearInterval(window._annCountdown);"
+      style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:4px;border-radius:4px;transition:var(--transition);flex-shrink:0"
+      onmouseover="this.style.color='var(--danger)'"
+      onmouseout="this.style.color='var(--text3)'">✕</button>
+    <div class="ann-progress"></div>
+  `;
+
+  banner.style.position = 'fixed';
+  document.body.appendChild(banner);
+
+  // Countdown timer display
+  let seconds = 120;
+  window._annCountdown = setInterval(() => {
+    seconds--;
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    const el = document.getElementById('annCountdown');
+    if (el) el.textContent = `${mins}:${String(secs).padStart(2, '0')}`;
+    if (seconds <= 0) clearInterval(window._annCountdown);
+  }, 1000);
+
+  // Auto remove after 2 minutes (120 seconds)
+  window._annTimer = setTimeout(() => {
+    const b = document.getElementById('announcementBanner');
+    if (b) {
+      b.style.animation = 'annOut 0.4s ease forwards';
+      setTimeout(() => b.remove(), 400);
     }
-  });
+    clearInterval(window._annCountdown);
+  }, 120000);
 }
 
-function sendToUser(username, data) {
-  const user = users[username];
-  if (user && user.ws && user.ws.readyState === 1) {
-    user.ws.send(JSON.stringify(data));
-  }
+function showAdminNotification(icon, title, msg) {
+  const n = document.createElement('div');
+  n.className = 'admin-notification';
+  n.innerHTML = `<div class="an-icon">${icon}</div><div class="an-title">${escapeHtml(title)}</div><div class="an-msg">${escapeHtml(msg)}</div>`;
+  document.body.appendChild(n);
+  setTimeout(() => { n.classList.add('removing'); setTimeout(() => n.remove(), 300); }, 5000);
 }
 
-function getDMKey(user1, user2) { return [user1, user2].sort().join(':'); }
+// ---- WebSocket ----
+function connectWS() {
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  ws = new WebSocket(`${proto}//${location.host}?app=TheLongAfter`);
 
-function broadcastUsers() {
-  const userList = {};
-  for (const [name, data] of Object.entries(users)) userList[name] = { color: data.color };
-  broadcast({ type: 'users', users: userList });
-  broadcastToAdmins({ type: 'users_update', users: userList, count: Object.keys(userList).length });
-}
-
-function broadcastSystemMessage(text, channel = 'general') {
-  const msg = {
-    id: uuidv4(), type: 'message', channel,
-    username: 'System', text, system: true,
-    timestamp: Date.now(), color: '#888'
+  ws.onopen = () => {
+    console.log('Connected to TheLongAfter');
+    ws.send(JSON.stringify({ type: 'join', username: myUsername, color: myColor }));
   };
-  if (channels[channel]) channels[channel].push(msg);
-  broadcast(msg);
+
+  ws.onmessage = (e) => {
+    try { handleMessage(JSON.parse(e.data)); } catch(er) { console.error('Parse error:', er); }
+  };
+
+  ws.onclose = () => {
+    console.log('Disconnected, reconnecting in 3s...');
+    setTimeout(() => { if (myUsername) connectWS(); }, 3000);
+  };
+
+  ws.onerror = (err) => console.error('WS Error:', err);
 }
 
-function checkWordFilter(text) {
-  if (!serverSettings.wordFilter || serverSettings.wordFilter.length === 0) return text;
-  let filtered = text;
-  serverSettings.wordFilter.forEach(word => {
-    const regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-    filtered = filtered.replace(regex, '*'.repeat(word.length));
-  });
-  return filtered;
+function send(data) {
+  if (ws && ws.readyState === 1) ws.send(JSON.stringify(data));
 }
 
-function isUserSuspended(username) {
-  if (!suspendedUsers.has(username)) return false;
-  const s = suspendedUsers.get(username);
-  if (s.until && Date.now() > s.until) { suspendedUsers.delete(username); return false; }
-  return true;
+// ---- Handle Messages ----
+function handleMessage(data) {
+  switch (data.type) {
+    case 'message': handleChatMessage(data); break;
+    case 'dm': handleDM(data); break;
+    case 'history': handleHistory(data); break;
+    case 'users': handleUsers(data); break;
+    case 'user_joined': handleUserJoined(data); break;
+    case 'user_left': handleUserLeft(data); break;
+    case 'typing': handleTyping(data); break;
+    case 'stop_typing': handleStopTyping(data); break;
+    case 'edit': handleEdit(data); break;
+    case 'delete': handleDelete(data); break;
+    case 'reaction': handleReaction(data); break;
+    case 'channel_created': addChannelToList(data.channel); break;
+    case 'channel_deleted': removeChannelFromList(data.channel); break;
+    case 'announcement':
+  showAnnouncement(data.text);
+  break;
+    case 'admin_action': handleAdminAction(data); break;
+    case 'error': showToast('error', data.message); break;
+  }
 }
 
-function isUserMuted(username) {
-  if (!mutedUsers.has(username)) return false;
-  const m = mutedUsers.get(username);
-  if (m.until && Date.now() > m.until) { mutedUsers.delete(username); return false; }
-  return true;
-}
-
-// ---- Routes ----
-app.get('/', (req, res) => {
-  if (serverSettings.maintenanceMode) {
-    return res.send(`<!DOCTYPE html><html><head><title>Maintenance</title></head>
-      <body style="display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#1a1a2e;color:#e0e0e0;font-family:system-ui;text-align:center">
-      <div><h1>🔧</h1><h2>Under Maintenance</h2><p>Please check back later.</p></div></body></html>`);
-  }
-  res.sendFile(path.join(__dirname, 'chat.html'));
-});
-
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin.html'));
-});
-
-// ---- Admin Auth Middleware ----
-function authenticateAdmin(req, res, next) {
-  const token = req.headers['x-admin-token'] || req.query.token;
-  if (!token || !adminSessions.has(token)) return res.status(401).json({ error: 'Unauthorized' });
-  const session = adminSessions.get(token);
-  if (Date.now() - session.createdAt > ADMIN_CONFIG.sessionExpiry) {
-    adminSessions.delete(token);
-    return res.status(401).json({ error: 'Session expired' });
-  }
-  next();
-}
-
-// ---- Admin API Routes ----
-app.post('/admin/api/login', (req, res) => {
-  const ip = req.ip || req.connection.remoteAddress;
-  if (bannedIPs.has(ip)) return res.status(403).json({ error: 'IP banned' });
-  const attempts = loginAttempts.get(ip);
-  if (attempts && attempts.count >= ADMIN_CONFIG.maxLoginAttempts) {
-    const timeSince = Date.now() - attempts.lastAttempt;
-    if (timeSince < ADMIN_CONFIG.lockoutDuration) {
-      const remaining = Math.ceil((ADMIN_CONFIG.lockoutDuration - timeSince) / 60000);
-      return res.status(429).json({ error: `Too many attempts. Try again in ${remaining} minutes.` });
-    }
-    loginAttempts.delete(ip);
-  }
-  const { username, password } = req.body;
-  const hash = crypto.createHash('sha256').update(password || '').digest('hex');
-  if (username === ADMIN_CONFIG.username && hash === ADMIN_CONFIG.passwordHash) {
-    const token = crypto.randomBytes(48).toString('hex');
-    adminSessions.set(token, { createdAt: Date.now(), ip });
-    loginAttempts.delete(ip);
-    addLog('auth', `Admin logged in from ${ip}`);
-    return res.json({ token, expiresIn: ADMIN_CONFIG.sessionExpiry });
-  }
-  const current = loginAttempts.get(ip) || { count: 0 };
-  current.count++;
-  current.lastAttempt = Date.now();
-  loginAttempts.set(ip, current);
-  res.status(401).json({ error: 'Invalid credentials', attemptsRemaining: ADMIN_CONFIG.maxLoginAttempts - current.count });
-});
-
-app.post('/admin/api/logout', authenticateAdmin, (req, res) => {
-  adminSessions.delete(req.headers['x-admin-token']);
-  addLog('auth', 'Admin logged out');
-  res.json({ success: true });
-});
-
-app.get('/admin/api/verify', authenticateAdmin, (req, res) => res.json({ valid: true }));
-
-app.get('/admin/api/stats', authenticateAdmin, (req, res) => {
-  const totalMessages =
-    Object.values(channels).reduce((sum, msgs) => sum + msgs.length, 0) +
-    Object.values(directMessages).reduce((sum, msgs) => sum + msgs.length, 0);
-  res.json({
-    onlineUsers: Object.keys(users).length, totalMessages,
-    totalChannels: Object.keys(channels).length,
-    suspendedCount: suspendedUsers.size, mutedCount: mutedUsers.size,
-    uptime: process.uptime(), memoryUsage: process.memoryUsage(), serverSettings
-  });
-});
-
-app.get('/admin/api/users', authenticateAdmin, (req, res) => {
-  const allUsers = {};
-  for (const [name, data] of Object.entries(users)) {
-    allUsers[name] = {
-      username: name, color: data.color, online: true,
-      ip: ipAddressMap.get(name) || 'Unknown',
-      suspended: suspendedUsers.get(name) || null,
-      muted: mutedUsers.get(name) || null,
-      stats: userStats.get(name) || { messageCount: 0 },
-      warnings: userWarnings.get(name) || []
-    };
-  }
-  for (const [name, stats] of userStats.entries()) {
-    if (!allUsers[name]) {
-      allUsers[name] = {
-        username: name, color: '#888', online: false,
-        ip: ipAddressMap.get(name) || 'Unknown',
-        suspended: suspendedUsers.get(name) || null,
-        muted: mutedUsers.get(name) || null,
-        stats, warnings: userWarnings.get(name) || []
-      };
-    }
-  }
-  res.json(Object.values(allUsers));
-});
-
-app.post('/admin/api/users/:username/kick', authenticateAdmin, (req, res) => {
-  const { username } = req.params;
-  const reason = req.body.reason || 'Kicked by admin';
-  if (!users[username]) return res.status(404).json({ error: 'User not online' });
-  sendToUser(username, { type: 'admin_action', action: 'kick', reason, message: `You have been kicked: ${reason}` });
-  setTimeout(() => { if (users[username]?.ws) users[username].ws.close(1000, 'Kicked by admin'); }, 500);
-  addLog('moderation', `Kicked user: ${username}`, { reason });
-  broadcastSystemMessage(`${username} has been removed from the chat.`);
-  res.json({ success: true });
-});
-
-app.post('/admin/api/users/:username/suspend', authenticateAdmin, (req, res) => {
-  const { username } = req.params;
-  const { duration, reason } = req.body;
-  const until = duration ? Date.now() + duration * 60000 : null;
-  suspendedUsers.set(username, { until, reason: reason || 'Suspended by admin', suspendedAt: Date.now() });
-  if (users[username]) {
-    sendToUser(username, { type: 'admin_action', action: 'suspend', reason, until, message: `You have been suspended${duration ? ` for ${duration} minutes` : ' permanently'}: ${reason || 'No reason provided'}` });
-    setTimeout(() => { if (users[username]?.ws) users[username].ws.close(1000, 'Suspended'); }, 500);
-  }
-  addLog('moderation', `Suspended user: ${username}`, { duration, reason, until });
-  res.json({ success: true });
-});
-
-app.post('/admin/api/users/:username/unsuspend', authenticateAdmin, (req, res) => {
-  suspendedUsers.delete(req.params.username);
-  addLog('moderation', `Unsuspended user: ${req.params.username}`);
-  res.json({ success: true });
-});
-
-app.post('/admin/api/users/:username/mute', authenticateAdmin, (req, res) => {
-  const { username } = req.params;
-  const { duration, reason } = req.body;
-  const until = duration ? Date.now() + duration * 60000 : null;
-  mutedUsers.set(username, { until, reason: reason || 'Muted by admin', mutedAt: Date.now() });
-  if (users[username]) sendToUser(username, { type: 'admin_action', action: 'mute', reason, until, message: `You have been muted${duration ? ` for ${duration} minutes` : ' permanently'}: ${reason || 'No reason provided'}` });
-  addLog('moderation', `Muted user: ${username}`, { duration, reason });
-  res.json({ success: true });
-});
-
-app.post('/admin/api/users/:username/unmute', authenticateAdmin, (req, res) => {
-  const { username } = req.params;
-  mutedUsers.delete(username);
-  if (users[username]) sendToUser(username, { type: 'admin_action', action: 'unmute', message: 'You have been unmuted.' });
-  addLog('moderation', `Unmuted user: ${username}`);
-  res.json({ success: true });
-});
-
-app.post('/admin/api/users/:username/warn', authenticateAdmin, (req, res) => {
-  const { username } = req.params;
-  const { reason } = req.body;
-  if (!userWarnings.has(username)) userWarnings.set(username, []);
-  userWarnings.get(username).push({ reason: reason || 'Warning from admin', timestamp: Date.now(), by: 'admin' });
-  if (users[username]) sendToUser(username, { type: 'admin_action', action: 'warn', reason, message: `⚠️ Warning: ${reason || 'Please follow the rules.'}` });
-  addLog('moderation', `Warned user: ${username}`, { reason });
-  res.json({ success: true, totalWarnings: userWarnings.get(username).length });
-});
-
-app.post('/admin/api/users/:username/ban-ip', authenticateAdmin, (req, res) => {
-  const { username } = req.params;
-  const { reason } = req.body;
-  const ip = ipAddressMap.get(username);
-  if (ip) { bannedIPs.add(ip); addLog('moderation', `Banned IP for user: ${username}`, { ip, reason }); }
-  suspendedUsers.set(username, { until: null, reason: reason || 'IP Banned', suspendedAt: Date.now() });
-  if (users[username]) {
-    sendToUser(username, { type: 'admin_action', action: 'ban', message: `You have been permanently banned: ${reason || 'No reason provided'}` });
-    setTimeout(() => { if (users[username]?.ws) users[username].ws.close(1000, 'Banned'); }, 500);
-  }
-  res.json({ success: true, ip });
-});
-
-app.post('/admin/api/users/:username/purge', authenticateAdmin, (req, res) => {
-  const { username } = req.params;
-  let purged = 0;
-  for (const [ch, msgs] of Object.entries(channels)) {
-    const toDelete = msgs.filter(m => m.username === username).map(m => m.id);
-    channels[ch] = msgs.filter(m => m.username !== username);
-    purged += toDelete.length;
-    toDelete.forEach(id => broadcast({ type: 'delete', id, channel: ch }));
-  }
-  for (const [key, msgs] of Object.entries(directMessages)) {
-    const toDelete = msgs.filter(m => m.from === username).map(m => m.id);
-    directMessages[key] = msgs.filter(m => m.from !== username);
-    purged += toDelete.length;
-    const parts = key.split(':');
-    toDelete.forEach(id => parts.forEach(u => sendToUser(u, { type: 'delete', id, dm: parts.find(p => p !== u) || u })));
-  }
-  addLog('moderation', `Purged ${purged} messages from ${username}`);
-  res.json({ success: true, purged });
-});
-
-app.get('/admin/api/messages/:channel', authenticateAdmin, (req, res) => {
-  res.json((channels[req.params.channel] || []).slice(-200));
-});
-
-app.get('/admin/api/dms', authenticateAdmin, (req, res) => {
-  const summary = {};
-  for (const [key, msgs] of Object.entries(directMessages)) {
-    summary[key] = { participants: key.split(':'), messageCount: msgs.length, lastMessage: msgs[msgs.length - 1] || null };
-  }
-  res.json(summary);
-});
-
-app.get('/admin/api/dms/:key', authenticateAdmin, (req, res) => {
-  res.json((directMessages[req.params.key] || []).slice(-200));
-});
-
-app.delete('/admin/api/messages/:id', authenticateAdmin, (req, res) => {
-  const { id } = req.params;
-  const { channel, dmKey } = req.query;
-  let found = false;
-  if (dmKey && directMessages[dmKey]) {
-    const idx = directMessages[dmKey].findIndex(m => m.id === id);
-    if (idx !== -1) {
-      const deleted = directMessages[dmKey].splice(idx, 1)[0];
-      const parts = dmKey.split(':');
-      parts.forEach(u => sendToUser(u, { type: 'delete', id, dm: parts.find(p => p !== u) || u }));
-      found = true;
-      addLog('moderation', 'Deleted DM message', { id, from: deleted.from });
-    }
+function handleChatMessage(msg) {
+  if (msg.channel === currentChannel && !currentDM) {
+    appendMessage(msg);
   } else {
-    for (const ch of (channel ? [channel] : Object.keys(channels))) {
-      if (!channels[ch]) continue;
-      const idx = channels[ch].findIndex(m => m.id === id);
-      if (idx !== -1) {
-        const deleted = channels[ch].splice(idx, 1)[0];
-        broadcast({ type: 'delete', id, channel: ch });
-        found = true;
-        addLog('moderation', `Deleted message in #${ch}`, { id, user: deleted.username });
-        break;
+    unreadCounts[msg.channel] = (unreadCounts[msg.channel] || 0) + 1;
+    updateUnreadBadges();
+  }
+}
+
+function handleDM(msg) {
+  const otherUser = msg.from === myUsername ? msg.to : msg.from;
+  addDMToList(otherUser);
+  if (currentDM === otherUser) {
+    appendMessage(msg);
+  } else {
+    unreadCounts['dm_' + otherUser] = (unreadCounts['dm_' + otherUser] || 0) + 1;
+    updateUnreadBadges();
+    showToast('info', `DM from ${msg.from}: ${msg.text.substring(0, 50)}`);
+  }
+}
+
+function handleHistory(data) {
+  const container = document.getElementById('messagesContainer');
+  container.innerHTML = '';
+  lastMessageDate = '';
+  messageElements = {};
+  if (data.messages && data.messages.length > 0) {
+    document.getElementById('emptyState')?.remove();
+    data.messages.forEach(msg => appendMessage(msg));
+    scrollToBottom();
+  } else {
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">💬</div><h3>No messages yet</h3><p>Be the first to say something!</p></div>`;
+  }
+}
+
+function handleUsers(data) {
+  onlineUsers = data.users || {};
+  renderUserList();
+}
+
+function handleUserJoined(data) {
+  if (data.username !== myUsername) showToast('info', `${data.username} joined the chat`);
+}
+
+function handleUserLeft(data) {
+  showToast('info', `${data.username} left the chat`);
+}
+
+function handleTyping(data) {
+  if (data.username === myUsername) return;
+  const key = data.dm ? `dm_${data.username}` : `ch_${data.channel}`;
+  typingUsers[key] = data.username;
+  updateTypingIndicator();
+  setTimeout(() => { delete typingUsers[key]; updateTypingIndicator(); }, 3000);
+}
+
+function handleStopTyping(data) {
+  if (data.username === myUsername) return;
+  const key = data.dm ? `dm_${data.username}` : `ch_${data.channel}`;
+  delete typingUsers[key];
+  updateTypingIndicator();
+}
+
+function handleEdit(data) {
+  const el = messageElements[data.id];
+  if (el) {
+    const textEl = el.querySelector('.msg-text');
+    if (textEl) textEl.innerHTML = formatText(data.text);
+    let edited = el.querySelector('.msg-edited');
+    if (!edited) {
+      edited = document.createElement('span');
+      edited.className = 'msg-edited';
+      edited.textContent = '(edited)';
+      el.querySelector('.msg-header')?.appendChild(edited);
+    }
+  }
+}
+
+function handleDelete(data) {
+  const el = messageElements[data.id];
+  if (el) { el.remove(); delete messageElements[data.id]; }
+}
+
+function handleReaction(data) {
+  const el = messageElements[data.id];
+  if (!el) return;
+  let container = el.querySelector('.msg-reactions');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'msg-reactions';
+    el.querySelector('.msg-body')?.appendChild(container);
+  }
+  container.innerHTML = '';
+  if (data.reactions) {
+    for (const [emoji, users] of Object.entries(data.reactions)) {
+      if (users.length > 0) {
+        const btn = document.createElement('button');
+        btn.className = `reaction-btn ${users.includes(myUsername) ? 'active' : ''}`;
+        btn.innerHTML = `${emoji} <span class="r-count">${users.length}</span>`;
+        btn.onclick = () => send({ type: 'reaction', id: data.id, emoji, channel: currentDM ? undefined : currentChannel, dm: currentDM || undefined });
+        container.appendChild(btn);
       }
     }
   }
-  if (!found) return res.status(404).json({ error: 'Message not found' });
-  res.json({ success: true });
-});
+}
 
-app.post('/admin/api/channels/:channel/clear', authenticateAdmin, (req, res) => {
-  const { channel } = req.params;
-  if (!channels[channel]) return res.status(404).json({ error: 'Channel not found' });
-  const ids = channels[channel].map(m => m.id);
-  channels[channel] = [];
-  ids.forEach(id => broadcast({ type: 'delete', id, channel }));
-  broadcastSystemMessage(`Channel #${channel} has been cleared by an administrator.`, channel);
-  addLog('moderation', `Cleared channel #${channel}`, { messagesRemoved: ids.length });
-  res.json({ success: true, cleared: ids.length });
-});
-
-app.delete('/admin/api/channels/:channel', authenticateAdmin, (req, res) => {
-  const { channel } = req.params;
-  if (channel === 'general') return res.status(400).json({ error: 'Cannot delete the general channel' });
-  if (!channels[channel]) return res.status(404).json({ error: 'Channel not found' });
-  delete channels[channel];
-  broadcast({ type: 'channel_deleted', channel });
-  addLog('moderation', `Deleted channel #${channel}`);
-  res.json({ success: true });
-});
-
-app.get('/admin/api/channels', authenticateAdmin, (req, res) => {
-  const chList = {};
-  for (const [name, msgs] of Object.entries(channels)) {
-    chList[name] = { name, messageCount: msgs.length, lastActivity: msgs[msgs.length - 1]?.timestamp || null };
+function handleAdminAction(data) {
+  switch (data.action) {
+    case 'welcome': showAdminNotification('👋', 'Welcome', data.message); break;
+    case 'mute_notice': showAdminNotification('🔇', 'Muted', data.message); break;
+    case 'kick': showAdminNotification('👢', 'Kicked', data.message); setTimeout(disconnect, 2000); break;
+    case 'suspend': showAdminNotification('⛔', 'Suspended', data.message); setTimeout(disconnect, 2000); break;
+    case 'ban': showAdminNotification('🚫', 'Banned', data.message); setTimeout(disconnect, 2000); break;
+    case 'warn': showAdminNotification('⚠️', 'Warning', data.message); break;
+    case 'mute': showAdminNotification('🔇', 'Muted', data.message); break;
+    case 'unmute': showAdminNotification('🔊', 'Unmuted', data.message); break;
   }
-  res.json(chList);
-});
+}
 
-app.post('/admin/api/channels', authenticateAdmin, (req, res) => {
-  const clean = (req.body.name || '').toLowerCase().replace(/[^a-z0-9\-_]/g, '');
-  if (!clean || channels[clean]) return res.status(400).json({ error: 'Invalid or existing channel name' });
-  channels[clean] = [];
-  broadcast({ type: 'channel_created', channel: clean });
-  addLog('admin', `Created channel #${clean}`);
-  res.json({ success: true, channel: clean });
-});
+// ---- Render Messages ----
+function appendMessage(msg) {
+  const container = document.getElementById('messagesContainer');
+  document.getElementById('emptyState')?.remove();
 
-app.post('/admin/api/announce', authenticateAdmin, (req, res) => {
-  const { text } = req.body;
-  if (!text) return res.status(400).json({ error: 'Text required' });
-  announcements.push({ id: uuidv4(), text, timestamp: Date.now() });
-  broadcast({ type: 'announcement', text, timestamp: Date.now() });
-  broadcastSystemMessage(`📢 Announcement: ${text}`);
-  addLog('admin', `Broadcast announcement: ${text}`);
-  res.json({ success: true });
-});
-
-app.get('/admin/api/settings', authenticateAdmin, (req, res) => res.json(serverSettings));
-
-app.put('/admin/api/settings', authenticateAdmin, (req, res) => {
-  for (const [key, value] of Object.entries(req.body)) {
-    if (key in serverSettings) serverSettings[key] = value;
-  }
-  addLog('admin', 'Updated server settings', req.body);
-  res.json(serverSettings);
-});
-
-app.get('/admin/api/logs', authenticateAdmin, (req, res) => {
-  let logs = serverLogs;
-  if (req.query.type) logs = logs.filter(l => l.type === req.query.type);
-  res.json(logs.slice(-(parseInt(req.query.limit) || 100)));
-});
-
-app.delete('/admin/api/logs', authenticateAdmin, (req, res) => {
-  serverLogs.length = 0;
-  res.json({ success: true });
-});
-
-app.get('/admin/api/banned-ips', authenticateAdmin, (req, res) => res.json(Array.from(bannedIPs)));
-
-app.delete('/admin/api/banned-ips/:ip', authenticateAdmin, (req, res) => {
-  bannedIPs.delete(req.params.ip);
-  addLog('admin', `Unbanned IP: ${req.params.ip}`);
-  res.json({ success: true });
-});
-
-// ---- HTTP + WebSocket Server ----
-const server = http.createServer(app);
-const wss = new WebSocketServer({ server });
-
-// ---- WebSocket Handler ----
-wss.on('connection', (ws, req) => {
-  let currentUsername = null;
-  const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  const url = new URL(req.url, `http://${req.headers.host}`);
-  const adminToken = url.searchParams.get('admin_token');
-
-  if (adminToken && adminSessions.has(adminToken)) {
-    ws.__isAdmin = true;
-    adminWsClients.add(ws);
-    ws.on('close', () => adminWsClients.delete(ws));
-    ws.send(JSON.stringify({ type: 'admin_connected' }));
+  if (msg.system) {
+    const div = document.createElement('div');
+    div.className = 'system-msg';
+    div.innerHTML = `${escapeHtml(msg.text)} <span class="sys-time">${formatTime(msg.timestamp)}</span>`;
+    container.appendChild(div);
+    scrollToBottom();
     return;
   }
 
-  if (bannedIPs.has(clientIP)) {
-    ws.send(JSON.stringify({ type: 'error', message: 'You have been banned from this server.' }));
-    ws.close(1000, 'Banned');
-    return;
+  // Date divider
+  const msgDate = formatDate(msg.timestamp);
+  if (msgDate !== lastMessageDate) {
+    lastMessageDate = msgDate;
+    const divider = document.createElement('div');
+    divider.className = 'date-divider';
+    divider.textContent = msgDate;
+    container.appendChild(divider);
   }
 
-  ws.on('message', (rawData) => {
-    let data;
-    try { data = JSON.parse(rawData.toString()); } catch { return; }
+  const div = document.createElement('div');
+  div.className = 'msg-group';
+  div.dataset.id = msg.id;
+  div.dataset.username = msg.username || msg.from;
+  div.dataset.text = msg.text || '';
+  div.oncontextmenu = (e) => { e.preventDefault(); showContextMenu(e, msg); };
 
-    switch (data.type) {
+  const color = msg.color || '#6C63FF';
+  const username = msg.username || msg.from || '?';
 
-      case 'join': {
-        const username = (data.username || '').trim();
-        if (!username || username.length > 20) return ws.send(JSON.stringify({ type: 'error', message: 'Invalid username' }));
-        if (serverSettings.maintenanceMode) return ws.send(JSON.stringify({ type: 'error', message: 'Server is under maintenance.' }));
-        if (!serverSettings.registrationOpen && !userStats.has(username)) return ws.send(JSON.stringify({ type: 'error', message: 'Registration is currently closed.' }));
-        if (isUserSuspended(username)) {
-          const s = suspendedUsers.get(username);
-          const timeLeft = s.until ? Math.ceil((s.until - Date.now()) / 60000) : 'permanently';
-          return ws.send(JSON.stringify({ type: 'error', message: `You are suspended${typeof timeLeft === 'number' ? ` for ${timeLeft} more minutes` : ' permanently'}: ${s.reason}` }));
-        }
-        if (users[username]) return ws.send(JSON.stringify({ type: 'error', message: 'Username already taken' }));
-        if (['admin', 'system', 'moderator', 'server'].includes(username.toLowerCase())) return ws.send(JSON.stringify({ type: 'error', message: 'That username is reserved' }));
+  let replyHTML = '';
+  if (msg.replyTo) {
+    replyHTML = `<div class="msg-reply-ref" onclick="scrollToMessage('${msg.replyTo}')"><span class="reply-user">↩ ${escapeHtml(msg.replyUser || '?')}</span> ${escapeHtml((msg.replyText || '').substring(0, 60))}</div>`;
+  }
 
-        currentUsername = username;
-        users[username] = { ws, color: data.color || '#6C63FF' };
-        ipAddressMap.set(username, clientIP);
-        if (!userStats.has(username)) userStats.set(username, { messageCount: 0, joinedAt: Date.now(), lastActive: Date.now() });
-        else userStats.get(username).lastActive = Date.now();
+  let fileHTML = '';
+  if (msg.file) {
+    if (msg.file.type && msg.file.type.startsWith('image/')) {
+      fileHTML = `<div class="msg-file"><img src="${msg.file.data}" alt="image" onclick="viewImage('${msg.file.data}')"></div>`;
+    } else {
+      fileHTML = `<div class="msg-file"><a class="file-download" href="${msg.file.data}" download="${escapeHtml(msg.file.name || 'file')}">📄 ${escapeHtml(msg.file.name || 'File')} <span style="color:var(--text3)">(${formatFileSize(msg.file.size || 0)})</span></a></div>`;
+    }
+  }
 
-        broadcastUsers();
-        if (serverSettings.welcomeMessage) ws.send(JSON.stringify({ type: 'admin_action', action: 'welcome', message: serverSettings.welcomeMessage }));
-        if (isUserMuted(username)) ws.send(JSON.stringify({ type: 'admin_action', action: 'mute_notice', message: `You are currently muted: ${mutedUsers.get(username).reason}` }));
-        ws.send(JSON.stringify({ type: 'history', channel: 'general', messages: channels.general.slice(-100) }));
-        for (const ch of Object.keys(channels)) {
-          if (!['general', 'random', 'tech'].includes(ch)) ws.send(JSON.stringify({ type: 'channel_created', channel: ch }));
-        }
-        const joinMsg = { id: uuidv4(), type: 'message', channel: 'general', username: 'System', text: `${username} has joined the chat`, system: true, timestamp: Date.now(), color: '#888' };
-        channels.general.push(joinMsg);
-        broadcast(joinMsg);
-        broadcast({ type: 'user_joined', username }, ws);
-        addLog('connection', `${username} joined from ${clientIP}`);
-        break;
-      }
-
-      case 'message': {
-        if (!currentUsername) return;
-        if (isUserMuted(currentUsername)) return ws.send(JSON.stringify({ type: 'error', message: 'You are muted and cannot send messages.' }));
-        if (serverSettings.slowMode > 0) {
-          const last = slowModeTimers.get(currentUsername);
-          if (last && Date.now() - last < serverSettings.slowMode * 1000) {
-            const wait = Math.ceil((serverSettings.slowMode * 1000 - (Date.now() - last)) / 1000);
-            return ws.send(JSON.stringify({ type: 'error', message: `Slow mode: wait ${wait}s before sending another message.` }));
-          }
-        }
-        if (data.text && data.text.length > serverSettings.maxMessageLength) return ws.send(JSON.stringify({ type: 'error', message: `Message too long. Max ${serverSettings.maxMessageLength} characters.` }));
-
-        const channel = data.channel || 'general';
-        if (!channels[channel]) channels[channel] = [];
-        const msg = {
-          id: uuidv4(), type: 'message', channel, username: currentUsername,
-          text: checkWordFilter(data.text || ''), file: data.file || null,
-          replyTo: data.replyTo || null, replyText: data.replyText || null, replyUser: data.replyUser || null,
-          reactions: {}, edited: false, timestamp: Date.now(), color: users[currentUsername].color
-        };
-        channels[channel].push(msg);
-        if (channels[channel].length > 500) channels[channel] = channels[channel].slice(-500);
-        slowModeTimers.set(currentUsername, Date.now());
-        const stats = userStats.get(currentUsername);
-        if (stats) { stats.messageCount++; stats.lastActive = Date.now(); }
-        broadcast(msg);
-        broadcastToAdmins({ type: 'new_message', message: msg });
-        break;
-      }
-
-      case 'dm': {
-        if (!currentUsername) return;
-        if (isUserMuted(currentUsername)) return ws.send(JSON.stringify({ type: 'error', message: 'You are muted and cannot send messages.' }));
-        if (!data.to || !users[data.to]) return ws.send(JSON.stringify({ type: 'error', message: 'User not found' }));
-        const dmKey = getDMKey(currentUsername, data.to);
-        if (!directMessages[dmKey]) directMessages[dmKey] = [];
-        const msg = {
-          id: uuidv4(), type: 'dm', from: currentUsername, to: data.to,
-          text: checkWordFilter(data.text || ''), file: data.file || null,
-          replyTo: data.replyTo || null, replyText: data.replyText || null, replyUser: data.replyUser || null,
-          reactions: {}, edited: false, timestamp: Date.now(), color: users[currentUsername].color
-        };
-        directMessages[dmKey].push(msg);
-        if (directMessages[dmKey].length > 500) directMessages[dmKey] = directMessages[dmKey].slice(-500);
-        sendToUser(currentUsername, msg);
-        sendToUser(data.to, msg);
-        const stats = userStats.get(currentUsername);
-        if (stats) { stats.messageCount++; stats.lastActive = Date.now(); }
-        broadcastToAdmins({ type: 'new_dm', message: msg });
-        break;
-      }
-
-      case 'get_history': {
-        if (!currentUsername) return;
-        const ch = data.channel || 'general';
-        if (!channels[ch]) channels[ch] = [];
-        ws.send(JSON.stringify({ type: 'history', channel: ch, messages: channels[ch].slice(-100) }));
-        break;
-      }
-
-      case 'get_dm_history': {
-        if (!currentUsername) return;
-        const dmKey = getDMKey(currentUsername, data.user);
-        if (!directMessages[dmKey]) directMessages[dmKey] = [];
-        ws.send(JSON.stringify({ type: 'history', dm: data.user, messages: directMessages[dmKey].slice(-100) }));
-        break;
-      }
-
-      case 'create_channel': {
-        if (!currentUsername) return;
-        const channelName = (data.channel || '').toLowerCase().replace(/[^a-z0-9\-_]/g, '');
-        if (!channelName || channelName.length > 20) return ws.send(JSON.stringify({ type: 'error', message: 'Invalid channel name' }));
-        if (channels[channelName]) return ws.send(JSON.stringify({ type: 'error', message: 'Channel already exists' }));
-        channels[channelName] = [];
-        broadcast({ type: 'channel_created', channel: channelName });
-        addLog('channel', `${currentUsername} created channel #${channelName}`);
-        break;
-      }
-
-      case 'typing': {
-        if (!currentUsername) return;
-        const td = { type: 'typing', username: currentUsername, channel: data.channel || null, dm: data.dm || null };
-        data.dm ? sendToUser(data.dm, td) : broadcast(td, ws);
-        break;
-      }
-
-      case 'stop_typing': {
-        if (!currentUsername) return;
-        const sd = { type: 'stop_typing', username: currentUsername, channel: data.channel || null, dm: data.dm || null };
-        data.dm ? sendToUser(data.dm, sd) : broadcast(sd, ws);
-        break;
-      }
-
-      case 'edit': {
-        if (!currentUsername) return;
-        let found = false;
-        if (data.dm) {
-          const dmKey = getDMKey(currentUsername, data.dm);
-          if (directMessages[dmKey]) {
-            const msg = directMessages[dmKey].find(m => m.id === data.id && m.from === currentUsername);
-            if (msg) {
-              msg.text = checkWordFilter(data.text); msg.edited = true; found = true;
-              sendToUser(currentUsername, { type: 'edit', id: data.id, text: msg.text, dm: data.dm });
-              sendToUser(data.dm, { type: 'edit', id: data.id, text: msg.text, dm: currentUsername });
-            }
-          }
-        } else if (data.channel && channels[data.channel]) {
-          const msg = channels[data.channel].find(m => m.id === data.id && m.username === currentUsername);
-          if (msg) { msg.text = checkWordFilter(data.text); msg.edited = true; found = true; broadcast({ type: 'edit', id: data.id, text: msg.text, channel: data.channel }); }
-        }
-        if (!found) {
-          for (const [ch, msgs] of Object.entries(channels)) {
-            const msg = msgs.find(m => m.id === data.id && m.username === currentUsername);
-            if (msg) { msg.text = checkWordFilter(data.text); msg.edited = true; broadcast({ type: 'edit', id: data.id, text: msg.text, channel: ch }); break; }
-          }
-        }
-        break;
-      }
-
-      case 'delete': {
-        if (!currentUsername) return;
-        if (data.dm) {
-          const dmKey = getDMKey(currentUsername, data.dm);
-          if (directMessages[dmKey]) {
-            const idx = directMessages[dmKey].findIndex(m => m.id === data.id && m.from === currentUsername);
-            if (idx !== -1) {
-              directMessages[dmKey].splice(idx, 1);
-              sendToUser(currentUsername, { type: 'delete', id: data.id, dm: data.dm });
-              sendToUser(data.dm, { type: 'delete', id: data.id, dm: currentUsername });
-            }
-          }
-        } else if (data.channel && channels[data.channel]) {
-          const idx = channels[data.channel].findIndex(m => m.id === data.id && m.username === currentUsername);
-          if (idx !== -1) { channels[data.channel].splice(idx, 1); broadcast({ type: 'delete', id: data.id, channel: data.channel }); }
-        } else {
-          for (const [ch, msgs] of Object.entries(channels)) {
-            const idx = msgs.findIndex(m => m.id === data.id && m.username === currentUsername);
-            if (idx !== -1) { msgs.splice(idx, 1); broadcast({ type: 'delete', id: data.id, channel: ch }); break; }
-          }
-        }
-        break;
-      }
-
-      case 'reaction': {
-        if (!currentUsername) return;
-        let targetMsg = null, broadcastTarget = null;
-        if (data.dm) {
-          const dmKey = getDMKey(currentUsername, data.dm);
-          if (directMessages[dmKey]) { targetMsg = directMessages[dmKey].find(m => m.id === data.id); broadcastTarget = { dm: data.dm }; }
-        } else if (data.channel && channels[data.channel]) {
-          targetMsg = channels[data.channel].find(m => m.id === data.id); broadcastTarget = { channel: data.channel };
-        } else {
-          for (const [ch, msgs] of Object.entries(channels)) {
-            targetMsg = msgs.find(m => m.id === data.id);
-            if (targetMsg) { broadcastTarget = { channel: ch }; break; }
-          }
-        }
-        if (targetMsg && broadcastTarget) {
-          if (!targetMsg.reactions) targetMsg.reactions = {};
-          if (!targetMsg.reactions[data.emoji]) targetMsg.reactions[data.emoji] = [];
-          const idx = targetMsg.reactions[data.emoji].indexOf(currentUsername);
-          if (idx !== -1) {
-            targetMsg.reactions[data.emoji].splice(idx, 1);
-            if (targetMsg.reactions[data.emoji].length === 0) delete targetMsg.reactions[data.emoji];
-          } else targetMsg.reactions[data.emoji].push(currentUsername);
-          const update = { type: 'reaction', id: data.id, reactions: targetMsg.reactions, ...broadcastTarget };
-          broadcastTarget.dm ? (sendToUser(currentUsername, update), sendToUser(broadcastTarget.dm, update)) : broadcast(update);
-        }
-        break;
+  let reactionsHTML = '';
+  if (msg.reactions && Object.keys(msg.reactions).length > 0) {
+    reactionsHTML = '<div class="msg-reactions">';
+    for (const [emoji, users] of Object.entries(msg.reactions)) {
+      if (users.length > 0) {
+        const active = users.includes(myUsername) ? ' active' : '';
+        reactionsHTML += `<button class="reaction-btn${active}" onclick="reactTo('${msg.id}','${emoji}')">${emoji} <span class="r-count">${users.length}</span></button>`;
       }
     }
-  });
+    reactionsHTML += '</div>';
+  }
 
-  ws.on('close', () => {
-    if (currentUsername && users[currentUsername]) {
-      delete users[currentUsername];
-      const leaveMsg = { id: uuidv4(), type: 'message', channel: 'general', username: 'System', text: `${currentUsername} has left the chat`, system: true, timestamp: Date.now(), color: '#888' };
-      channels.general.push(leaveMsg);
-      broadcast(leaveMsg);
-      broadcast({ type: 'user_left', username: currentUsername });
-      broadcastUsers();
-      addLog('connection', `${currentUsername} disconnected`);
+  div.innerHTML = `
+    <div class="msg-avatar" style="background:${color}">${username[0].toUpperCase()}</div>
+    <div class="msg-body">
+      ${replyHTML}
+      <div class="msg-header">
+        <span class="msg-username" style="color:${color}" onclick="startDM('${escapeHtml(username)}')">${escapeHtml(username)}</span>
+        <span class="msg-time">${formatTime(msg.timestamp)}</span>
+        ${msg.edited ? '<span class="msg-edited">(edited)</span>' : ''}
+      </div>
+      <div class="msg-text">${formatText(msg.text || '')}</div>
+      ${fileHTML}
+      ${reactionsHTML}
+    </div>
+    <div class="msg-actions">
+      <button class="msg-action-btn" title="React" onclick="quickReact('${msg.id}')">😊</button>
+      <button class="msg-action-btn" title="Reply" onclick="setReply('${msg.id}','${escapeHtml(username)}','${escapeHtml((msg.text||'').substring(0,60).replace(/'/g,"\\'"))}')">↩️</button>
+      ${(msg.username === myUsername || msg.from === myUsername) ? `<button class="msg-action-btn" title="More" onclick="showContextMenu(event, null, '${msg.id}')">⋯</button>` : ''}
+    </div>
+  `;
+
+  messageElements[msg.id] = div;
+  container.appendChild(div);
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  const c = document.getElementById('messagesContainer');
+  requestAnimationFrame(() => { c.scrollTop = c.scrollHeight; });
+}
+
+function scrollToMessage(id) {
+  const el = messageElements[id];
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.style.background = 'rgba(108,99,255,.1)';
+    setTimeout(() => { el.style.background = ''; }, 2000);
+  }
+}
+
+// ---- Channel / DM Switching ----
+function switchChannel(channel) {
+  currentChannel = channel;
+  currentDM = null;
+  document.getElementById('chatTitle').textContent = `# ${channel}`;
+  document.getElementById('chatSubtitle').textContent = `Welcome to #${channel}`;
+  document.querySelectorAll('.channel-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.channel === channel);
+  });
+  document.querySelectorAll('[data-dm]').forEach(el => el.classList.remove('active'));
+  unreadCounts[channel] = 0;
+  updateUnreadBadges();
+  send({ type: 'get_history', channel });
+  closeSidebar();
+}
+
+function startDM(username) {
+  if (username === myUsername) return;
+  currentDM = username;
+  currentChannel = null;
+  document.getElementById('chatTitle').textContent = `✉️ ${username}`;
+  document.getElementById('chatSubtitle').textContent = `Direct message with ${username}`;
+  document.querySelectorAll('.channel-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('[data-dm]').forEach(el => {
+    el.classList.toggle('active', el.dataset.dm === username);
+  });
+  addDMToList(username);
+  unreadCounts['dm_' + username] = 0;
+  updateUnreadBadges();
+  send({ type: 'get_dm_history', user: username });
+  closeSidebar();
+}
+
+function addChannelToList(name) {
+  const list = document.getElementById('channelList');
+  if (list.querySelector(`[data-channel="${name}"]`)) return;
+  const div = document.createElement('div');
+  div.className = 'channel-item';
+  div.dataset.channel = name;
+  div.onclick = () => switchChannel(name);
+  div.innerHTML = `<span class="ch-icon">#</span><span class="ch-name">${escapeHtml(name)}</span>`;
+  list.appendChild(div);
+}
+
+function removeChannelFromList(name) {
+  const el = document.querySelector(`[data-channel="${name}"]`);
+  if (el) el.remove();
+  if (currentChannel === name) switchChannel('general');
+}
+
+function addDMToList(username) {
+  const list = document.getElementById('dmList');
+  if (list.querySelector(`[data-dm="${username}"]`)) return;
+  const div = document.createElement('div');
+  div.className = 'channel-item';
+  div.dataset.dm = username;
+  div.onclick = () => startDM(username);
+  const color = onlineUsers[username]?.color || '#6C63FF';
+  div.innerHTML = `<span class="ch-icon" style="color:${color}">●</span><span class="ch-name">${escapeHtml(username)}</span>`;
+  list.appendChild(div);
+}
+
+// ---- User List ----
+function renderUserList() {
+  const list = document.getElementById('userList');
+  const entries = Object.entries(onlineUsers);
+  document.getElementById('onlineCount').textContent = entries.length;
+  list.innerHTML = entries.map(([name, data]) => `
+    <div class="user-item" onclick="startDM('${escapeHtml(name)}')">
+      <div class="user-avatar" style="background:${data.color || '#6C63FF'}">${name[0].toUpperCase()}</div>
+      <span class="user-name">${escapeHtml(name)}${name === myUsername ? ' (you)' : ''}</span>
+      <span class="user-dot"></span>
+    </div>
+  `).join('');
+}
+
+function updateUnreadBadges() {
+  document.querySelectorAll('.channel-item').forEach(el => {
+    const ch = el.dataset.channel;
+    const dm = el.dataset.dm;
+    const key = dm ? 'dm_' + dm : ch;
+    let badge = el.querySelector('.unread');
+    const count = unreadCounts[key] || 0;
+    if (count > 0) {
+      if (!badge) { badge = document.createElement('span'); badge.className = 'unread'; el.appendChild(badge); }
+      badge.textContent = count;
+    } else {
+      if (badge) badge.remove();
     }
   });
+}
 
-  ws.on('error', (err) => console.error('WebSocket error:', err.message));
-});
+// ---- Typing ----
+function updateTypingIndicator() {
+  const area = document.getElementById('typingArea');
+  const relevant = [];
+  for (const [key, user] of Object.entries(typingUsers)) {
+    if (currentDM && key === `dm_${currentDM}`) relevant.push(user);
+    else if (!currentDM && key === `ch_${currentChannel}`) relevant.push(user);
+  }
+  if (relevant.length > 0) {
+    const names = relevant.slice(0, 3).join(', ');
+    area.innerHTML = `<span>${escapeHtml(names)} ${relevant.length === 1 ? 'is' : 'are'} typing</span><span class="typing-dots"><span></span><span></span><span></span></span>`;
+  } else {
+    area.innerHTML = '';
+  }
+}
 
-// ---- Start Server ----
-server.listen(PORT, () => {
-  addLog('system', 'Server started');
-  console.log(`
-╔══════════════════════════════════════════╗
-║          🌊 ChatWave Server 🌊           ║
-╠══════════════════════════════════════════╣
-║  🚀 Chat:  http://localhost:${PORT}          ║
-║  🔐 Admin: http://localhost:${PORT}/admin     ║
-╠══════════════════════════════════════════╣
-║  Admin Login:                            ║
-║  Username: admin                         ║
-║  Password: ChatWaveAdmin2024!            ║
-╚══════════════════════════════════════════╝
-  `);
+// ---- Input ----
+function handleKeyDown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function handleInput() {
+  const input = document.getElementById('msgInput');
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  document.getElementById('sendBtn').disabled = !input.value.trim() && !selectedFile;
+
+  // Send typing indicator
+  if (!isTyping && input.value.trim()) {
+    isTyping = true;
+    send({ type: 'typing', channel: currentDM ? undefined : currentChannel, dm: currentDM || undefined });
+  }
+  clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => {
+    if (isTyping) {
+      isTyping = false;
+      send({ type: 'stop_typing', channel: currentDM ? undefined : currentChannel, dm: currentDM || undefined });
+    }
+  }, 2000);
+}
+
+function sendMessage() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text && !selectedFile) return;
+
+  const msg = { text };
+
+  if (replyTo) {
+    msg.replyTo = replyTo.id;
+    msg.replyText = replyTo.text;
+    msg.replyUser = replyTo.username;
+  }
+
+  if (selectedFile) {
+    msg.file = selectedFile;
+  }
+
+  if (currentDM) {
+    msg.type = 'dm';
+    msg.to = currentDM;
+  } else {
+    msg.type = 'message';
+    msg.channel = currentChannel;
+  }
+
+  send(msg);
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  cancelReply();
+  removeFile();
+
+  if (isTyping) {
+    isTyping = false;
+    send({ type: 'stop_typing', channel: currentDM ? undefined : currentChannel, dm: currentDM || undefined });
+  }
+}
+
+// ---- Reply ----
+function setReply(id, username, text) {
+  replyTo = { id, username, text };
+  document.getElementById('rpUser').textContent = username;
+  document.getElementById('rpText').textContent = text;
+  document.getElementById('replyPreview').style.display = 'flex';
+  document.getElementById('msgInput').focus();
+  closeContextMenu();
+}
+
+function cancelReply() {
+  replyTo = null;
+  document.getElementById('replyPreview').style.display = 'none';
+}
+
+// ---- File ----
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('error', 'File too large. Max 5MB.'); return; }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    selectedFile = { name: file.name, type: file.type, size: file.size, data: reader.result };
+    document.getElementById('fpName').textContent = file.name;
+    document.getElementById('fpSize').textContent = formatFileSize(file.size);
+    document.getElementById('filePreview').style.display = 'flex';
+    document.getElementById('sendBtn').disabled = false;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeFile() {
+  selectedFile = null;
+  document.getElementById('filePreview').style.display = 'none';
+  document.getElementById('fileInput').value = '';
+}
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+function viewImage(src) {
+  document.getElementById('viewerImg').src = src;
+  document.getElementById('imageViewer').classList.add('show');
+}
+
+// ---- Emoji ----
+function toggleEmojiPicker() {
+  document.getElementById('emojiPicker').classList.toggle('show');
+}
+
+function initEmojiPicker() {
+  const grid = document.getElementById('emojiGrid');
+  grid.innerHTML = EMOJIS.map(e => `<div class="emoji-item" onclick="insertEmoji('${e}')">${e}</div>`).join('');
+}
+
+function insertEmoji(emoji) {
+  const input = document.getElementById('msgInput');
+  input.value += emoji;
+  input.focus();
+  handleInput();
+  document.getElementById('emojiPicker').classList.remove('show');
+}
+
+// ---- Reactions ----
+function reactTo(id, emoji) {
+  send({ type: 'reaction', id, emoji, channel: currentDM ? undefined : currentChannel, dm: currentDM || undefined });
+}
+
+function quickReact(id) {
+  reactTo(id, '👍');
+  closeContextMenu();
+}
+
+// ---- Context Menu ----
+function showContextMenu(e, msg, msgId) {
+  e.preventDefault?.();
+  e.stopPropagation?.();
+
+  const menu = document.getElementById('contextMenu');
+
+  if (msgId) {
+    const el = messageElements[msgId];
+    if (el) {
+      msg = { id: msgId, username: el.dataset.username, text: el.dataset.text };
+    }
+  }
+
+  if (!msg) return;
+  contextTarget = msg;
+
+  const isOwn = (msg.username === myUsername || msg.from === myUsername);
+  document.getElementById('ctxEdit').style.display = isOwn ? 'flex' : 'none';
+  document.getElementById('ctxDelete').style.display = isOwn ? 'flex' : 'none';
+
+  const x = Math.min(e.clientX || e.pageX || 200, window.innerWidth - 200);
+  const y = Math.min(e.clientY || e.pageY || 200, window.innerHeight - 200);
+  menu.style.left = x + 'px';
+  menu.style.top = y + 'px';
+  menu.classList.add('show');
+}
+
+function closeContextMenu() {
+  document.getElementById('contextMenu').classList.remove('show');
+  contextTarget = null;
+}
+
+function ctxReply() {
+  if (!contextTarget) return;
+  setReply(contextTarget.id, contextTarget.username || contextTarget.from, (contextTarget.text || '').substring(0, 60));
+}
+
+function ctxReact() {
+  if (!contextTarget) return;
+  quickReact(contextTarget.id);
+}
+
+function ctxCopy() {
+  if (!contextTarget) return;
+  navigator.clipboard.writeText(contextTarget.text || '').then(() => showToast('success', 'Copied!')).catch(() => {});
+  closeContextMenu();
+}
+
+function ctxEditMsg() {
+  if (!contextTarget) return;
+  const newText = prompt('Edit message:', contextTarget.text);
+  if (newText !== null && newText.trim()) {
+    send({ type: 'edit', id: contextTarget.id, text: newText.trim(), channel: currentDM ? undefined : currentChannel, dm: currentDM || undefined });
+  }
+  closeContextMenu();
+}
+
+function ctxDeleteMsg() {
+  if (!contextTarget) return;
+  if (confirm('Delete this message?')) {
+    send({ type: 'delete', id: contextTarget.id, channel: currentDM ? undefined : currentChannel, dm: currentDM || undefined });
+  }
+  closeContextMenu();
+}
+
+// ---- Channels ----
+function openNewChannelModal() {
+  document.getElementById('channelModal').classList.add('show');
+  document.getElementById('newChannelInput').value = '';
+  document.getElementById('newChannelInput').focus();
+}
+
+function closeNewChannelModal() {
+  document.getElementById('channelModal').classList.remove('show');
+}
+
+function createChannel() {
+  const name = document.getElementById('newChannelInput').value.trim().toLowerCase().replace(/[^a-z0-9\-_]/g, '');
+  if (!name) return;
+  send({ type: 'create_channel', channel: name });
+  closeNewChannelModal();
+}
+
+// ---- Sidebar ----
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('show');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('show');
+}
+
+// ---- Join / Disconnect ----
+function joinChat() {
+  const input = document.getElementById('usernameInput');
+  const name = input.value.trim();
+  if (!name) { showLoginError('Please enter a username'); return; }
+  if (name.length > 20) { showLoginError('Username too long (max 20)'); return; }
+  if (['admin','system','moderator','server'].includes(name.toLowerCase())) { showLoginError('That username is reserved'); return; }
+
+  myUsername = name;
+  myColor = document.getElementById('colorPicker').value;
+
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('myName').textContent = myUsername;
+  document.getElementById('myAvatar').textContent = myUsername[0].toUpperCase();
+  document.getElementById('myAvatar').style.background = myColor;
+
+  connectWS();
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function disconnect() {
+  if (ws) ws.close();
+  myUsername = '';
+  currentChannel = 'general';
+  currentDM = null;
+  onlineUsers = {};
+  messageElements = {};
+  unreadCounts = {};
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('usernameInput').value = '';
+}
+
+// ---- Init ----
+document.addEventListener('DOMContentLoaded', () => {
+  initEmojiPicker();
+
+  document.getElementById('usernameInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') joinChat();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.context-menu') && !e.target.closest('.msg-action-btn')) closeContextMenu();
+    if (!e.target.closest('.emoji-picker') && !e.target.closest('.emoji-btn')) document.getElementById('emojiPicker').classList.remove('show');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeContextMenu();
+      closeNewChannelModal();
+      document.getElementById('imageViewer').classList.remove('show');
+      document.getElementById('emojiPicker').classList.remove('show');
+    }
+  });
 });

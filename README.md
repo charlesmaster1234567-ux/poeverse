@@ -1,10 +1,10 @@
-# 🎭 PoeVerse - Poetry Universe
+# 🎭 TheLongAfter - TheLongAFTER
 
-> Discover and share beautiful poetry
+> Discover and share beautiful TheLong
 
 ## 📖 About
 
-PoeVerse is a Progressive Web App showcasing the poetry collection "Black Broken Heart" featuring sonnets, heartbreak verses, and Chichewa poems.
+TheLongAfter is a Progressive Web App showcasing the poetry collection "TheLongAfter" featuring sonnets, heartbreak verses, and Chichewa poems.
 
 ## 🚀 Features
 

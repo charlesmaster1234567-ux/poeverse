@@ -2,7 +2,7 @@ const sharp = require('sharp');
 const fs = require('fs').promises;
 
 async function setupWidgets() {
-  console.log('🎨 Setting up PoeVerse widgets...\n');
+  console.log('🎨 Setting up TheLongAfter widgets...\n');
 
   // Create directories
   await fs.mkdir('widgets', { recursive: true });

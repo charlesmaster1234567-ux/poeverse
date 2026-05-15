@@ -1,10 +1,10 @@
 /* ============================================
-   POEVERSE - SERVICE WORKER
+   TheLongAfter - SERVICE WORKER
    Version: 2.0
    ============================================ */
 
-const CACHE_NAME = 'poeverse-v2.0.0';
-const RUNTIME_CACHE = 'poeverse-runtime-v2.0.0';
+const CACHE_NAME = 'TheLongAfter-v2.0.0';
+const RUNTIME_CACHE = 'TheLongAfter-runtime-v2.0.0';
 
 // Assets to cache immediately on install
 const PRECACHE_ASSETS = [
@@ -185,7 +185,7 @@ self.addEventListener('sync', (event) => {
 
 async function syncPoems() {
   try {
-    const cache = await caches.open('poeverse-pending');
+    const cache = await caches.open('TheLongAfter-pending');
     const requests = await cache.keys();
     
     for (const request of requests) {
@@ -211,7 +211,7 @@ async function syncPoems() {
 
 async function syncNewsletter() {
   try {
-    const cache = await caches.open('poeverse-pending');
+    const cache = await caches.open('TheLongAfter-pending');
     const requests = await cache.keys();
     
     for (const request of requests) {
@@ -238,7 +238,7 @@ self.addEventListener('push', (event) => {
   console.log('[SW] Push received');
   
   let data = {
-    title: 'PoeVerse',
+    title: 'TheLongAfter',
     body: 'New poem of the day is available!',
     icon: '/icons/icon-192x192.png',
     badge: '/icons/badge-72x72.png',

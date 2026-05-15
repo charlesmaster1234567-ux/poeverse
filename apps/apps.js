@@ -2,7 +2,7 @@
 const appsData = [
     {
         id: 1,
-        name: "REDSOUL",
+        name: "TheLongAfter",
         category: "Entertainment",
         icon: "fas fa-check-circle",
         color: "#6c5ce7",
@@ -18,7 +18,7 @@ const appsData = [
         technologies: ["React", "Node.js", "MongoDB", "OpenAI API"],
         rating: 4.8,
         downloads: "2.3K",
-        date: "Jan 2024",
+        date: "Jan 2026",
         link: "https://poemetry.onrender.com",
         github: "#"
     },
@@ -40,7 +40,7 @@ const appsData = [
         technologies: ["Flutter", "Dart", "OpenWeather API", "MapBox"],
         rating: 4.6,
         downloads: "1.8K",
-        date: "Mar 2024",
+        date: "Mar 2026",
         link: "#",
         github: "#"
     },
@@ -62,7 +62,7 @@ const appsData = [
         technologies: ["Web Audio API", "Vue.js", "Tone.js", "Firebase"],
         rating: 4.7,
         downloads: "890",
-        date: "Feb 2024",
+        date: "Feb 2026",
         link: "#",
         github: "#"
     },
@@ -84,7 +84,7 @@ const appsData = [
         technologies: ["React Native", "Python", "PostgreSQL", "HealthKit"],
         rating: 4.9,
         downloads: "3.1K",
-        date: "Dec 2023",
+        date: "Dec 2026",
         link: "#",
         github: "#"
     },
@@ -106,7 +106,7 @@ const appsData = [
         technologies: ["Next.js", "Prisma", "Plaid API", "Chart.js"],
         rating: 4.5,
         downloads: "1.5K",
-        date: "Apr 2024",
+        date: "Apr 2026",
         link: "#",
         github: "#"
     },
@@ -128,7 +128,7 @@ const appsData = [
         technologies: ["Electron", "React", "CouchDB", "Markdown-it"],
         rating: 4.4,
         downloads: "950",
-        date: "May 2024",
+        date: "May 2026",
         link: "#",
         github: "#"
     },
@@ -150,7 +150,7 @@ const appsData = [
         technologies: ["Canvas API", "Socket.io", "Express", "Redis"],
         rating: 4.3,
         downloads: "670",
-        date: "Mar 2024",
+        date: "Mar 2026",
         link: "#",
         github: "#"
     },
@@ -172,7 +172,7 @@ const appsData = [
         technologies: ["Swift", "SwiftUI", "CloudKit", "AVFoundation"],
         rating: 4.8,
         downloads: "2.1K",
-        date: "Jan 2024",
+        date: "Jan 2026",
         link: "#",
         github: "#"
     },
@@ -194,7 +194,7 @@ const appsData = [
         technologies: ["Rust", "WebAssembly", "FFmpeg", "Tauri"],
         rating: 4.6,
         downloads: "1.2K",
-        date: "Feb 2024",
+        date: "Feb 2026",
         link: "#",
         github: "#"
     },
@@ -216,7 +216,7 @@ const appsData = [
         technologies: ["Angular", "D3.js", "CoinGecko API", "Firebase"],
         rating: 4.4,
         downloads: "780",
-        date: "Apr 2024",
+        date: "Apr 2026",
         link: "#",
         github: "#"
     },
@@ -238,7 +238,7 @@ const appsData = [
         technologies: ["Svelte", "Prism.js", "html2canvas", "Vercel"],
         rating: 4.7,
         downloads: "1.6K",
-        date: "May 2024",
+        date: "May 2026",
         link: "#",
         github: "#"
     },
@@ -260,7 +260,7 @@ const appsData = [
         technologies: ["React", "Socket.io", "PostgreSQL", "Docker"],
         rating: 4.5,
         downloads: "920",
-        date: "Mar 2024",
+        date: "Mar 2026",
         link: "#",
         github: "#"
     }
