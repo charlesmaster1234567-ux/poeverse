@@ -1,2570 +1,1249 @@
-/* ============================================
-   TheLongAfter - TheLongAFTER
-   Complete JavaScript Application
-   Version: 2.0
-   ============================================ */
-
-(function() {
-  'use strict';
-
-  /* ============================================
-     POEMS DATA
-     ============================================ */
-  
-  const poemsData = {
-    poem1: {
-      id: 'poem1',
-      number: '#72',
-      title: 'My Beloved',
-      category: 'sonnets',
-      time: 1,
-      preview: 'Go there in a dark room, Is a yellow bag and...',
-      content: `“My Beloved 
-Go there in a dark room 
-Is a yellow bag and 
-In it there is 
-Yet in my heart I said: 
-Your eyes are now different 
-There are ice blocks, love Sparkling 
-Looking at me without hesitation 
-And a mild smile I know you love me 
-But my mouth continued to say: 
-“…There is a fruit for you” 
-Ignited, while smiling, while rushing there 
-Didn’t you say that I’m your best friend? 
-As a rat free from a cat was my heart feeling. `
-    },
-    poem2: {
-      id: 'poem2',
-      number: '#84',
-      title: 'Escaped',
-      category: 'sonnets',
-      time: 1,
-      preview: 'In the darkness, when asleep, your image persuaded all nightmares...',
-      content: `In the darkness, when asleep, your image 
-Persuaded all nightmares, and you made my heart cool 
-When I was angry, and my brain was almost without a thought 
-When you held my hand and called my name 
-Your smile penetrated-penetrated deep in me 
-Deeper, very deep and I hoped, a good life, ever 
-For I was in a cage as a hen, silently imprisoned 
-And my memories of whole scene, all prove 
-That I have been fooled by snow like eyes 
-Names, looks you gave me, promises all I hoped 
-Were traps so I would fall, and I fell  
-But now I rise again, your pace, smile and voice 
-Are now dances and songs of birds which are blank 
-For you trapped me, now I have escaped!`
-    },
-    poem3: {
-      id: 'poem3',
-      number: '#85',
-      title: 'Time Traveler',
-      category: 'sonnets',
-      time: 1,
-      preview: 'I can, yes, I can, I can be a time-traveler...',
-      content: `I can, yes, I can, I can be a time-traveler 
-I can deteriorate all memories, and skip to 
-Past days when we never met, to reckless life 
-When they said I was careless, women just flowers 
-I can live again, in future or old days and hours 
-And if you continue trying to talk with me, 
-With a time-traveler you will find your time going 
-While talking with flowers in your garden 
-Then stand before a mirror, talk to sad image 
-And come near me and look at my far away face 
-And widen your ears thinking I have called you 
-But I am not there, I am traveling in time, far away 
-Far from present I can go never seen again 
-And sorry for you are wasting your time weeping! `
-    },
-    poem4: {
-      id: 'poem4',
-      number: '#65',
-      title: 'So Funny',
-      category: 'sonnets',
-      time: 1,
-      preview: 'So funny so sweet so interesting that you have got...',
-      content: `so funny so sweet so interesting 
-that you have got a handsome than me 
-his hands on your breasts are resting 
-for you say he loves you than me 
-walking together and two taking one seat 
-he holds your hand then you smile 
-foolish lad is congratulating you, all the best 
-enjoy, enjoy your embraces loving handsome 
-who loves your looks and shadow 
-with his fresh soft well-dressed body 
-but remember that love is in heart, face is for confusion 
-and this model does not mean love but confusing 
-you will learn when you will learn 
-you will see if your rudeness will earn `
-    },
-    poem5: {
-      id: 'poem5',
-      number: '#66',
-      title: 'Evaporated Love',
-      category: 'sonnets',
-      time: 1,
-      preview: 'The love has evaporated, Sweets have gone leaving bitterness...',
-      content: `The love has evaporated,
-Sweets have gone, leaving bitterness,
-What was once so celebrated,
-Now drowns in this emptiness.
-
-Like morning dew beneath the sun,
-Our love has faded into air,
-The race we thought we'd won,
-Left nothing but despair.
-
-Evaporated, gone like steam,
-Rising up and disappearing,
-What once was real, now just a dream,
-Leaving my heart, broken and tearing.
-
-Into the clouds, our love ascends,
-Where evaporated love never ends.`
-    },
-    poem6: {
-      id: 'poem6',
-      number: '#69',
-      title: 'Not Well?',
-      category: 'sonnets',
-      time: 1,
-      preview: 'In this darkroom God, where are you? Here is the holly room...',
-      content: `Not well? 
-In this darkroom God, where are you? 
-Here is the holly room Can’t you heal this nymph 
-Oh no! she’s in pain, backache 
-Better to give me her disease; She to be fine 
-Awake hold my hand My sick heart 
-Let me escort you to your hat 
-Leave this dirty mat 
-Walk with me, my hearts nut 
-I will never leave you, Trust 
-In troubles you I will lift 
-Surely, our dandles will never wilt 
-Come on…... let me carry you 
-“No, I will walk with my mother” `
-    },
-    poem7: {
-      id: 'poem7',
-      number: '#86',
-      title: 'Something Wrong',
-      category: 'sonnets',
-      time: 1,
-      preview: 'I wonder, something is wrong. It seems like blood in bones is freezing...',
-      content: `I wonder, something is wrong 
-It seems like blood in bones is freezing 
-Sick not weak not, but something sad me 
-This ’snot my full heart, something out of me 
-World is not ordinary, ’snew and dull day 
-I wonder if now I’ve not headed the heaven 
-Was it yesterday or today which was that day? 
-My heart was overloaded with thoughts; a burden 
-I felt a burden inside when speaking, all the day 
-I witnessed, yes, it really a heavy burden  
-For a second, for a minute, for an hour, for a day 
-He had no single smile at me nor a look even  
-I feel like sleepy, I fear like puppy, today 
-He’s shown me his back, I’ve seen…….. `
-    },
-    poem8: {
-      id: 'poem8',
-      number: '✦',
-      title: 'The Different World',
-      category: 'heartbreak',
-      time: 2,
-      preview: '500 years ago, I went to see my husband, finding him with...',
-      content: `“…500 years ago, I went  
-To see my husband, finding him with… with… 
-…it was the worst thing to think of, for 
-At last he married her before people found 
-My body hanging on a tree…”
-
-She was alone on a well, washing her hair 
-Her voice very soft, full youthful  
-Her story making tears in my eyes 
-But she never showed any pain 
-And she starred at me, very beautiful face 
-She smiled, I smiled, she wiped off my tears while 
-Slowly vanishing, and I saw her heart 
-Full of joy and love before she completely disappeared… 
-
-“…here is a new boy, but a being 
-Strange thing, he is alive, he feels pity, he weeps, loves 
-How can he fly when enemies come?” 
-“on my shoulders” “I will hold him” “he is mine” 
-
-Four girls argued, quarreled though never fought 
-Until they all disappeared full of joy and love 
-‘go or come?’ I proceeded asking, go on 
-
-“yes, I am Juliet and this is my beloved Romeo” 
-Their voices were as sounds of two strings on a guitar 
-And when they spoke together, they made a song 
-A song which one day. I had once sung with… with… 
-It was the worst thing to think of, for 
-They made my cracked heart to fall into pieces 
-Remembering what I lost… (drops… hot drops) 
-
-“day comes, day comes, days of tears go” 
-Bass string plucked, or rather Romeo comforted me 
-“and today might be our waited day, your time to wait…” 
-
-But suddenly I found myself in air, embraced 
-On chest of one of four girls, flied while whispering 
-“if your world hates you, tis not yours 
-This is your world, it will love you 
-If someone make you cry, she is not yours 
-Here your joy, I will give you” 
-
-Then she begun disappearing, or rather 
-We all melted into the different world 
-And no one will find us, forever!!! `
-    },
-    poem9: {
-      id: 'poem9',
-      number: '✦',
-      title: 'Helpless',
-      category: 'heartbreak',
-      time: 1,
-      preview: 'How does a man feel, or act? When he sees a shining damsel...',
-      content: `How does a man feel, or act? 
-When he sees a shining damsel 
-Smiling and sit, greet him with a fresh hand 
-Without showing that she broke his heart 
-Without being reluctant to talk, so pale 
-Her hand on his arm, beckoning and stand 
-From here to there, step, then back, talking the fact 
-Her little edged lips shining as if an angel 
-At last saying, “goodbye… no I forgot”. 
-But what she forgets, just boisterousness  
-When she is joyous, cooling his seriousness? 
-What then? Putting his heart on a stone? 
-Then pound it with another lying stone? 
-Break it again? Ah its painful, no no no 
-But his heart still grows, fonder and fonder 
-Still he saying, “it’s painful, but…”. `
-    },
-    poem10: {
-      id: 'poem10',
-      number: '✦',
-      title: "Again'nd 'gain Broken Heart",
-      category: 'heartbreak',
-      time: 1,
-      preview: "Again'nd 'gain broken heart, though 'Ndagain dead...",
-      content: `Again’nd ’gain broken heart, though 
-’Ndagain dead, when I close my eyes thinking 
-Saying ‘though’ but I am not free as walk 
-Though you stand with a voice rising slowly as the last trumpet 
-“Char… ChaR… CHAR… CHARLES!” and I can see 
-You bent down, though my eyes closed and sigh 
-“He is…” who am I inside the heart of the bee 
-Bold? Brave? No, tears draw a thunder in my heart 
-And zigzag lightening before honey rains from your mouth  
-Because; now here, then there, so my heart wanders 
-Fall apart, and flies to the skies, I can not 
-Keep on crying, I know you like it yet not 
-Yes, you are innocent, can walk, play and leave 
-And can fool me, use me and do as you do always 
-I am here, again’nd ’gain broken heart though! `
-    },
-    poem11: {
-      id: 'poem11',
-      number: '✦',
-      title: 'The Interview',
-      category: 'heartbreak',
-      time: 2,
-      preview: 'Hello, I think Charles Master is Lone Philip, a journalist from Grief...',
-      content: `“Hello, I think your is Lone 
-Philip, a journalist from Grief Announcement TV 
-Hearing that a thinker, a poet, is always alone 
-Rumors spread, you wish to die, and you drunk poison at the party 
-Yet you dream reality, and call each a colorful thorn” 
-
-trust not what you hear, but trust yourself 
-That you have heard the truth, raw truth 
-My loneliness is still even if you are here 
-I wish not to die, but I am so attractive to death 
-And I dream what I hate, but all is beautiful 
-
-“Is all what we hear the truth” 
-
-There no truth in love but love and lies 
-From one heart to another, mouth to ears it flies 
-What if something set you apart, someone tries 
-To hypnotize your beloved, he has won 
-She has changed too, and she begins to fool you 
-Can you drink tea or poison at the party? 
-She is the challenge, ‘someone love me than you’ 
-Between food and death what can be more delicious? 
-I know you can hang your neck, and people say 
-‘A good journalist wished to die and he is dead now’ 
-But see, I am alive and different yet alone 
-Since I will find a way in this jungle of sadness 
-And will change the mind of my beloved, and she will change 
-And my dream will be fulfilled soon, when 
-These thorns will grow in my heart, 
-At last bear colorful flowers! `
-    },
-    poem12: {
-      id: 'poem12',
-      number: '✦',
-      title: 'This Is My Soul',
-      category: 'heartbreak',
-      time: 2,
-      preview: 'One thing, Ever my God put on my tongue when I sing...',
-      content: `One thing, 
-Ever my God put on my tongue when I sing 
-Ever swim in my tears, such thing 
-In my nerves it hangs and flood in my blood and hang 
-I fear to mention, but it does stay 
-Cause this is my soul, and it is you 
-Still, I love you 
-And this is my soul.
-
-Two things, 
-You do in your minds, aimless minds 
-Calling me a friend, then walk with fiends 
-Here and there by your random moves 
-Taking my words noises of winds 
-So, my sadness wishes to forget all, but 
-Still, I love you 
-And this is my soul
-
-How painful is my truth! 
-Withal my heart I always say 
-But even if I put my heart on this letter 
-Or ask God to open for you and prove 
-That this is true as says my soul 
-But you look down on me as all are lies 
-Still, I love you 
-My soul is witness 
-
-My soul which walks in my words 
-Tries to teach you; the time will pass 
-And time comes, time goes, never pause 
-And the truth comes, what makes you 
-Will go with time, I understand and withstand 
-That won’t stay on you those precious people, but me 
-Still loving you 
-And this is my soul  
-
-You are the one who make me cry then make me hope 
-Ever swim in my tears, but make me no happy 
-In my nerves you hang and flood in my blood then hang 
-I fear to stay saying, but you make my life 
-Cause you are my soul, but not my wife 
-But still, I love you 
-And this is my soul `
-    },
-    poem13: {
-      id: 'poem13',
-      number: '✦',
-      title: 'Bitter Days',
-      category: 'heartbreak',
-      time: 2,
-      preview: "Don't you see? Can use goggles and look at me clearly...",
-      content: `Don’t you see? Can use googles 
-And look at me clearly, wash your eyes 
-See me day and close your eyes night 
-Think if I have given you a sparkling eye 
-You can smile, or get sad or think again 
-But I will never change, as I feel pain 
-And even if you plead, bow and weep 
-And never fool again, and make your heart 
-Sea of love as deep as the sky in the mirror 
-And get serious as sudden death and again kneel 
-And your tears turn to blood for hundredth to say ‘sorry’ 
-But I will never change, my heart will be harder and harder 
-And even if come in my dreams, if  
-No chance I give you to say ‘sorry’ once a minute 
-And give me billion letters saying ‘please’… tonight 
-And take me to Oxford libraries for more books, ‘dear’ 
-And give me gifts, feed me, call me a golden diamond 
-And make it a delicious dream in bitter nights 
-But I will wake before my response, make it harder 
-Still boldly say, “I don’t dream about you 
-I don’t care, never about you, girl! 
-No kind of love stays in me, you see?” 
-And I will everything, and forget too 
-Even forget to regret about it later! `
-    },
-    poem14: {
-      id: 'poem14',
-      number: '🇲🇼',
-      title: 'Mapeto a zamtima',
-      category: 'chichewa',
-      time: 3,
-      preview: 'Kumbuka, ukazipatula suli wekha, Koma ndi wako mbuye...',
-      content: `
-“kumbuka, ukazipatula suli wekha
-Koma ndi wako mbuye wangodekha
-Pondikumbukiranso dziwa uli nane
-Momwemonso ngati pa udzu mame”
-Ankakhala mawu otsiriza amenewa.
-
-Tsono moyo watha, khumbo ndi mwayi
-Chiyembekezo n’dataya, khumbo iyayi
-Zinalidi zochedwa, koma zonse n’mthayi
-Kodi sindinapereke ochuluka mwayi?
-Ankakhalanso mawu otsiriza amenewa.
-
-Sev, Jim, Vit, Asa, Dis, amzako aja
-Iwebe unali ngati wanga mtima, tsogoro lija
-Posadziwa wamzako n’tsidya lina, hmm!
-Pikitipikiti kumbaliko kundiswera mtim’
-Tsono tubwa poti mphaka wachoka.
-
-Tidzaonananso ukazayamba kupenya
-Ukazakhazika mtima wako m’thiti, mwina
-Uzakumbuka mawu anga aja, “palibenso”
-Koma monga ukondera, tseka nkutu usamvenso
-Kulira kwa chiseko chosekedwa mtimamu.
-
-Momwemonso ngati pa udzu mame
-Paliwombo dzuwa liri n’saname
-Ngati duwa malingaliro anga afota.
-Zonse zatha, palibenso zolota
-Tidzaonananso ukazayamba kupenya.
-
-Lonjezo wa Yohane linadulitsa
-Lomwelonso wathu ubale lathetsa
-Poti sindizakukakamira ndinalonjeza
-Indedi, pakadafunda galu padajiwiza
-Tsono tubwa poti mphaka wachoka.
-
-Ndinkaona zonse, mu ako oyera masowo
-Ukamawamwemwetera, nkumanyada nawo
-Ukaona ine ndeye ngati n’dwangan’dwadi
-Koma pandekha misonzi ndimakhetsadi
-Tsono tubwa poti mphaka wachoka.
-
-Ukamandinyadira ntimasayato maso
-Sumadziwa umawawa kachasokachaso
-Dzulo lake utandinyoza, ine nditsiluke
-Koma ikaopa imayenera mbalame iwuluke
-Monga moyo, mthawinso ndi mpamba.
-
-Tsono ano ndi mathero, mapeto ndithu
-Sindikuganizanso zokagula mapoto athu
-Izo nzakale; tsogoro la mdima bii
-Ndeno usazandiyang’anenso, apobii
-Monga ine nawenso udzalira, udzalira
-Kulilira pa chitseko chotsekedwa mtimamu
-Ngatinso mthawi, chiyembekezo wanditayitsa!
-  
-      `
-    },
-    poem15: {
-      id: 'poem15',
-      number: '🇲🇼',
-      title: 'Pemphero Losweka Mtima',
-      category: 'chichewa',
-      time: 2,
-      preview: 'Ena ng\'oma sichiimba chakuza, Zimandipweteka mowawa...',
-      content: `Pemphero losweka mtima 
-      Ena ng’oma sichiimba chakuza 
-      Zimandipweteka  mowawa mtima kwambiri 
-      Ambuye simumandikaniza ine, chiyambire 
-      Mbari  yanga mmakhala, mmandimva ine 
-      Koma pano chifukwa chani, nkulira ine 
-      Wanga mtima ngati mchere wasungunuka, ndingatani 
-      Mwaloranji iye kuti atayisidwe mtima, walakwa chani 
-      Bola ndikanakhala ine, ndikukupemphani 
-      Sinthanitsani moyowu, wake wanga 
-      Zolakwa zake mundilange nazo, Mulungu wanga 
-      Zabwino zanga mmoyowu mpatseni, wanga wake 
-      Ngakhaleso wangawu moyo muutenge 
-      Bola Chimwemwe ndi mtendere mwake mtima zisale 
-      Ngatidi zili izizi bola moyo wanga upakire 
-      Kaya gahena kaya paradiso, ukhale uwu ulendo wakumalire 
-      Zimandipweteka ndikamaona dzikoli 
-      Dzulo ine, leronso mwalora chinkhanira chiyese iye ngati Yobu 
-      Kupatula chikondi chisoni komabe zandiwawa 
-      Ake maonekedwe ali ofooka, chilimbikitso sakulandira 
-      Ngati paife pakati palibe mtendere, otembereredwa 
-      Minyama masoka misonzi mavuto mapazi mpaka mmutu 
-      Chimwemwe athu masaya safuna ngati, ikakuona litsiro 
-      Ake ngati mphale oyera maso dziko silifuna kuaona? 
-      Koma Ambuye mutenge wanga moyowu 
-      Mugulire cha wokondedwa wanga chisangalaro! `
-    }
-  };
-
-  /* ============================================
-     CONFIGURATION
-     ============================================ */
-
-  const CONFIG = {
-    STORAGE_KEYS: {
-      THEME: 'TheLongAfter_theme',
-      THEME_COLOR: 'TheLongAfter_theme_color',
-      FAVORITES: 'TheLongAfter_favorites',
-      STATS: 'TheLongAfter_stats',
-      COOKIES_ACCEPTED: 'TheLongAfter_cookies',
-      READING_HISTORY: 'TheLongAfter_history'
-    },
-    THEME_COLORS: ['default', 'ocean', 'forest', 'sunset', 'purple', 'gold', 'rose', 'teal', 'crimson', 'midnight'],
-    TOAST_DURATION: 3000,
-    LOADING_DURATION: 2000,
-    DEBOUNCE_DELAY: 300,
-    TESTIMONIAL_INTERVAL: 5000
-  };
-
-  /* ============================================
-     STATE MANAGEMENT
-     ============================================ */
-
-  const state = {
-    currentPoem: null,
-    currentPoemIndex: 0,
-    favorites: [],
-    readingHistory: [],
-    stats: {
-      poemsRead: 0,
-      readingTime: 0,
-      visits: 1,
-      favorites: 0
-    },
-    filters: {
-      category: 'all',
-      sort: 'default',
-      search: ''
-    },
-    isPlaying: false,
-    currentTrack: null,
-    audioContext: null,
-    speechSynthesis: null,
-    currentAudio: null,
-    isSpeaking: false,
-    focusMode: {
-      fontSize: 18,
-      lineSpacing: 2,
-      theme: 'dark'
-    },
-    testimonialIndex: 0,
-    testimonialInterval: null
-  };
-
-  /* ============================================
-     DOM ELEMENTS
-     ============================================ */
-
-  const elements = {};
-
-  function cacheElements() {
-    // Loader
-    elements.loader = document.getElementById('loader');
-    
-    // Scroll Progress
-    elements.scrollProgress = document.getElementById('scrollProgress');
-    
-    // Navigation
-    elements.navbar = document.getElementById('navbar');
-    elements.navLinks = document.getElementById('navLinks');
-    elements.navHamburger = document.getElementById('navHamburger');
-    elements.themeToggle = document.getElementById('themeToggle');
-    elements.searchToggle = document.getElementById('searchToggle');
-    
-    // Search
-    elements.searchOverlay = document.getElementById('searchOverlay');
-    elements.searchOverlayClose = document.getElementById('searchOverlayClose');
-    elements.poemSearch = document.getElementById('poemSearch');
-    elements.searchClear = document.getElementById('searchClear');
-    elements.voiceSearch = document.getElementById('voiceSearch');
-    elements.searchResults = document.getElementById('searchResults');
-    elements.searchResultsList = document.getElementById('searchResultsList');
-    elements.searchResultsCount = document.getElementById('searchResultsCount');
-    
-    // Hero
-    elements.heroParticles = document.getElementById('heroParticles');
-    
-    // Poem of the Day
-    elements.potdPoemTitle = document.getElementById('potdPoemTitle');
-    elements.potdExcerpt = document.getElementById('potdExcerpt');
-    elements.potdCategory = document.getElementById('potdCategory');
-    elements.potdDate = document.getElementById('potdDate');
-    elements.potdReadBtn = document.getElementById('potdReadBtn');
-    
-    // Poems Section
-    elements.poemsGrid = document.getElementById('poemsGrid');
-    elements.poemsCount = document.getElementById('poemsCount');
-    elements.visibleCount = document.getElementById('visibleCount');
-    elements.totalCount = document.getElementById('totalCount');
-    elements.noResults = document.getElementById('noResults');
-    elements.resetFilters = document.getElementById('resetFilters');
-    elements.sortSelect = document.getElementById('sortSelect');
-    
-    // Stats
-    elements.statPoems = document.getElementById('statPoems');
-    elements.statTime = document.getElementById('statTime');
-    elements.statVisits = document.getElementById('statVisits');
-    elements.statFavorites = document.getElementById('statFavorites');
-    elements.poemsProgressBar = document.getElementById('poemsProgressBar');
-    elements.viewFavorites = document.getElementById('viewFavorites');
-    elements.clearStats = document.getElementById('clearStats');
-    
-    // Testimonials
-    elements.testimonialsSlider = document.getElementById('testimonialsSlider');
-    elements.testimonialsDots = document.getElementById('testimonialsDots');
-    elements.prevTestimonial = document.getElementById('prevTestimonial');
-    elements.nextTestimonial = document.getElementById('nextTestimonial');
-    
-    // Forms
-    elements.submitPoemForm = document.getElementById('submitPoemForm');
-    elements.newsletterForm = document.getElementById('newsletterForm');
-    elements.contactForm = document.getElementById('contactForm');
-    elements.charCount = document.getElementById('charCount');
-    
-    // Poem Modal
-    elements.poemModal = document.getElementById('poemModal');
-    elements.modalOverlay = document.getElementById('modalOverlay');
-    elements.modalClose = document.getElementById('modalClose');
-    elements.modalTitle = document.getElementById('modalTitle');
-    elements.modalCategory = document.getElementById('modalCategory');
-    elements.modalNumber = document.getElementById('modalNumber');
-    elements.modalTime = document.getElementById('modalTime');
-    elements.modalBody = document.getElementById('modalBody');
-    elements.breadcrumbTitle = document.getElementById('breadcrumbTitle');
-    elements.favoriteBtn = document.getElementById('favoriteBtn');
-    elements.speakerBtn = document.getElementById('speakerBtn');
-    elements.focusBtn = document.getElementById('focusBtn');
-    elements.shareBtn = document.getElementById('shareBtn');
-    elements.pdfBtn = document.getElementById('pdfBtn');
-    elements.shareMenu = document.getElementById('shareMenu');
-    elements.prevPoem = document.getElementById('prevPoem');
-    elements.nextPoem = document.getElementById('nextPoem');
-    elements.poemCounter = document.getElementById('poemCounter');
-    
-    // Focus Mode
-    elements.focusMode = document.getElementById('focusMode');
-    elements.focusContent = document.getElementById('focusContent');
-    elements.focusFontSize = document.getElementById('focusFontSize');
-    elements.fontSizeDecrease = document.getElementById('fontSizeDecrease');
-    elements.fontSizeIncrease = document.getElementById('fontSizeIncrease');
-    elements.lineSpacingToggle = document.getElementById('lineSpacingToggle');
-    elements.focusThemeToggle = document.getElementById('focusThemeToggle');
-    elements.exitFocus = document.getElementById('exitFocus');
-    
-    // Favorites Modal
-    elements.favoritesModal = document.getElementById('favoritesModal');
-    elements.favoritesModalOverlay = document.getElementById('favoritesModalOverlay');
-    elements.favoritesModalClose = document.getElementById('favoritesModalClose');
-    elements.favoritesList = document.getElementById('favoritesList');
-    elements.favoritesEmpty = document.getElementById('favoritesEmpty');
-    
-    
-    // Shortcuts
-    elements.shortcutsModal = document.getElementById('shortcutsModal');
-    elements.shortcutsOverlay = document.getElementById('shortcutsOverlay');
-    elements.shortcutsClose = document.getElementById('shortcutsClose');
-    elements.showShortcuts = document.getElementById('showShortcuts');
-    
-    // Back to Top
-    elements.backToTop = document.getElementById('backToTop');
-    
-    // Toast Container
-    elements.toastContainer = document.getElementById('toastContainer');
-    
-    // Cookie Banner
-    elements.cookieBanner = document.getElementById('cookieBanner');
-    elements.acceptCookies = document.getElementById('acceptCookies');
-    elements.customizeCookies = document.getElementById('customizeCookies');
-    elements.declineCookies = document.getElementById('declineCookies');
-    
-    // Footer
-    elements.currentYear = document.getElementById('currentYear');
-  }
-
-  /* ============================================
-     UTILITY FUNCTIONS
-     ============================================ */
-
-  // Debounce function
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-
-  // Throttle function
-  function throttle(func, limit) {
-    let inThrottle;
-    return function(...args) {
-      if (!inThrottle) {
-        func.apply(this, args);
-        inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
-      }
-    };
-  }
-
-  // Format time
-  function formatTime(minutes) {
-    if (minutes < 60) {
-      return `${minutes}m`;
-    }
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m`;
-  }
-
-  // Get today's date string
-  function getTodayString() {
-    return new Date().toISOString().split('T')[0];
-  }
-
-  // Get random item from array
-  function getRandomItem(array) {
-    return array[Math.floor(Math.random() * array.length)];
-  }
-
-  // Capitalize first letter
-  function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  // Escape HTML
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  /* ============================================
-     LOCAL STORAGE
-     ============================================ */
-
-  const storage = {
-    get(key) {
-      try {
-        const item = localStorage.getItem(key);
-        return item ? JSON.parse(item) : null;
-      } catch (e) {
-        console.error('Error reading from localStorage:', e);
-        return null;
-      }
-    },
-
-    set(key, value) {
-      try {
-        localStorage.setItem(key, JSON.stringify(value));
-        return true;
-      } catch (e) {
-        console.error('Error writing to localStorage:', e);
-        return false;
-      }
-    },
-
-    remove(key) {
-      try {
-        localStorage.removeItem(key);
-        return true;
-      } catch (e) {
-        console.error('Error removing from localStorage:', e);
-        return false;
-      }
-    }
-  };
-
-  /* ============================================
-     TOAST NOTIFICATIONS
-     ============================================ */
-
-  function showToast(message, type = 'info', duration = CONFIG.TOAST_DURATION) {
-    const icons = {
-      success: '✅',
-      error: '❌',
-      warning: '⚠️',
-      info: 'ℹ️'
-    };
-
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `
-      <span class="toast-icon">${icons[type]}</span>
-      <span class="toast-message">${escapeHtml(message)}</span>
-      <button class="toast-close" aria-label="Close notification">✕</button>
-    `;
-
-    elements.toastContainer.appendChild(toast);
-
-    // Trigger animation
-    requestAnimationFrame(() => {
-      toast.classList.add('show');
-    });
-
-    // Close button handler
-    const closeBtn = toast.querySelector('.toast-close');
-    closeBtn.addEventListener('click', () => removeToast(toast));
-
-    // Auto remove
-    setTimeout(() => removeToast(toast), duration);
-
-    return toast;
-  }
-
-  function removeToast(toast) {
-    toast.classList.remove('show');
-    setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
-      }
-    }, 300);
-  }
-
-  /* ============================================
-     LOADING SCREEN
-     ============================================ */
-
-  function initLoader() {
-    setTimeout(() => {
-      if (elements.loader) {
-        elements.loader.classList.add('hidden');
-        document.body.classList.remove('loading');
-      }
-    }, CONFIG.LOADING_DURATION);
-  }
-
-  /* ============================================
-     SCROLL PROGRESS BAR
-     ============================================ */
-
-  function updateScrollProgress() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
-    
-    if (elements.scrollProgress) {
-      elements.scrollProgress.style.width = `${progress}%`;
-    }
-  }
-
-  /* ============================================
-     NAVIGATION
-     ============================================ */
-
-  function initNavigation() {
-    // Hamburger menu toggle
-    if (elements.navHamburger) {
-      elements.navHamburger.addEventListener('click', toggleMobileMenu);
-    }
-
-    // Close menu when clicking nav links
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        if (elements.navLinks.classList.contains('active')) {
-          closeMobileMenu();
-        }
-      });
-    });
-
-    // Dropdown toggles
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    dropdownToggles.forEach(toggle => {
-      toggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        const dropdown = toggle.closest('.nav-dropdown');
-        dropdown.classList.toggle('open');
-      });
-    });
-
-    // Navbar scroll effect
-    window.addEventListener('scroll', throttle(() => {
-      if (elements.navbar) {
-        if (window.scrollY > 50) {
-          elements.navbar.classList.add('scrolled');
-        } else {
-          elements.navbar.classList.remove('scrolled');
-        }
-      }
-    }, 100));
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          e.preventDefault();
-          const navbarHeight = elements.navbar ? elements.navbar.offsetHeight : 0;
-          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-          
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-  }
-
-  function toggleMobileMenu() {
-    const isOpen = elements.navLinks.classList.toggle('active');
-    elements.navHamburger.setAttribute('aria-expanded', isOpen);
-    document.body.classList.toggle('menu-open', isOpen);
-  }
-
-  function closeMobileMenu() {
-    elements.navLinks.classList.remove('active');
-    elements.navHamburger.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('menu-open');
-  }
-
-  /* ============================================
-     THEME TOGGLE
-     ============================================ */
-
-  function initTheme() {
-    // Load saved theme
-    const savedTheme = storage.get(CONFIG.STORAGE_KEYS.THEME) || 'dark';
-    const savedColor = storage.get(CONFIG.STORAGE_KEYS.THEME_COLOR) || 'default';
-    
-    applyTheme(savedTheme);
-    applyThemeColor(savedColor);
-
-    // Theme toggle button
-    if (elements.themeToggle) {
-      elements.themeToggle.addEventListener('click', toggleTheme);
-    }
-  }
-
-  function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applyTheme(newTheme);
-    storage.set(CONFIG.STORAGE_KEYS.THEME, newTheme);
-    showToast(`${capitalize(newTheme)} mode activated`, 'success');
-  }
-
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    if (elements.themeToggle) {
-      elements.themeToggle.innerHTML = theme === 'dark' ? '🌙' : '☀️';
-      elements.themeToggle.setAttribute('aria-pressed', theme === 'dark');
-    }
-  }
-
-  function applyThemeColor(color) {
-    document.documentElement.setAttribute('data-theme-color', color);
-  }
-
-  function setThemeColor(index) {
-    const color = CONFIG.THEME_COLORS[index] || 'default';
-    applyThemeColor(color);
-    storage.set(CONFIG.STORAGE_KEYS.THEME_COLOR, color);
-    showToast(`Theme: ${capitalize(color)}`, 'success');
-  }
-
-  /* ============================================
-     SEARCH FUNCTIONALITY
-     ============================================ */
-
-  function initSearch() {
-    // Open search
-    if (elements.searchToggle) {
-      elements.searchToggle.addEventListener('click', openSearch);
-    }
-
-    // Close search
-    if (elements.searchOverlayClose) {
-      elements.searchOverlayClose.addEventListener('click', closeSearch);
-    }
-
-    // Search input
-    if (elements.poemSearch) {
-      elements.poemSearch.addEventListener('input', debounce(handleSearch, CONFIG.DEBOUNCE_DELAY));
-    }
-
-    // Clear search
-    if (elements.searchClear) {
-      elements.searchClear.addEventListener('click', clearSearch);
-    }
-
-    // Voice search
-    if (elements.voiceSearch) {
-      elements.voiceSearch.addEventListener('click', startVoiceSearch);
-    }
-
-    // Search hints
-    const searchHints = document.querySelectorAll('.search-hint-btn');
-    searchHints.forEach(btn => {
-      btn.addEventListener('click', () => {
-        elements.poemSearch.value = btn.dataset.search;
-        handleSearch();
-      });
-    });
-
-    // Close on overlay click
-    if (elements.searchOverlay) {
-      elements.searchOverlay.addEventListener('click', (e) => {
-        if (e.target === elements.searchOverlay) {
-          closeSearch();
-        }
-      });
-    }
-  }
-
-  function openSearch() {
-    if (elements.searchOverlay) {
-      elements.searchOverlay.classList.add('active');
-      document.body.classList.add('search-open');
-      setTimeout(() => {
-        elements.poemSearch.focus();
-      }, 100);
-    }
-  }
-
-  function closeSearch() {
-    if (elements.searchOverlay) {
-      elements.searchOverlay.classList.remove('active');
-      document.body.classList.remove('search-open');
-      clearSearch();
-    }
-  }
-
-  function handleSearch() {
-    const query = elements.poemSearch.value.toLowerCase().trim();
-    state.filters.search = query;
-
-    // Show/hide clear button
-    if (elements.searchClear) {
-      elements.searchClear.hidden = query.length === 0;
-    }
-
-    if (query.length === 0) {
-      elements.searchResults.hidden = true;
-      return;
-    }
-
-    // Search poems
-    const results = Object.values(poemsData).filter(poem => {
-      return (
-        poem.title.toLowerCase().includes(query) ||
-        poem.category.toLowerCase().includes(query) ||
-        poem.content.toLowerCase().includes(query) ||
-        poem.preview.toLowerCase().includes(query)
-      );
-    });
-
-    displaySearchResults(results, query);
-  }
-
-  function displaySearchResults(results, query) {
-    elements.searchResults.hidden = false;
-    elements.searchResultsCount.textContent = `${results.length} poem${results.length !== 1 ? 's' : ''} found`;
-
-    if (results.length === 0) {
-      elements.searchResultsList.innerHTML = `
-        <div class="no-search-results">
-          <p>No poems found for "${escapeHtml(query)}"</p>
-        </div>
-      `;
-      return;
-    }
-
-    elements.searchResultsList.innerHTML = results.map(poem => `
-      <div class="search-result-item" data-poem-id="${poem.id}">
-        <span class="search-result-icon">${poem.category === 'chichewa' ? '🇲🇼' : poem.category === 'heartbreak' ? '💔' : '📜'}</span>
-        <div class="search-result-content">
-          <div class="search-result-title">${escapeHtml(poem.title)}</div>
-          <div class="search-result-category">${capitalize(poem.category)} • ${poem.time} min read</div>
-        </div>
+/* ============================================================
+   TheLongAfter — script.js
+   Written specifically for index.html structure
+   ============================================================ */
+
+'use strict';
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const State = {
+  poems:        [],
+  activeFilter: 'all',
+  activeSort:   'default',
+  poemsLoaded:  false,
+  isSearchOpen: false,
+  isNavOpen:    false,
+  theme:        'dark',
+};
+
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+function esc(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function clamp(v, min, max) {
+  return Math.min(Math.max(v, min), max);
+}
+
+function todayIndex(len) {
+  const d = new Date();
+  return (d.getFullYear() * 366 + d.getMonth() * 31 + d.getDate()) % len;
+}
+
+function debounce(fn, ms) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+
+function lsGet(key, def) {
+  try { const v = localStorage.getItem(key); return v !== null ? JSON.parse(v) : def; }
+  catch { return def; }
+}
+
+function lsSet(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch { /* full */ }
+}
+
+
+/* ============================================================
+   1. LOAD POEMS FROM poems.json
+   ============================================================ */
+async function loadPoems() {
+  const grid = document.getElementById('poemsGrid');
+  if (!grid) return;
+
+  // Skeleton while loading
+  grid.innerHTML = Array.from({ length: 6 }).map(() => `
+    <div class="poem-card" style="opacity:0.4;pointer-events:none;" aria-hidden="true">
+      <div class="poem-card-header">
+        <span class="poem-number">···</span>
+        <span class="poem-category">Loading</span>
       </div>
-    `).join('');
+      <h3 class="poem-card-title" style="background:#333;color:transparent;border-radius:4px;">Loading poem title</h3>
+      <p class="poem-preview" style="background:#2a2a2a;color:transparent;border-radius:4px;">Loading preview text here...</p>
+      <div class="poem-card-footer">
+        <span class="poem-time">⏱ 1 min</span>
+      </div>
+    </div>
+  `).join('');
 
-    // Add click handlers
-    const resultItems = elements.searchResultsList.querySelectorAll('.search-result-item');
-    resultItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const poemId = item.dataset.poemId;
-        closeSearch();
-        openPoemModal(poemId);
-      });
-    });
+  try {
+    const res = await fetch('/poems.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const poems = await res.json();
+
+    if (!Array.isArray(poems) || !poems.length) {
+      throw new Error('poems.json is empty');
+    }
+
+    State.poems      = poems;
+    State.poemsLoaded = true;
+
+    // Update counts
+    const total = poems.length;
+    const vc = document.getElementById('visibleCount');
+    const tc = document.getElementById('totalCount');
+    const hs = document.getElementById('heroStatPoems');
+    if (vc) vc.textContent = total;
+    if (tc) tc.textContent = total;
+    if (hs) hs.textContent = total + '+';
+
+    // Render all cards
+    grid.innerHTML = poems.map((poem, i) => buildCard(poem, i)).join('');
+
+    // Boot card features
+    initFavoriteButtons();
+    initCategoryTabs();
+    initSortSelect();
+    initViewToggle();
+    initPoemOfDay(poems);
+    initSearchOverlay(poems);
+    updateFavoritesCount();
+
+    // Restore saved view preference
+    const savedView = lsGet('tla-view', 'grid');
+    if (savedView === 'list') {
+      document.querySelector('.view-btn[data-view="list"]')?.click();
+    }
+
+    // Apply URL hash filter
+    applyHashFilter();
+
+  } catch (e) {
+    console.error('[TLA] loadPoems:', e);
+    grid.innerHTML = `
+      <div style="text-align:center;padding:60px 20px;grid-column:1/-1;">
+        <div style="font-size:3rem;margin-bottom:12px;">⚠️</div>
+        <h3>Could not load poems</h3>
+        <p style="opacity:.6;margin:8px 0 20px;">Check your connection and try again.</p>
+        <button onclick="loadPoems()" style="padding:10px 24px;background:#8B0000;color:#fff;border:none;border-radius:999px;cursor:pointer;">↻ Retry</button>
+      </div>
+    `;
   }
+}
 
-  function clearSearch() {
-    if (elements.poemSearch) {
-      elements.poemSearch.value = '';
-      state.filters.search = '';
-      elements.searchResults.hidden = true;
-      if (elements.searchClear) {
-        elements.searchClear.hidden = true;
-      }
-    }
+/* Build one poem card HTML string */
+function buildCard(poem, index) {
+  const id       = esc(poem.id            ?? 'poem_' + index);
+  const title    = esc(poem.title         ?? 'Untitled');
+  const number   = esc(poem.number        ?? '✦');
+  const category = esc(poem.category      ?? 'other');
+  const catLabel = esc(poem.categoryLabel ?? poem.category ?? 'Poem');
+  const preview  = esc(poem.preview       ?? '');
+  const time     = poem.time              ?? 1;
+  const filename = esc(poem.filename      ?? '#');
+  const isFav    = getFavorites().includes(poem.id ?? 'poem_' + index);
+
+  return `
+    <article
+      class="poem-card"
+      data-category="${category}"
+      data-id="${id}"
+      data-title="${title}"
+      data-time="${time}"
+      data-index="${index}"
+      role="article"
+      tabindex="0"
+      aria-label="${title}"
+    >
+      <div class="poem-card-header">
+        <span class="poem-number" aria-hidden="true">${number}</span>
+        <span class="poem-category">${catLabel}</span>
+      </div>
+
+      <h3 class="poem-card-title">${title}</h3>
+
+      <p class="poem-preview">${preview}</p>
+
+      <div class="poem-card-footer">
+        <span class="poem-time">
+          <span aria-hidden="true">⏱</span>
+          <span>${time} min read</span>
+        </span>
+        <a
+          href="poems/${filename}"
+          class="poem-read-btn"
+          aria-label="Read ${title}"
+        >
+          Read <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="poem-card-actions">
+        <button
+          class="card-action-btn favorite ${isFav ? 'is-favorite' : ''}"
+          data-id="${id}"
+          aria-label="${isFav ? 'Remove from' : 'Add to'} favorites"
+          aria-pressed="${isFav}"
+        >
+          <span class="icon-unfavorited">🤍</span>
+          <span class="icon-favorited">❤️</span>
+        </button>
+      </div>
+    </article>
+  `;
+}
+
+
+/* ============================================================
+   2. LOADER
+   ============================================================ */
+function initLoader() {
+  const loader = document.getElementById('loader');
+  if (!loader) return;
+
+  const hide = () => {
+    loader.style.transition = 'opacity 0.6s ease';
+    loader.style.opacity    = '0';
+    setTimeout(() => {
+      loader.style.display = 'none';
+      loader.setAttribute('aria-busy', 'false');
+    }, 650);
+  };
+
+  if (document.readyState === 'complete') {
+    setTimeout(hide, 500);
+  } else {
+    window.addEventListener('load', () => setTimeout(hide, 500));
   }
+}
 
-  function startVoiceSearch() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      showToast('Voice search is not supported in your browser', 'error');
-      return;
-    }
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+/* ============================================================
+   3. SCROLL PROGRESS BAR
+   ============================================================ */
+function initScrollProgress() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
 
-    elements.voiceSearch.classList.add('listening');
-    showToast('Listening...', 'info');
+  window.addEventListener('scroll', () => {
+    const st    = document.documentElement.scrollTop;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = total > 0 ? clamp((st / total) * 100, 0, 100) + '%' : '0%';
+  }, { passive: true });
+}
 
-    recognition.start();
 
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      elements.poemSearch.value = transcript;
-      handleSearch();
-      elements.voiceSearch.classList.remove('listening');
-    };
+/* ============================================================
+   4. NAVBAR — hamburger + dropdown
+   ============================================================ */
+function initNavbar() {
+  const navbar    = document.getElementById('navbar');
+  const hamburger = document.getElementById('navHamburger');
+  const navLinks  = document.getElementById('navLinks');
+  let   lastY     = 0;
 
-    recognition.onerror = (event) => {
-      console.error('Voice recognition error:', event.error);
-      elements.voiceSearch.classList.remove('listening');
-      showToast('Voice search failed. Please try again.', 'error');
-    };
-
-    recognition.onend = () => {
-      elements.voiceSearch.classList.remove('listening');
-    };
-  }
-
-  /* ============================================
-     POEM OF THE DAY
-     ============================================ */
-
-  function initPoemOfTheDay() {
-    const poemIds = Object.keys(poemsData);
-    const today = getTodayString();
-    
-    // Use date to seed "random" selection (same poem all day)
-    const dateNum = parseInt(today.replace(/-/g, ''), 10);
-    const index = dateNum % poemIds.length;
-    const poemId = poemIds[index];
-    const poem = poemsData[poemId];
-
-    if (poem && elements.potdPoemTitle) {
-      elements.potdPoemTitle.textContent = poem.title;
-      elements.potdExcerpt.textContent = poem.preview;
-      elements.potdCategory.textContent = capitalize(poem.category);
-      elements.potdDate.textContent = new Date().toLocaleDateString('en-US', { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      });
-
-      elements.potdReadBtn.addEventListener('click', () => {
-        openPoemModal(poemId);
-      });
-    }
-  }
-
-  /* ============================================
-     CATEGORY FILTERING & SORTING
-     ============================================ */
-
-  function initFilters() {
-    // Category tabs
-    const categoryTabs = document.querySelectorAll('.category-tab');
-    categoryTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Update active state
-        categoryTabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-
-        // Filter poems
-        state.filters.category = tab.dataset.category;
-        filterAndDisplayPoems();
-      });
-    });
-
-    // Sort select
-    if (elements.sortSelect) {
-      elements.sortSelect.addEventListener('change', () => {
-        state.filters.sort = elements.sortSelect.value;
-        filterAndDisplayPoems();
-      });
-    }
-
-    // View toggle
-    const viewBtns = document.querySelectorAll('.view-btn');
-    viewBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        viewBtns.forEach(b => {
-          b.classList.remove('active');
-          b.setAttribute('aria-pressed', 'false');
-        });
-        btn.classList.add('active');
-        btn.setAttribute('aria-pressed', 'true');
-        
-        const view = btn.dataset.view;
-        elements.poemsGrid.classList.toggle('list-view', view === 'list');
-      });
-    });
-
-    // Reset filters
-    if (elements.resetFilters) {
-      elements.resetFilters.addEventListener('click', resetFilters);
-    }
-
-    // Footer filter links
-    const footerFilterLinks = document.querySelectorAll('[data-filter]');
-    footerFilterLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const category = link.dataset.filter;
-        
-        // Update category tabs
-        categoryTabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-          if (t.dataset.category === category) {
-            t.classList.add('active');
-            t.setAttribute('aria-selected', 'true');
-          }
-        });
-
-        state.filters.category = category;
-        filterAndDisplayPoems();
-        
-        // Scroll to poems section
-        document.getElementById('poems').scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-  }
-
-  function filterAndDisplayPoems() {
-    const poemCards = document.querySelectorAll('.poem-card');
-    let visibleCount = 0;
-
-    const poems = Object.values(poemsData);
-    
-    // Sort poems
-    let sortedPoems = [...poems];
-    switch (state.filters.sort) {
-      case 'title-asc':
-        sortedPoems.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case 'title-desc':
-        sortedPoems.sort((a, b) => b.title.localeCompare(a.title));
-        break;
-      case 'reading-time':
-        sortedPoems.sort((a, b) => a.time - b.time);
-        break;
-      case 'newest':
-        sortedPoems.reverse();
-        break;
-      case 'oldest':
-        // Default order
-        break;
-      default:
-        // Keep default order
-        break;
-    }
-
-    // Create ordered list for sorting
-    const order = sortedPoems.map(p => p.id);
-
-    poemCards.forEach(card => {
-      const category = card.dataset.category;
-      const poemId = card.dataset.id;
-      const title = card.dataset.title?.toLowerCase() || '';
-      
-      // Check filters
-      const matchesCategory = state.filters.category === 'all' || category === state.filters.category;
-      const matchesSearch = state.filters.search === '' || 
-        title.includes(state.filters.search) ||
-        category.includes(state.filters.search);
-
-      if (matchesCategory && matchesSearch) {
-        card.style.display = '';
-        card.style.order = order.indexOf(poemId);
-        visibleCount++;
+  // Scroll hide/show
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (navbar) {
+      navbar.classList.toggle('scrolled', y > 50);
+      if (y > 200) {
+        navbar.classList.toggle('hidden', y > lastY);
       } else {
-        card.style.display = 'none';
+        navbar.classList.remove('hidden');
+      }
+    }
+    lastY = y;
+  }, { passive: true });
+
+  // ── Hamburger ──
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      State.isNavOpen = !State.isNavOpen;
+      navLinks.classList.toggle('open', State.isNavOpen);
+      hamburger.setAttribute('aria-expanded', State.isNavOpen);
+    });
+  }
+
+  // Close nav when clicking outside
+  document.addEventListener('click', (e) => {
+    if (State.isNavOpen && navbar && !navbar.contains(e.target)) {
+      State.isNavOpen = false;
+      navLinks?.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Close nav when any nav link (not dropdown toggle) is clicked
+  navLinks?.querySelectorAll('a.nav-link').forEach(a => {
+    a.addEventListener('click', () => {
+      State.isNavOpen = false;
+      navLinks.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ── Dropdown ──
+  // Target the menu div, not the button
+  const dropToggle = document.querySelector('.dropdown-toggle');
+  const dropMenu   = document.querySelector('.dropdown-menu');
+
+  if (dropToggle && dropMenu) {
+
+    dropToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = dropMenu.classList.toggle('open');
+      dropToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropToggle.contains(e.target) && !dropMenu.contains(e.target)) {
+        dropMenu.classList.remove('open');
+        dropToggle.setAttribute('aria-expanded', 'false');
       }
     });
 
-    // Update count
-    if (elements.visibleCount) {
-      elements.visibleCount.textContent = visibleCount;
-    }
-    if (elements.totalCount) {
-      elements.totalCount.textContent = poems.length;
-    }
-
-    // Show/hide no results message
-    if (elements.noResults) {
-      elements.noResults.hidden = visibleCount > 0;
-    }
-  }
-
-  function resetFilters() {
-    state.filters = {
-      category: 'all',
-      sort: 'default',
-      search: ''
-    };
-
-    // Reset UI
-    const categoryTabs = document.querySelectorAll('.category-tab');
-    categoryTabs.forEach(tab => {
-      tab.classList.remove('active');
-      tab.setAttribute('aria-selected', 'false');
-      if (tab.dataset.category === 'all') {
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
+    // Escape closes dropdown
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && dropMenu.classList.contains('open')) {
+        dropMenu.classList.remove('open');
+        dropToggle.setAttribute('aria-expanded', 'false');
+        dropToggle.focus();
       }
     });
 
-    if (elements.sortSelect) {
-      elements.sortSelect.value = 'default';
-    }
-
-    filterAndDisplayPoems();
-    showToast('Filters reset', 'info');
-  }
-
-  /* ============================================
-     POEM CARDS
-     ============================================ */
-
-  function initPoemCards() {
-    const poemCards = document.querySelectorAll('.poem-card');
-    
-    poemCards.forEach(card => {
-      // Click to open modal
-      card.addEventListener('click', (e) => {
-        // Don't open if clicking favorite button
-        if (e.target.closest('.card-action-btn')) return;
-        
-        const poemId = card.dataset.id;
-        openPoemModal(poemId);
-      });
-
-      // Keyboard support
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          const poemId = card.dataset.id;
-          openPoemModal(poemId);
-        }
-      });
-
-      // Favorite button on card
-      const favoriteBtn = card.querySelector('.card-action-btn.favorite');
-      if (favoriteBtn) {
-        favoriteBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const poemId = favoriteBtn.dataset.id;
-          toggleFavorite(poemId);
-        });
-      }
-    });
-
-    // Update favorite states on cards
-    updateCardFavorites();
-  }
-
-  function updateCardFavorites() {
-    const favoriteButtons = document.querySelectorAll('.poem-card .card-action-btn.favorite');
-    favoriteButtons.forEach(btn => {
-      const poemId = btn.dataset.id;
-      const isFavorite = state.favorites.includes(poemId);
-      btn.setAttribute('aria-pressed', isFavorite);
-    });
-  }
-
-  /* ============================================
-     POEM MODAL
-     ============================================ */
-
-  function initPoemModal() {
-    // Close modal
-    if (elements.modalClose) {
-      elements.modalClose.addEventListener('click', closePoemModal);
-    }
-    if (elements.modalOverlay) {
-      elements.modalOverlay.addEventListener('click', closePoemModal);
-    }
-
-    // Navigation buttons
-    if (elements.prevPoem) {
-      elements.prevPoem.addEventListener('click', showPreviousPoem);
-    }
-    if (elements.nextPoem) {
-      elements.nextPoem.addEventListener('click', showNextPoem);
-    }
-
-    // Action buttons
-    if (elements.favoriteBtn) {
-      elements.favoriteBtn.addEventListener('click', () => {
-        if (state.currentPoem) {
-          toggleFavorite(state.currentPoem.id);
-        }
-      });
-    }
-
-    if (elements.speakerBtn) {
-      elements.speakerBtn.addEventListener('click', toggleSpeech);
-    }
-
-    if (elements.focusBtn) {
-      elements.focusBtn.addEventListener('click', openFocusMode);
-    }
-
-    if (elements.shareBtn) {
-      elements.shareBtn.addEventListener('click', toggleShareMenu);
-    }
-
-    if (elements.pdfBtn) {
-      elements.pdfBtn.addEventListener('click', downloadPDF);
-    }
-
-    // Share options
-    const shareOptions = document.querySelectorAll('.share-option');
-    shareOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        const platform = option.dataset.platform;
-        sharePoem(platform);
+    // Dropdown item clicks
+    dropMenu.querySelectorAll('.dropdown-item[data-filter]').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const filter = item.getAttribute('data-filter');
+        dropMenu.classList.remove('open');
+        dropToggle.setAttribute('aria-expanded', 'false');
+        // Close mobile nav too
+        State.isNavOpen = false;
+        navLinks?.classList.remove('open');
+        hamburger?.setAttribute('aria-expanded', 'false');
+        // Filter and scroll
+        filterPoems(filter);
+        document.getElementById('poems')?.scrollIntoView({ behavior: 'smooth' });
       });
     });
   }
+}
 
-  function openPoemModal(poemId) {
-    const poem = poemsData[poemId];
-    if (!poem) return;
 
-    state.currentPoem = poem;
-    
-    // Find index in poems array
-    const poemIds = Object.keys(poemsData);
-    state.currentPoemIndex = poemIds.indexOf(poemId);
+/* ============================================================
+   5. THEME TOGGLE
+   ============================================================ */
+function initThemeToggle() {
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
 
-    // Update modal content
-    elements.modalTitle.textContent = poem.title;
-    elements.breadcrumbTitle.textContent = poem.title;
-    elements.modalCategory.textContent = capitalize(poem.category);
-    elements.modalNumber.textContent = poem.number;
-    elements.modalTime.innerHTML = `<span aria-hidden="true">⏱</span> ${poem.time} min read`;
+  // Restore saved theme
+  const saved = lsGet('tla-theme', 'dark');
+  applyTheme(saved);
 
-    // Format poem content
-    const formattedContent = poem.content
-      .split('\n\n')
-      .map(stanza => `<div class="poem-stanza">${stanza.split('\n').map(line => `<div class="poem-line">${escapeHtml(line)}</div>`).join('')}</div>`)
-      .join('');
-    
-    elements.modalBody.innerHTML = `<div class="poem-content">${formattedContent}</div>`;
+  btn.addEventListener('click', () => {
+    const next = State.theme === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    lsSet('tla-theme', next);
+  });
+}
 
-    // Update favorite button state
-    const isFavorite = state.favorites.includes(poemId);
-    elements.favoriteBtn.setAttribute('aria-pressed', isFavorite);
-
-    // Update navigation
-    updatePoemNavigation();
-
-    // Show modal
-    elements.poemModal.hidden = false;
-    document.body.classList.add('modal-open');
-
-    // Track reading
-    trackPoemRead(poemId);
-
-    // Focus management
-    elements.modalClose.focus();
+function applyTheme(theme) {
+  State.theme = theme;
+  document.body.classList.toggle('light-mode', theme === 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('themeToggle');
+  if (btn) {
+    btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    btn.setAttribute('aria-pressed', theme === 'light');
   }
+}
 
-  function closePoemModal() {
-    elements.poemModal.hidden = true;
-    document.body.classList.remove('modal-open');
-    
-    // Stop speech if playing
-    if (state.isSpeaking) {
-      stopSpeech();
-    }
 
-    // Hide share menu
-    elements.shareMenu.hidden = true;
-    elements.shareBtn.setAttribute('aria-expanded', 'false');
+/* ============================================================
+   6. BACK TO TOP
+   ============================================================ */
+function initBackToTop() {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
 
-    state.currentPoem = null;
+  window.addEventListener('scroll', () => {
+    btn.hidden = window.scrollY < 400;
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+
+/* ============================================================
+   7. FILTER POEMS BY CATEGORY
+   ============================================================ */
+function filterPoems(category) {
+  State.activeFilter = category;
+
+  const cards   = document.querySelectorAll('#poemsGrid .poem-card');
+  let   visible = 0;
+
+  cards.forEach(card => {
+    const show = category === 'all' || card.dataset.category === category;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  // No results message
+  const noResults = document.getElementById('noResults');
+  if (noResults) noResults.hidden = visible > 0;
+
+  // Update count
+  const vc = document.getElementById('visibleCount');
+  if (vc) vc.textContent = visible;
+
+  // Sync category tabs
+  document.querySelectorAll('.category-tab').forEach(tab => {
+    const active = tab.dataset.category === category;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', active);
+  });
+
+  // Update URL hash
+  if (category === 'all') {
+    history.replaceState(null, '', location.pathname);
+  } else {
+    history.replaceState(null, '', '#' + category);
   }
-
-  function updatePoemNavigation() {
-    const poemIds = Object.keys(poemsData);
-    const totalPoems = poemIds.length;
-
-    elements.poemCounter.textContent = `${state.currentPoemIndex + 1} of ${totalPoems}`;
-    
-    elements.prevPoem.disabled = state.currentPoemIndex === 0;
-    elements.nextPoem.disabled = state.currentPoemIndex === totalPoems - 1;
-  }
-
-  function showPreviousPoem() {
-    if (state.currentPoemIndex > 0) {
-      const poemIds = Object.keys(poemsData);
-      state.currentPoemIndex--;
-      openPoemModal(poemIds[state.currentPoemIndex]);
-    }
-  }
-
-  function showNextPoem() {
-    const poemIds = Object.keys(poemsData);
-    if (state.currentPoemIndex < poemIds.length - 1) {
-      state.currentPoemIndex++;
-      openPoemModal(poemIds[state.currentPoemIndex]);
-    }
-  }
-
-  /* ============================================
-     FAVORITES
-     ============================================ */
-
-  function initFavorites() {
-    // Load favorites from storage
-    state.favorites = storage.get(CONFIG.STORAGE_KEYS.FAVORITES) || [];
-
-    // View favorites button
-    if (elements.viewFavorites) {
-      elements.viewFavorites.addEventListener('click', openFavoritesModal);
-    }
-
-    // Favorites modal
-    if (elements.favoritesModalClose) {
-      elements.favoritesModalClose.addEventListener('click', closeFavoritesModal);
-    }
-    if (elements.favoritesModalOverlay) {
-      elements.favoritesModalOverlay.addEventListener('click', closeFavoritesModal);
-    }
-  }
-
-  function toggleFavorite(poemId) {
-    const index = state.favorites.indexOf(poemId);
-    
-    if (index === -1) {
-      state.favorites.push(poemId);
-      showToast('Added to favorites ❤️', 'success');
-    } else {
-      state.favorites.splice(index, 1);
-      showToast('Removed from favorites', 'info');
-    }
-
-    // Save to storage
-    storage.set(CONFIG.STORAGE_KEYS.FAVORITES, state.favorites);
-
-    // Update stats
-    state.stats.favorites = state.favorites.length;
-    saveStats();
-    updateStatsDisplay();
-
-    // Update UI
-    updateCardFavorites();
-    
-    // Update modal button if open
-    if (state.currentPoem && state.currentPoem.id === poemId) {
-      elements.favoriteBtn.setAttribute('aria-pressed', state.favorites.includes(poemId));
-    }
-  }
-
-  function openFavoritesModal() {
-    if (state.favorites.length === 0) {
-      elements.favoritesEmpty.hidden = false;
-      elements.favoritesList.innerHTML = '';
-    } else {
-      elements.favoritesEmpty.hidden = true;
-      elements.favoritesList.innerHTML = state.favorites.map(poemId => {
-        const poem = poemsData[poemId];
-        if (!poem) return '';
-        return `
-          <div class="favorite-item" data-poem-id="${poemId}">
-            <div class="favorite-item-content">
-              <div class="favorite-item-title">${escapeHtml(poem.title)}</div>
-              <div class="favorite-item-category">${capitalize(poem.category)}</div>
-            </div>
-            <button class="favorite-item-remove" data-poem-id="${poemId}" aria-label="Remove from favorites">
-              ✕
-            </button>
-          </div>
-        `;
-      }).join('');
-
-      // Add click handlers
-      const favoriteItems = elements.favoritesList.querySelectorAll('.favorite-item');
-      favoriteItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-          if (e.target.closest('.favorite-item-remove')) return;
-          const poemId = item.dataset.poemId;
-          closeFavoritesModal();
-          openPoemModal(poemId);
-        });
-      });
-
-      // Remove buttons
-      const removeButtons = elements.favoritesList.querySelectorAll('.favorite-item-remove');
-      removeButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const poemId = btn.dataset.poemId;
-          toggleFavorite(poemId);
-          openFavoritesModal(); // Refresh list
-        });
-      });
-    }
-
-    elements.favoritesModal.hidden = false;
-    document.body.classList.add('modal-open');
-  }
-
-  function closeFavoritesModal() {
-    elements.favoritesModal.hidden = true;
-    document.body.classList.remove('modal-open');
-  }
-
-  /* ============================================
-     TEXT-TO-SPEECH
-     ============================================ */
-
-  function initSpeech() {
-    state.speechSynthesis = window.speechSynthesis;
-  }
-
-  function toggleSpeech() {
-    if (state.isSpeaking) {
-      stopSpeech();
-    } else {
-      startSpeech();
-    }
-  }
-
-  function startSpeech() {
-    if (!state.speechSynthesis || !state.currentPoem) return;
-
-    // Stop any current speech
-    state.speechSynthesis.cancel();
-
-    const text = `${state.currentPoem.title}. ${state.currentPoem.content}`;
-    const utterance = new SpeechSynthesisUtterance(text);
-    
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    utterance.onstart = () => {
-      state.isSpeaking = true;
-      elements.speakerBtn.setAttribute('aria-pressed', 'true');
-      showToast('Reading aloud...', 'info');
-    };
-
-    utterance.onend = () => {
-      state.isSpeaking = false;
-      elements.speakerBtn.setAttribute('aria-pressed', 'false');
-    };
-
-    utterance.onerror = () => {
-      state.isSpeaking = false;
-      elements.speakerBtn.setAttribute('aria-pressed', 'false');
-      showToast('Speech synthesis error', 'error');
-    };
-
-    state.speechSynthesis.speak(utterance);
-  }
-
-  function stopSpeech() {
-    if (state.speechSynthesis) {
-      state.speechSynthesis.cancel();
-      state.isSpeaking = false;
-      elements.speakerBtn.setAttribute('aria-pressed', 'false');
-      showToast('Stopped reading', 'info');
-    }
-  }
-
-  /* ============================================
-     FOCUS MODE
-     ============================================ */
-
-  function initFocusMode() {
-    if (elements.fontSizeDecrease) {
-      elements.fontSizeDecrease.addEventListener('click', () => {
-        if (state.focusMode.fontSize > 12) {
-          state.focusMode.fontSize -= 2;
-          updateFocusMode();
-        }
-      });
-    }
-
-    if (elements.fontSizeIncrease) {
-      elements.fontSizeIncrease.addEventListener('click', () => {
-        if (state.focusMode.fontSize < 32) {
-          state.focusMode.fontSize += 2;
-          updateFocusMode();
-        }
-      });
-    }
-
-    if (elements.lineSpacingToggle) {
-      elements.lineSpacingToggle.addEventListener('click', () => {
-        state.focusMode.lineSpacing = state.focusMode.lineSpacing === 2 ? 2.5 : 2;
-        updateFocusMode();
-      });
-    }
-
-    if (elements.focusThemeToggle) {
-      elements.focusThemeToggle.addEventListener('click', () => {
-        state.focusMode.theme = state.focusMode.theme === 'dark' ? 'light' : 'dark';
-        updateFocusMode();
-      });
-    }
-
-    if (elements.exitFocus) {
-      elements.exitFocus.addEventListener('click', closeFocusMode);
-    }
-  }
-
-  function openFocusMode() {
-    if (!state.currentPoem) return;
-
-    const poem = state.currentPoem;
-    
-    elements.focusContent.innerHTML = `
-      <div class="focus-poem">
-        <h2 class="focus-poem-title">${escapeHtml(poem.title)}</h2>
-        <div class="focus-poem-body">${escapeHtml(poem.content)}</div>
-      </div>
-    `;
-
-    updateFocusMode();
-    elements.focusMode.hidden = false;
-    document.body.classList.add('modal-open');
-    
-    closePoemModal();
-  }
-
-  function updateFocusMode() {
-    const content = elements.focusContent.querySelector('.focus-poem-body');
-    if (content) {
-      content.style.fontSize = `${state.focusMode.fontSize}px`;
-      content.style.lineHeight = state.focusMode.lineSpacing;
-    }
-
-    elements.focusFontSize.textContent = `${state.focusMode.fontSize}px`;
-    elements.focusMode.setAttribute('data-theme', state.focusMode.theme);
-  }
-
-  function closeFocusMode() {
-    elements.focusMode.hidden = true;
-    document.body.classList.remove('modal-open');
-  }
-
-  /* ============================================
-     SHARE FUNCTIONALITY
-     ============================================ */
-
-  function toggleShareMenu() {
-    const isHidden = elements.shareMenu.hidden;
-    elements.shareMenu.hidden = !isHidden;
-    elements.shareBtn.setAttribute('aria-expanded', !isHidden);
-  }
-
-  function sharePoem(platform) {
-    if (!state.currentPoem) return;
-
-    const poem = state.currentPoem;
-    const url = `${window.location.origin}${window.location.pathname}#poem-${poem.id}`;
-    const text = `"${poem.title}" - A beautiful poem from TheLongAFTER\n\n${poem.preview}`;
-    const title = `${poem.title} - TheLongAFTER`;
-
-    switch (platform) {
-      case 'twitter':
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
-        break;
-      case 'whatsapp':
-        window.open(`https://wa.me/?text=${encodeURIComponent(text + '\n\n' + url)}`, '_blank');
-        break;
-      case 'facebook':
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank');
-        break;
-      case 'linkedin':
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
-        break;
-      case 'copy':
-        navigator.clipboard.writeText(url).then(() => {
-          showToast('Link copied to clipboard!', 'success');
-        }).catch(() => {
-          showToast('Failed to copy link', 'error');
-        });
-        break;
-    }
-
-    // Hide share menu
-    elements.shareMenu.hidden = true;
-    elements.shareBtn.setAttribute('aria-expanded', 'false');
-  }
-
-  /* ============================================
-     PDF DOWNLOAD
-     ============================================ */
-
-  function downloadPDF() {
-    if (!state.currentPoem) return;
-
-    const poem = state.currentPoem;
-    
-    // Create PDF content
-    const element = document.createElement('div');
-    element.innerHTML = `
-      <div style="font-family: Georgia, serif; padding: 40px; max-width: 600px; margin: 0 auto;">
-        <div style="text-align: center; margin-bottom: 40px;">
-          <h1 style="font-size: 28px; margin-bottom: 10px;">${escapeHtml(poem.title)}</h1>
-          <p style="color: #666; font-size: 14px;">${capitalize(poem.category)} • ${poem.number}</p>
-        </div>
-        <div style="white-space: pre-wrap; line-height: 1.8; font-size: 16px;">
-${escapeHtml(poem.content)}
-        </div>
-        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
-          <p style="color: #888; font-size: 12px;">TheLongAFTER - TheLongAfter</p>
-          <p style="color: #888; font-size: 12px;">https://poemetry.onrender.com</p>
-        </div>
-      </div>
-    `;
-
-    const options = {
-      margin: 10,
-      filename: `${poem.title.replace(/[^a-z0-9]/gi, '_')}_TheLongAfter.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    if (typeof html2pdf !== 'undefined') {
-      html2pdf().set(options).from(element).save();
-      showToast('Downloading PDF...', 'success');
-    } else {
-      showToast('PDF generation not available', 'error');
-    }
-  }
-
-  /* ============================================
-     STATISTICS
-     ============================================ */
-
-  function initStats() {
-    // Load stats from storage
-    const savedStats = storage.get(CONFIG.STORAGE_KEYS.STATS);
-    if (savedStats) {
-      state.stats = { ...state.stats, ...savedStats };
-      state.stats.visits++;
-    }
-
-    // Load reading history
-    state.readingHistory = storage.get(CONFIG.STORAGE_KEYS.READING_HISTORY) || [];
-
-    // Save updated visit count
-    saveStats();
-    updateStatsDisplay();
-
-    // Clear stats button
-    if (elements.clearStats) {
-      elements.clearStats.addEventListener('click', clearStats);
-    }
-  }
-
-  function trackPoemRead(poemId) {
-    // Check if already read today
-    const today = getTodayString();
-    const readKey = `${poemId}_${today}`;
-    
-    if (!state.readingHistory.includes(readKey)) {
-      state.readingHistory.push(readKey);
-      state.stats.poemsRead++;
-      
-      const poem = poemsData[poemId];
-      if (poem) {
-        state.stats.readingTime += poem.time;
-      }
-
-      // Save
-      storage.set(CONFIG.STORAGE_KEYS.READING_HISTORY, state.readingHistory);
-      saveStats();
-      updateStatsDisplay();
-    }
-  }
-
-  function saveStats() {
-    storage.set(CONFIG.STORAGE_KEYS.STATS, state.stats);
-  }
-
-  function updateStatsDisplay() {
-    if (elements.statPoems) {
-      elements.statPoems.textContent = state.stats.poemsRead;
-    }
-    if (elements.statTime) {
-      elements.statTime.textContent = formatTime(state.stats.readingTime);
-    }
-    if (elements.statVisits) {
-      elements.statVisits.textContent = state.stats.visits;
-    }
-    if (elements.statFavorites) {
-      elements.statFavorites.textContent = state.favorites.length;
-    }
-
-    // Update progress bar
-    if (elements.poemsProgressBar) {
-      const totalPoems = Object.keys(poemsData).length;
-      const progress = (state.stats.poemsRead / totalPoems) * 100;
-      elements.poemsProgressBar.style.width = `${Math.min(progress, 100)}%`;
-    }
-  }
-
-  function clearStats() {
-    if (confirm('Are you sure you want to clear all your reading stats?')) {
-      state.stats = {
-        poemsRead: 0,
-        readingTime: 0,
-        visits: 1,
-        favorites: state.favorites.length
-      };
-      state.readingHistory = [];
-      
-      storage.remove(CONFIG.STORAGE_KEYS.STATS);
-      storage.remove(CONFIG.STORAGE_KEYS.READING_HISTORY);
-      
-      updateStatsDisplay();
-      showToast('Stats cleared', 'success');
-    }
-  }
-
-  /* ============================================
-     TESTIMONIALS SLIDER
-     ============================================ */
-
-  function initTestimonials() {
-    const testimonialCards = elements.testimonialsSlider?.querySelectorAll('.testimonial-card');
-    if (!testimonialCards || testimonialCards.length === 0) return;
-
-    // Create dots
-    if (elements.testimonialsDots) {
-      testimonialCards.forEach((_, index) => {
-        const dot = document.createElement('button');
-        dot.className = `testimonial-dot ${index === 0 ? 'active' : ''}`;
-        dot.setAttribute('role', 'tab');
-        dot.setAttribute('aria-label', `Testimonial ${index + 1}`);
-        dot.addEventListener('click', () => goToTestimonial(index));
-        elements.testimonialsDots.appendChild(dot);
-      });
-    }
-
-    // Show first testimonial
-    testimonialCards[0].classList.add('active');
-
-    // Navigation buttons
-    if (elements.prevTestimonial) {
-      elements.prevTestimonial.addEventListener('click', () => {
-        goToTestimonial(state.testimonialIndex - 1);
-      });
-    }
-
-    if (elements.nextTestimonial) {
-      elements.nextTestimonial.addEventListener('click', () => {
-        goToTestimonial(state.testimonialIndex + 1);
-      });
-    }
-
-    // Auto-play
-    startTestimonialAutoPlay();
-  }
-
-  function goToTestimonial(index) {
-    const testimonialCards = elements.testimonialsSlider?.querySelectorAll('.testimonial-card');
-    const dots = elements.testimonialsDots?.querySelectorAll('.testimonial-dot');
-    
-    if (!testimonialCards || testimonialCards.length === 0) return;
-
-    // Wrap around
-    if (index < 0) index = testimonialCards.length - 1;
-    if (index >= testimonialCards.length) index = 0;
-
-    state.testimonialIndex = index;
-
-    // Update cards
-    testimonialCards.forEach((card, i) => {
-      card.classList.toggle('active', i === index);
+}
+
+function initCategoryTabs() {
+  // Category tab buttons
+  document.querySelectorAll('.category-tab').forEach(tab => {
+    tab.addEventListener('click', () => filterPoems(tab.dataset.category));
+  });
+
+  // Footer [data-filter] links
+  document.querySelectorAll('.footer [data-filter]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const filter = el.getAttribute('data-filter');
+      if (!filter) return;
+      e.preventDefault();
+      filterPoems(filter);
+      document.getElementById('poems')?.scrollIntoView({ behavior: 'smooth' });
     });
+  });
+}
 
-    // Update dots
-    dots?.forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
-    });
-
-    // Reset auto-play timer
-    startTestimonialAutoPlay();
+function applyHashFilter() {
+  const hash  = location.hash.replace('#', '').trim();
+  const valid = ['sonnets', 'heartbreak', 'chichewa', 'love', 'spiritual', 'nature', 'other'];
+  if (hash && valid.includes(hash)) {
+    filterPoems(hash);
+    document.getElementById('poems')?.scrollIntoView({ behavior: 'smooth' });
   }
+}
 
-  function startTestimonialAutoPlay() {
-    if (state.testimonialInterval) {
-      clearInterval(state.testimonialInterval);
-    }
-    
-    state.testimonialInterval = setInterval(() => {
-      goToTestimonial(state.testimonialIndex + 1);
-    }, CONFIG.TESTIMONIAL_INTERVAL);
-  }
+window.addEventListener('hashchange', () => {
+  if (State.poemsLoaded) applyHashFilter();
+});
 
-  /* ============================================
-     FORMS
-     ============================================ */
 
-  function initForms() {
-    // Submit poem form
-    if (elements.submitPoemForm) {
-      elements.submitPoemForm.addEventListener('submit', handlePoemSubmit);
-      
-      // Character count
-      const poemContent = document.getElementById('poemContent');
-      if (poemContent && elements.charCount) {
-        poemContent.addEventListener('input', () => {
-          const count = poemContent.value.length;
-          elements.charCount.textContent = `${count} / 5000 characters`;
-          elements.charCount.style.color = count > 4500 ? 'var(--color-warning)' : '';
-        });
-      }
-    }
+/* ============================================================
+   8. SORT POEMS
+   ============================================================ */
+function initSortSelect() {
+  const select = document.getElementById('sortSelect');
+  if (!select) return;
 
-    // Newsletter form
-    if (elements.newsletterForm) {
-      elements.newsletterForm.addEventListener('submit', handleNewsletterSubmit);
-    }
+  select.value = lsGet('tla-sort', 'default');
 
-    // Contact form
-    if (elements.contactForm) {
-      elements.contactForm.addEventListener('submit', handleContactSubmit);
-    }
-  }
+  select.addEventListener('change', () => {
+    lsSet('tla-sort', select.value);
+    sortGrid(select.value);
+  });
+}
 
-  function handlePoemSubmit(e) {
-    e.preventDefault();
+function sortGrid(key) {
+  const grid  = document.getElementById('poemsGrid');
+  if (!grid)  return;
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
+  const cards = Array.from(grid.querySelectorAll('.poem-card'));
 
-    // Validate
-    let isValid = true;
-    const errors = {};
-
-    if (!data.poetName?.trim()) {
-      errors.poetName = 'Name is required';
-      isValid = false;
-    }
-
-    if (!data.poetEmail?.trim() || !isValidEmail(data.poetEmail)) {
-      errors.poetEmail = 'Valid email is required';
-      isValid = false;
-    }
-
-    if (!data.poemTitle?.trim()) {
-      errors.poemTitle = 'Poem title is required';
-      isValid = false;
-    }
-
-    if (!data.poemCategory) {
-      errors.poemCategory = 'Please select a category';
-      isValid = false;
-    }
-
-    if (!data.poemContent?.trim()) {
-      errors.poemContent = 'Poem content is required';
-      isValid = false;
-    }
-
-    if (!data.agreeTerms) {
-      errors.agreeTerms = 'You must agree to the terms';
-      isValid = false;
-    }
-
-    // Display errors
-    Object.keys(errors).forEach(field => {
-      const errorEl = document.getElementById(`${field}Error`);
-      if (errorEl) {
-        errorEl.textContent = errors[field];
-      }
-    });
-
-    if (!isValid) {
-      showToast('Please fix the errors in the form', 'error');
-      return;
-    }
-
-    // Clear errors
-    document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
-
-    // Simulate submission
-    const submitBtn = e.target.querySelector('.submit-btn');
-    submitBtn.disabled = true;
-    submitBtn.querySelector('.btn-spinner')?.removeAttribute('hidden');
-
-    setTimeout(() => {
-      submitBtn.disabled = false;
-      submitBtn.querySelector('.btn-spinner')?.setAttribute('hidden', '');
-      e.target.reset();
-      elements.charCount.textContent = '0 / 5000 characters';
-      showToast('Thank you! Your poem has been submitted for review.', 'success');
-    }, 1500);
-  }
-
-  function handleNewsletterSubmit(e) {
-    e.preventDefault();
-
-    const email = document.getElementById('newsletterEmail')?.value;
-    
-    if (!email || !isValidEmail(email)) {
-      showToast('Please enter a valid email address', 'error');
-      return;
-    }
-
-    const submitBtn = e.target.querySelector('.newsletter-btn');
-    submitBtn.disabled = true;
-    submitBtn.querySelector('.btn-spinner')?.removeAttribute('hidden');
-
-    setTimeout(() => {
-      submitBtn.disabled = false;
-      submitBtn.querySelector('.btn-spinner')?.setAttribute('hidden', '');
-      e.target.reset();
-      showToast('Welcome to our poetry circle! 📬', 'success');
-    }, 1000);
-  }
-
-  function handleContactSubmit(e) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-
-    if (!data.name?.trim() || !data.email?.trim() || !data.message?.trim()) {
-      showToast('Please fill in all required fields', 'error');
-      return;
-    }
-
-    if (!isValidEmail(data.email)) {
-      showToast('Please enter a valid email address', 'error');
-      return;
-    }
-
-    const submitBtn = e.target.querySelector('.submit-btn');
-    submitBtn.disabled = true;
-
-    setTimeout(() => {
-      submitBtn.disabled = false;
-      e.target.reset();
-      showToast('Message sent! We\'ll get back to you soon.', 'success');
-    }, 1000);
-  }
-
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
-  /* ============================================
-     BACK TO TOP
-     ============================================ */
-
-  function initBackToTop() {
-    if (!elements.backToTop) return;
-
-    elements.backToTop.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-
-    // Show/hide based on scroll position
-    window.addEventListener('scroll', throttle(() => {
-      if (window.scrollY > 500) {
-        elements.backToTop.hidden = false;
-      } else {
-        elements.backToTop.hidden = true;
-      }
-    }, 100));
-  }
-
-  /* ============================================
-     COOKIE CONSENT
-     ============================================ */
-
-  function initCookieConsent() {
-    const cookiesAccepted = storage.get(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED);
-    
-    if (cookiesAccepted === null) {
-      // Show cookie banner after a short delay
-      setTimeout(() => {
-        if (elements.cookieBanner) {
-          elements.cookieBanner.hidden = false;
-        }
-      }, 2000);
-    }
-
-    if (elements.acceptCookies) {
-      elements.acceptCookies.addEventListener('click', () => {
-        storage.set(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED, true);
-        elements.cookieBanner.hidden = true;
-        showToast('Preferences saved', 'success');
-      });
-    }
-
-    if (elements.declineCookies) {
-      elements.declineCookies.addEventListener('click', () => {
-        storage.set(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED, false);
-        elements.cookieBanner.hidden = true;
-        showToast('Preferences saved', 'info');
-      });
-    }
-
-    if (elements.customizeCookies) {
-      elements.customizeCookies.addEventListener('click', () => {
-        // In a real app, this would open a cookie preferences modal
-        showToast('Cookie customization coming soon', 'info');
-      });
-    }
-  }
-
-  /* ============================================
-     KEYBOARD SHORTCUTS
-     ============================================ */
-
-  function initKeyboardShortcuts() {
-    // Show shortcuts button
-    if (elements.showShortcuts) {
-      elements.showShortcuts.addEventListener('click', openShortcutsModal);
-    }
-
-    // Close shortcuts modal
-    if (elements.shortcutsClose) {
-      elements.shortcutsClose.addEventListener('click', closeShortcutsModal);
-    }
-    if (elements.shortcutsOverlay) {
-      elements.shortcutsOverlay.addEventListener('click', closeShortcutsModal);
-    }
-
-    // Global keyboard shortcuts
-    document.addEventListener('keydown', handleKeyboardShortcut);
-  }
-
-  function handleKeyboardShortcut(e) {
-    // Don't trigger if typing in an input
-    if (e.target.matches('input, textarea, select')) return;
-
-    const key = e.key.toLowerCase();
+  cards.sort((a, b) => {
+    const tA = (a.dataset.title || '').toLowerCase();
+    const tB = (b.dataset.title || '').toLowerCase();
+    const iA = parseInt(a.dataset.index) || 0;
+    const iB = parseInt(b.dataset.index) || 0;
+    const rA = parseInt(a.dataset.time)  || 0;
+    const rB = parseInt(b.dataset.time)  || 0;
 
     switch (key) {
-      case 'escape':
-        closeAllModals();
-        break;
-      case '/':
-        e.preventDefault();
-        openSearch();
-        break;
-      case '?':
-        if (e.shiftKey) {
-          e.preventDefault();
-          openShortcutsModal();
-        }
-        break;
-      case 't':
-        if (!e.ctrlKey && !e.metaKey) {
-          e.preventDefault();
-          toggleTheme();
-        }
-        break;
-      case 'm':
-        if (!e.ctrlKey && !e.metaKey) {
-          e.preventDefault();
-        }
-        break;
-      case 'f':
-        if (!e.ctrlKey && !e.metaKey && state.currentPoem) {
-          e.preventDefault();
-          toggleFavorite(state.currentPoem.id);
-        }
-        break;
-      case 'r':
-        if (!e.ctrlKey && !e.metaKey && state.currentPoem) {
-          e.preventDefault();
-          toggleSpeech();
-        }
-        break;
-      case 's':
-        if (!e.ctrlKey && !e.metaKey && state.currentPoem) {
-          e.preventDefault();
-          toggleShareMenu();
-        }
-        break;
-      case 'p':
-        if (!e.ctrlKey && !e.metaKey && state.currentPoem) {
-          e.preventDefault();
-          downloadPDF();
-        }
-        break;
-      case 'arrowleft':
-        if (state.currentPoem && !elements.poemModal.hidden) {
-          e.preventDefault();
-          showPreviousPoem();
-        }
-        break;
-      case 'arrowright':
-        if (state.currentPoem && !elements.poemModal.hidden) {
-          e.preventDefault();
-          showNextPoem();
-        }
-        break;
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9':
-        if (!e.ctrlKey && !e.metaKey) {
-          e.preventDefault();
-          setThemeColor(parseInt(key));
-        }
-        break;
+      case 'title-asc':    return tA.localeCompare(tB);
+      case 'title-desc':   return tB.localeCompare(tA);
+      case 'newest':       return iB - iA;
+      case 'oldest':       return iA - iB;
+      case 'reading-time': return rA - rB;
+      default:             return iA - iB;
     }
-  }
+  });
 
-  function openShortcutsModal() {
-    if (elements.shortcutsModal) {
-      elements.shortcutsModal.hidden = false;
-      document.body.classList.add('modal-open');
-    }
-  }
+  const frag = document.createDocumentFragment();
+  cards.forEach(c => frag.appendChild(c));
+  grid.appendChild(frag);
+}
 
-  function closeShortcutsModal() {
-    if (elements.shortcutsModal) {
-      elements.shortcutsModal.hidden = true;
-      document.body.classList.remove('modal-open');
-    }
-  }
 
-  function closeAllModals() {
-    closePoemModal();
-    closeFavoritesModal();
-    closeShortcutsModal();
-    closeFocusMode();
-    closeSearch();
-    closeMobileMenu();
-    
-    // Hide share menu
-    if (elements.shareMenu) {
-      elements.shareMenu.hidden = true;
-    }
-  }
+/* ============================================================
+   9. VIEW TOGGLE  (grid / list)
+   ============================================================ */
+function initViewToggle() {
+  const grid = document.getElementById('poemsGrid');
+  const btns = document.querySelectorAll('.view-btn');
+  if (!grid || !btns.length) return;
 
-  /* ============================================
-     HERO PARTICLES
-     ============================================ */
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.dataset.view;
 
-  function initHeroParticles() {
-    if (!elements.heroParticles) return;
+      // Toggle grid class
+      if (view === 'list') {
+        grid.classList.add('poems-list');
+      } else {
+        grid.classList.remove('poems-list');
+      }
 
-    // Create floating particles
-    for (let i = 0; i < 20; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.cssText = `
-        position: absolute;
-        width: ${Math.random() * 10 + 5}px;
-        height: ${Math.random() * 10 + 5}px;
-        background: var(--color-accent-primary);
-        border-radius: 50%;
-        opacity: ${Math.random() * 0.3 + 0.1};
-        left: ${Math.random() * 100}%;
-        top: ${Math.random() * 100}%;
-        animation: float ${Math.random() * 10 + 10}s ease-in-out infinite;
-        animation-delay: ${Math.random() * 5}s;
-        pointer-events: none;
-      `;
-      elements.heroParticles.appendChild(particle);
-    }
-  }
-
-  /* ============================================
-     FOOTER
-     ============================================ */
-
-  function initFooter() {
-    // Set current year
-    if (elements.currentYear) {
-      elements.currentYear.textContent = new Date().getFullYear();
-    }
-  }
-
-  /* ============================================
-     INTERSECTION OBSERVER (ANIMATIONS)
-     ============================================ */
-
-  function initScrollAnimations() {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in-up');
-          observer.unobserve(entry.target);
-        }
+      // Toggle active state on buttons
+      btns.forEach(b => {
+        const active = b.dataset.view === view;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-pressed', active);
       });
-    }, observerOptions);
 
-    // Observe elements
-    const animateElements = document.querySelectorAll('.poem-card, .stat-card, .testimonial-card');
-    animateElements.forEach(el => observer.observe(el));
-  }
-
-  /* ============================================
-     INITIALIZATION
-     ============================================ */
-
-  function init() {
-    // Cache DOM elements
-    cacheElements();
-
-    // Initialize all modules
-    initLoader();
-    initNavigation();
-    initTheme();
-    initSearch();
-    initPoemOfTheDay();
-    initFilters();
-    initPoemCards();
-    initPoemModal();
-    initFavorites();
-    initSpeech();
-    initFocusMode();
-    initStats();
-    initTestimonials();
-    initForms();
-    initBackToTop();
-    initCookieConsent();
-    initKeyboardShortcuts();
-    initHeroParticles();
-    initFooter();
-    initScrollAnimations();
-
-    // Scroll event for progress bar
-    window.addEventListener('scroll', throttle(updateScrollProgress, 50));
-
-    // Initial filter
-    filterAndDisplayPoems();
-
-    console.log('🎭 TheLongAfter initialized successfully!');
-  }
-
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-})();
-
-/* ============================================
-   WIDGET DATA GENERATION
-   ============================================ */
-
-function generateWidgetData() {
-  const poemIds = Object.keys(poemsData);
-  const today = getTodayString();
-  
-  // Use date to seed "random" selection (same poem all day)
-  const dateNum = parseInt(today.replace(/-/g, ''), 10);
-  const index = dateNum % poemIds.length;
-  const poemId = poemIds[index];
-  const poem = poemsData[poemId];
-
-  const widgetData = {
-    title: poem.title,
-    category: `${capitalize(poem.category)} ${poem.number}`,
-    excerpt: poem.preview,
-    backgroundUrl: `${window.location.origin}/widgets/widget-bg.png`,
-    readUrl: `${window.location.origin}/#poem-${poemId}`,
-    date: new Date().toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric' 
-    }),
-    timestamp: new Date().toISOString()
-  };
-
-  return widgetData;
+      lsSet('tla-view', view);
+    });
+  });
 }
 
-// Expose widget data endpoint (if needed)
-function exposeWidgetAPI() {
-  // Check if running in service worker context
-  if (typeof window !== 'undefined') {
-    window.getWidgetData = generateWidgetData;
+
+/* ============================================================
+   10. POEM OF THE DAY
+   ============================================================ */
+function initPoemOfDay(poems) {
+  if (!poems?.length) return;
+
+  const poem = poems[todayIndex(poems.length)];
+  const d    = new Date();
+
+  const potdTitle    = document.getElementById('potdPoemTitle');
+  const potdExcerpt  = document.getElementById('potdExcerpt');
+  const potdCategory = document.getElementById('potdCategory');
+  const potdDate     = document.getElementById('potdDate');
+  const potdReadBtn  = document.getElementById('potdReadBtn');
+
+  if (potdTitle)    potdTitle.textContent    = poem.title        || '';
+  if (potdExcerpt)  potdExcerpt.textContent  = poem.preview      || '';
+  if (potdCategory) potdCategory.textContent = poem.categoryLabel || poem.category || '';
+  if (potdDate)     potdDate.textContent     = d.toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+  if (potdReadBtn) {
+    potdReadBtn.onclick = () => {
+      window.location.href = 'poems/' + poem.filename;
+    };
   }
 }
 
-// Initialize widget API
-exposeWidgetAPI();
 
-/* ============================================
-   WIDGET REGISTRATION
-   ============================================ */
+/* ============================================================
+   11. SEARCH OVERLAY
+   ============================================================ */
+function initSearchOverlay(poems) {
 
-async function registerWidgets() {
-  if (!('getInstalledRelatedApps' in navigator)) {
-    console.log('Widgets not supported');
+  const overlay      = document.getElementById('searchOverlay');
+  const openBtn      = document.getElementById('searchToggle');
+  const closeBtn     = document.getElementById('searchOverlayClose');
+  const input        = document.getElementById('poemSearch');
+  const clearBtn     = document.getElementById('searchClear');
+  const resultsList  = document.getElementById('searchResultsList');
+  const resultsCount = document.getElementById('searchResultsCount');
+  const hintBtns     = document.querySelectorAll('.search-hint-btn');
+  const voiceBtn     = document.getElementById('voiceSearch');
+
+  if (!overlay || !openBtn) {
+    console.warn('[TLA] Search: missing overlay or openBtn');
     return;
   }
 
-  try {
-    // Check if app is installed
-    const relatedApps = await navigator.getInstalledRelatedApps();
-    const isInstalled = relatedApps.length > 0;
+  // ── Open ──
+  function openSearch() {
+    State.isSearchOpen = true;
+    overlay.classList.add('active');
+    overlay.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => input?.focus(), 80);
+  }
 
-    if (isInstalled) {
-      console.log('App is installed, widgets available');
-      
-      // Register periodic sync for widget updates
-      if ('periodicSync' in registration) {
-        await registration.periodicSync.register('update-widgets', {
-          minInterval: 60 * 60 * 1000 // Update every hour
-        });
-        console.log('Widget periodic sync registered');
+  // ── Close ──
+  function closeSearch() {
+    State.isSearchOpen = false;
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    if (input)        input.value              = '';
+    if (resultsList)  resultsList.innerHTML    = '';
+    if (resultsCount) resultsCount.textContent = '';
+    if (clearBtn)     clearBtn.hidden          = true;
+    openBtn?.focus();
+  }
+
+  // ── Wire up open button ──
+  // Remove existing listeners by replacing the node
+  const freshOpenBtn = openBtn.cloneNode(true);
+  openBtn.parentNode?.replaceChild(freshOpenBtn, openBtn);
+  freshOpenBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openSearch();
+  });
+
+  // ── Close button ──
+  closeBtn?.addEventListener('click', closeSearch);
+
+  // ── Click on the dark backdrop (not the content box) ──
+  overlay.addEventListener('click', (e) => {
+    const content = overlay.querySelector('.search-overlay-content');
+    if (content && !content.contains(e.target)) {
+      closeSearch();
+    }
+  });
+
+  // ── Escape key ──
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && State.isSearchOpen) closeSearch();
+    // '/' opens search
+    if (e.key === '/' && !State.isSearchOpen &&
+        !e.target.matches('input, textarea, select')) {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+
+  // ── Hint buttons ──
+  hintBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (input) {
+        input.value = btn.dataset.search || '';
+        input.dispatchEvent(new Event('input'));
+        input.focus();
+      }
+    });
+  });
+
+  // ── Live search ──
+  const doSearch = debounce((q) => {
+    if (!q) {
+      if (resultsList)  resultsList.innerHTML    = '';
+      if (resultsCount) resultsCount.textContent = '';
+      return;
+    }
+
+    const qLow    = q.toLowerCase();
+    const matches = poems.filter(p => {
+      return [p.title, p.category, p.categoryLabel, p.preview, p.date]
+        .join(' ')
+        .toLowerCase()
+        .includes(qLow);
+    });
+
+    if (resultsCount) {
+      resultsCount.textContent =
+        matches.length + ' poem' + (matches.length !== 1 ? 's' : '') + ' found';
+    }
+
+    if (resultsList) {
+      if (matches.length) {
+        resultsList.innerHTML = matches.map(p => `
+          <a href="poems/${esc(p.filename)}" class="search-result-item">
+            <span class="result-number" aria-hidden="true">${esc(p.number ?? '✦')}</span>
+            <span class="result-title">${esc(p.title)}</span>
+            <span class="result-category">${esc(p.categoryLabel ?? p.category ?? '')}</span>
+            <span class="result-preview">${esc(p.preview ?? '')}</span>
+            <span class="result-time">⏱ ${p.time ?? 1} min read</span>
+          </a>
+        `).join('');
+      } else {
+        resultsList.innerHTML = `
+          <div style="text-align:center;padding:32px;opacity:.6;">
+            <div style="font-size:2rem;margin-bottom:8px;">📭</div>
+            <p>No poems matched <strong>"${esc(q)}"</strong></p>
+          </div>
+        `;
       }
     }
-  } catch (error) {
-    console.error('Widget registration failed:', error);
+  }, 220);
+
+  input?.addEventListener('input', () => {
+    const q = input.value.trim();
+    if (clearBtn) clearBtn.hidden = !q;
+    doSearch(q);
+  });
+
+  // ── Clear button ──
+  clearBtn?.addEventListener('click', () => {
+    if (input) { input.value = ''; input.focus(); }
+    if (resultsList)  resultsList.innerHTML    = '';
+    if (resultsCount) resultsCount.textContent = '';
+    if (clearBtn)     clearBtn.hidden          = true;
+  });
+
+  // ── Voice search ──
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (voiceBtn && SR) {
+    const rec  = new SR();
+    rec.lang   = 'en-US';
+    rec.onstart  = () => voiceBtn.classList.add('listening');
+    rec.onend    = () => voiceBtn.classList.remove('listening');
+    rec.onresult = (e) => {
+      if (input) {
+        input.value = e.results[0][0].transcript;
+        input.dispatchEvent(new Event('input'));
+      }
+    };
+    rec.onerror = () => {
+      voiceBtn.classList.remove('listening');
+      showToast('Voice search failed.', 'error');
+    };
+    voiceBtn.addEventListener('click', () => {
+      try { rec.start(); } catch { rec.stop(); }
+    });
+  } else {
+    if (voiceBtn) voiceBtn.style.display = 'none';
   }
 }
 
-// Call during initialization
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.ready.then(registration => {
-    registerWidgets();
+
+/* ============================================================
+   12. FAVORITES
+   ============================================================ */
+function getFavorites() {
+  return lsGet('tla-favorites', []);
+}
+
+function toggleFavorite(id) {
+  let favs = getFavorites();
+  const had = favs.includes(id);
+  if (had) {
+    favs = favs.filter(f => f !== id);
+    showToast('Removed from favorites', 'info');
+  } else {
+    favs.push(id);
+    showToast('Added to favorites ❤️', 'success');
+  }
+  lsSet('tla-favorites', favs);
+  refreshFavoriteBtn(id, !had);
+  updateFavoritesCount();
+}
+
+function refreshFavoriteBtn(id, isFav) {
+  document.querySelectorAll(`.card-action-btn.favorite[data-id="${CSS.escape(id)}"]`)
+    .forEach(btn => {
+      btn.classList.toggle('is-favorite', isFav);
+      btn.setAttribute('aria-pressed', isFav);
+    });
+}
+
+function updateFavoritesCount() {
+  const el = document.getElementById('statFavorites');
+  if (el) el.textContent = getFavorites().length;
+}
+
+function initFavoriteButtons() {
+  const grid = document.getElementById('poemsGrid');
+  if (!grid) return;
+
+  grid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.card-action-btn.favorite');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavorite(btn.dataset.id);
+  });
+
+  // Restore saved favorites state
+  const favs = getFavorites();
+  grid.querySelectorAll('.card-action-btn.favorite').forEach(btn => {
+    const isFav = favs.includes(btn.dataset.id);
+    btn.classList.toggle('is-favorite', isFav);
+    btn.setAttribute('aria-pressed', isFav);
   });
 }
+
+
+/* ============================================================
+   13. FAVORITES MODAL
+   ============================================================ */
+function initFavoritesModal() {
+  const modal    = document.getElementById('favoritesModal');
+  const overlay  = document.getElementById('favoritesModalOverlay');
+  const closeBtn = document.getElementById('favoritesModalClose');
+  const list     = document.getElementById('favoritesList');
+  const empty    = document.getElementById('favoritesEmpty');
+  const viewBtn  = document.getElementById('viewFavorites');
+
+  if (!modal) return;
+
+  function openModal() {
+    const favs = getFavorites();
+    if (list) list.innerHTML = '';
+
+    if (!favs.length) {
+      if (empty) empty.hidden = false;
+    } else {
+      if (empty) empty.hidden = true;
+      if (list) {
+        favs.forEach(id => {
+          const card = document.querySelector(`.poem-card[data-id="${CSS.escape(id)}"]`);
+          if (!card) return;
+          const title = card.dataset.title || 'Poem';
+          const href  = card.querySelector('.poem-read-btn')?.getAttribute('href') || '#';
+          const cat   = card.querySelector('.poem-category')?.textContent || '';
+          const time  = card.dataset.time || 1;
+          const a     = document.createElement('a');
+          a.href      = href;
+          a.className = 'favorites-item';
+          a.innerHTML = `
+            <div>
+              <span style="font-weight:600;">❤️ ${esc(title)}</span>
+              <span style="opacity:.6;font-size:.8rem;display:block;">${esc(cat)} · ${time} min</span>
+            </div>
+            <span>→</span>
+          `;
+          list.appendChild(a);
+        });
+      }
+    }
+
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  }
+
+  viewBtn?.addEventListener('click', openModal);
+  closeBtn?.addEventListener('click', closeModal);
+  overlay?.addEventListener('click', closeModal);
+  modal.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+}
+
+
+/* ============================================================
+   14. READING STATS
+   ============================================================ */
+function initReadingStats() {
+  // Increment visits
+  const visits = (lsGet('tla-visits', 0) || 0) + 1;
+  lsSet('tla-visits', visits);
+  const visitsEl = document.getElementById('statVisits');
+  if (visitsEl) visitsEl.textContent = visits;
+
+  // Restore read count
+  const read = lsGet('tla-poems-read', 0) || 0;
+  applyReadStats(read);
+
+  // Track when a poem link is clicked
+  document.getElementById('poemsGrid')?.addEventListener('click', (e) => {
+    if (!e.target.closest('.poem-read-btn')) return;
+    const newRead = (lsGet('tla-poems-read', 0) || 0) + 1;
+    lsSet('tla-poems-read', newRead);
+    applyReadStats(newRead);
+  });
+
+  // Clear stats
+  document.getElementById('clearStats')?.addEventListener('click', () => {
+    lsSet('tla-poems-read', 0);
+    lsSet('tla-favorites',  []);
+    applyReadStats(0);
+    updateFavoritesCount();
+    document.querySelectorAll('.card-action-btn.favorite').forEach(btn => {
+      btn.classList.remove('is-favorite');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+    showToast('Stats cleared 🗑️', 'info');
+  });
+}
+
+function applyReadStats(count) {
+  const total = State.poems.length || 15;
+  const sp    = document.getElementById('statPoems');
+  const st    = document.getElementById('statTime');
+  const pb    = document.getElementById('poemsProgressBar');
+  if (sp) sp.textContent   = count;
+  if (st) st.textContent   = count + 'm';
+  if (pb) pb.style.width   = clamp((count / total) * 100, 0, 100) + '%';
+}
+
+
+/* ============================================================
+   15. TESTIMONIALS SLIDER
+   ============================================================ */
+function initTestimonials() {
+  const slider   = document.getElementById('testimonialsSlider');
+  const dotsWrap = document.getElementById('testimonialsDots');
+  const prevBtn  = document.getElementById('prevTestimonial');
+  const nextBtn  = document.getElementById('nextTestimonial');
+
+  if (!slider) return;
+
+  const cards = slider.querySelectorAll('.testimonial-card');
+  if (!cards.length) return;
+
+  let current = 0;
+  let timer;
+  const dots = [];
+
+  function goTo(i) {
+    current = ((i % cards.length) + cards.length) % cards.length;
+    slider.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, j) => {
+      d.classList.toggle('active', j === current);
+      d.setAttribute('aria-selected', j === current);
+    });
+  }
+
+  if (dotsWrap) {
+    cards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'testimonial-dot';
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', 'Testimonial ' + (i + 1));
+      dot.addEventListener('click', () => { goTo(i); reset(); });
+      dotsWrap.appendChild(dot);
+      dots.push(dot);
+    });
+  }
+
+  prevBtn?.addEventListener('click', () => { goTo(current - 1); reset(); });
+  nextBtn?.addEventListener('click', () => { goTo(current + 1); reset(); });
+
+  slider.addEventListener('mouseenter', () => clearInterval(timer));
+  slider.addEventListener('mouseleave', start);
+
+  function start() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+  function reset() { clearInterval(timer); start(); }
+
+  goTo(0);
+  start();
+}
+
+
+/* ============================================================
+   16. SUBMIT POEM FORM
+   ============================================================ */
+function initSubmitForm() {
+  const form     = document.getElementById('submitPoemForm');
+  const textarea = document.getElementById('poemContent');
+  const counter  = document.getElementById('charCount');
+
+  textarea?.addEventListener('input', () => {
+    if (counter) counter.textContent = textarea.value.length + ' / 5000 characters';
+  });
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+    let first = null;
+
+    const fields = [
+      { id: 'poetName',     errId: 'poetNameError',    msg: 'Please enter your name.'    },
+      { id: 'poetEmail',    errId: 'poetEmailError',   msg: 'Please enter your email.'   },
+      { id: 'poemTitle',    errId: 'poemTitleError',   msg: 'Please enter a title.'      },
+      { id: 'poemCategory', errId: 'poemCategoryError',msg: 'Please select a category.'  },
+      { id: 'poemContent',  errId: 'poemContentError', msg: 'Please enter your poem.'    },
+    ];
+
+    fields.forEach(({ id, errId, msg }) => {
+      const el    = document.getElementById(id);
+      const errEl = document.getElementById(errId);
+      const empty = !el?.value.trim();
+      if (errEl) errEl.textContent = empty ? msg : '';
+      if (empty) { valid = false; first = first ?? el; }
+    });
+
+    const agree    = document.getElementById('agreeTerms');
+    const agreeErr = document.getElementById('agreeTermsError');
+    if (agree && !agree.checked) {
+      if (agreeErr) agreeErr.textContent = 'You must agree to the terms.';
+      valid = false;
+      first = first ?? agree;
+    } else {
+      if (agreeErr) agreeErr.textContent = '';
+    }
+
+    if (!valid) { first?.focus(); return; }
+
+    showToast('Poem submitted! Thank you ✍️', 'success');
+    form.reset();
+    if (counter) counter.textContent = '0 / 5000 characters';
+  });
+}
+
+
+/* ============================================================
+   17. CONTACT FORM
+   ============================================================ */
+function initContactForm() {
+  const form = document.getElementById('contactForm');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name    = document.getElementById('contactName')?.value.trim();
+    const email   = document.getElementById('contactEmail')?.value.trim();
+    const message = document.getElementById('contactMessage')?.value.trim();
+
+    if (!name || !email || !message) {
+      showToast('Please fill in all required fields.', 'error');
+      return;
+    }
+    showToast("Message sent! I'll get back to you soon 📬", 'success');
+    form.reset();
+  });
+}
+
+
+/* ============================================================
+   18. NEWSLETTER FORM
+   ============================================================ */
+function initNewsletterForm() {
+  const form  = document.getElementById('newsletterForm');
+  const input = document.getElementById('newsletterEmail');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!input?.value.trim()) {
+      showToast('Please enter your email.', 'error');
+      return;
+    }
+    showToast('Subscribed! Welcome to the Poetry Circle ✨', 'success');
+    form.reset();
+  });
+}
+
+
+/* ============================================================
+   19. KEYBOARD SHORTCUTS MODAL
+   ============================================================ */
+function initKeyboardShortcuts() {
+  const modal    = document.getElementById('shortcutsModal');
+  const overlay  = document.getElementById('shortcutsOverlay');
+  const closeBtn = document.getElementById('shortcutsClose');
+  const showBtn  = document.getElementById('showShortcuts');
+
+  if (!modal) return;
+
+  const open  = () => { modal.removeAttribute('hidden'); closeBtn?.focus(); };
+  const close = () => { modal.setAttribute('hidden', ''); showBtn?.focus(); };
+
+  showBtn?.addEventListener('click', open);
+  closeBtn?.addEventListener('click', close);
+  overlay?.addEventListener('click', close);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.matches('input, textarea, select')) return;
+    if (e.key === '?') open();
+    if (e.key === 'Escape') close();
+    if (e.key === 't' || e.key === 'T') document.getElementById('themeToggle')?.click();
+  });
+}
+
+
+/* ============================================================
+   20. COOKIE BANNER
+   ============================================================ */
+function initCookieBanner() {
+  const banner = document.getElementById('cookieBanner');
+  if (!banner || lsGet('tla-cookies')) return;
+
+  setTimeout(() => banner.removeAttribute('hidden'), 1800);
+
+  document.getElementById('acceptCookies')?.addEventListener('click', () => {
+    lsSet('tla-cookies', 'accepted');
+    banner.setAttribute('hidden', '');
+    showToast('Cookies accepted 🍪', 'info');
+  });
+  document.getElementById('declineCookies')?.addEventListener('click', () => {
+    lsSet('tla-cookies', 'declined');
+    banner.setAttribute('hidden', '');
+  });
+  document.getElementById('customizeCookies')?.addEventListener('click', () => {
+    showToast('Cookie customisation coming soon.', 'info');
+  });
+}
+
+
+/* ============================================================
+   21. HERO PARTICLES
+   ============================================================ */
+function initHeroParticles() {
+  const container = document.getElementById('heroParticles');
+  if (!container) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const symbols = ['✦', '·', '˙', '∗', '⁕', '❋', '✧', '◦'];
+  const frag    = document.createDocumentFragment();
+
+  for (let i = 0; i < 30; i++) {
+    const s       = document.createElement('span');
+    s.className   = 'particle';
+    s.textContent = symbols[i % symbols.length];
+    s.setAttribute('aria-hidden', 'true');
+    s.style.cssText = [
+      'position:absolute',
+      `left:${Math.random() * 100}%`,
+      `top:${Math.random() * 100}%`,
+      `opacity:${(Math.random() * 0.4 + 0.1).toFixed(2)}`,
+      `font-size:${(Math.random() * 14 + 7).toFixed(0)}px`,
+      `animation:float ${(Math.random() * 6 + 4).toFixed(1)}s ease-in-out ${(Math.random() * 4).toFixed(1)}s infinite alternate`,
+      'pointer-events:none',
+      'user-select:none',
+    ].join(';');
+    frag.appendChild(s);
+  }
+
+  container.appendChild(frag);
+}
+
+
+/* ============================================================
+   22. TOAST NOTIFICATIONS
+   ============================================================ */
+function showToast(msg, type = 'info', duration = 3500) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  // Remove duplicate
+  container.querySelectorAll('.toast').forEach(t => {
+    if (t.dataset.msg === msg) t.remove();
+  });
+
+  const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+  const toast  = document.createElement('div');
+  toast.className   = `toast toast-${type}`;
+  toast.dataset.msg = msg;
+  toast.setAttribute('role', 'alert');
+  toast.innerHTML   = `
+    <span aria-hidden="true">${icons[type] ?? 'ℹ️'}</span>
+    <span>${esc(msg)}</span>
+    <button style="background:none;border:none;cursor:pointer;margin-left:auto;opacity:.7;color:inherit;"
+            aria-label="Dismiss">✕</button>
+  `;
+
+  toast.querySelector('button')?.addEventListener('click', () => dismiss(toast));
+  container.appendChild(toast);
+
+  // Trigger animation
+  requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
+
+  const t = setTimeout(() => dismiss(toast), duration);
+  toast.addEventListener('mouseenter', () => clearTimeout(t));
+  toast.addEventListener('mouseleave', () => setTimeout(() => dismiss(toast), 1500));
+}
+
+function dismiss(toast) {
+  toast.classList.remove('show');
+  toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+}
+
+
+/* ============================================================
+   23. FOOTER YEAR
+   ============================================================ */
+function initFooterYear() {
+  const el = document.getElementById('currentYear');
+  if (el) el.textContent = new Date().getFullYear();
+}
+
+
+/* ============================================================
+   24. SMOOTH SCROLL
+   ============================================================ */
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (!id || id === '#') return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+}
+
+
+/* ============================================================
+   25. RESET FILTERS BUTTON
+   ============================================================ */
+function initResetFilters() {
+  document.getElementById('resetFilters')?.addEventListener('click', () => {
+    filterPoems('all');
+    const select = document.getElementById('sortSelect');
+    if (select) { select.value = 'default'; sortGrid('default'); }
+    showToast('Filters reset', 'info');
+  });
+}
+
+
+/* ============================================================
+   26. CARD KEYBOARD NAVIGATION (Enter / Space opens poem)
+   ============================================================ */
+function initCardKeyboard() {
+  const grid = document.getElementById('poemsGrid');
+  if (!grid) return;
+
+  grid.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('.poem-card');
+    if (!card) return;
+    if (e.target.closest('button, a')) return;
+    e.preventDefault();
+    card.querySelector('.poem-read-btn')?.click();
+  });
+}
+
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Non-poem features
+  initLoader();
+  initScrollProgress();
+  initNavbar();
+  initThemeToggle();
+  initBackToTop();
+  initHeroParticles();
+  initTestimonials();
+  initSubmitForm();
+  initContactForm();
+  initNewsletterForm();
+  initKeyboardShortcuts();
+  initCookieBanner();
+  initFavoritesModal();
+  initReadingStats();
+  initFooterYear();
+  initSmoothScroll();
+  initResetFilters();
+
+  // Load poems — boots favorites, tabs, sort,
+  // view toggle, poem-of-day, search
+  loadPoems();
+
+});

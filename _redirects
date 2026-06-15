@@ -1,5 +1,5 @@
 # Redirect www to non-www
-https://www.poemetry.onrender.com/* https://poemetry.onrender.com/:splat 301!
+https://www.thelongafter.onrender.com/* https://thelongafter.onrender.com/:splat 301!
 
 # Handle chat pages
 /chat/* /chat/:splat 200

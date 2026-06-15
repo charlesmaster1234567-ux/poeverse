@@ -1,7 +1,7 @@
 {
     "name": "TheLongAfter",
     "short_name": "TLA",
-    "description": "She Came Back Wearing Someone Else's Face | Horror. Love. Mystical. Dreamy. Strange. Stories, poems, novels and more — written from the space after everything ends.",
+    "description": "We Come Back Wearing Someone Else's Face | Horror. Love. Mystical. Dreamy. Strange. Stories, poems, novels and more — written from the space after everything ends.",
     "version": "3.0.0",
     "start_url": "/",
     "scope": "/",
@@ -175,14 +175,14 @@
             "sizes": "1280x720",
             "type": "image/png",
             "form_factor": "wide",
-            "label": "TheLongAfter — Desktop View | She Came Back Wearing Someone Else's Face"
+            "label": "TheLongAfter — Desktop View | We Come Back Wearing Someone Else's Face"
         },
         {
             "src": "/pmcoverpg.png",
             "sizes": "750x1334",
             "type": "image/png",
             "form_factor": "narrow",
-            "label": "TheLongAfter — Mobile View | She Came Back Wearing Someone Else's Face"
+            "label": "TheLongAfter — Mobile View | We Come Back Wearing Someone Else's Face"
         }
     ],
 

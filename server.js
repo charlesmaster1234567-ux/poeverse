@@ -653,7 +653,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   // =====================================================
-  // POEMETRY ORIGINAL ROUTES
+  // thelongafter ORIGINAL ROUTES
   // =====================================================
 
   if (filePath === '/ping') {
@@ -990,7 +990,7 @@ wss.on('connection', (ws, req) => {
     return;
   }
 
-  // ===== POEMETRY WEBSOCKET (original) =====
+  // ===== thelongafter WEBSOCKET (original) =====
   const id = ++userIdCounter;
   const color = getColor();
   clients.set(ws, { id, username: `Guest_${id}`, color, authenticated: false, tabs: new Set([id]) });
@@ -1119,10 +1119,10 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Users: ${Object.keys(users).length} registered`);
   console.log('='.repeat(50));
   console.log('📌 Routes:');
-  console.log(`   TheLongAfter: https://poemetry.onrender.com`);
-  console.log(`   ChatWave: https://poemetry.onrender.com/chat`);
-  console.log(`   Admin:    https://poemetry.onrender.com/admin`);
-  console.log(`   Test:     https://poemetry.onrender.com/test`);
+  console.log(`   TheLongAfter: https://thelongafter.onrender.com`);
+  console.log(`   ChatWave: https://thelongafter.onrender.com/chat`);
+  console.log(`   Admin:    https://thelongafter.onrender.com/admin`);
+  console.log(`   Test:     https://thelongafter.onrender.com/test`);
   console.log('='.repeat(50));
 });
 

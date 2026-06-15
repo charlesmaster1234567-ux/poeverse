@@ -1,11 +1,11 @@
 # TheLongAfter - EmotionsAFTER
-# https://poemetry.onrender.com
+# https://thelongafter.onrender.com
 
 User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://poemetry.onrender.com/sitemap.xml
+Sitemap: https://thelongafter.onrender.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1
